@@ -51,7 +51,7 @@ export default async function AdminOverview() {
       <PageHeader
         eyebrow="Platform"
         title="Overview"
-        description="Every studio, every user, every booking that has ever touched Asana."
+        description="Every studio, every user, every booking that has ever touched YogaTeacher."
       />
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

@@ -33,7 +33,7 @@ export default async function AdminLayout({
               Super admin
             </div>
             <div className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-              Asana platform
+              YogaTeacher platform
             </div>
           </div>
         </Link>

@@ -1,3 +1,4 @@
+import { BrandMark } from "@/components/brand";
 import { Card, CardContent } from "@/components/ui/card";
 import { auth } from "@/lib/auth";
 import { getActiveStudio } from "@/lib/studio";
@@ -16,12 +17,12 @@ export default async function OnboardingPage() {
     <div className="min-h-screen bg-canvas canvas-grain flex flex-col items-center justify-center p-8">
       <Link
         href="/"
-        className="inline-flex items-center gap-2 mb-10 font-display text-lg"
+        className="inline-flex items-center gap-2 mb-10 font-display text-lg tracking-tight"
       >
-        <span className="size-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center text-base shadow-sm">
-          ॐ
+        <span className="size-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center shadow-sm">
+          <BrandMark size={20} />
         </span>
-        Asana
+        YogaTeacher
       </Link>
 
       <Card className="w-full max-w-lg">

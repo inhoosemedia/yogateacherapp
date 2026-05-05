@@ -38,7 +38,7 @@ function SignInContent() {
   return (
     <AuthShell
       side={{
-        eyebrow: "Asana CRM",
+        eyebrow: "YogaTeacher",
         title: "The calm operating system for boutique yoga studios.",
         quote:
           "Members, classes, packages — everything we used to track in five spreadsheets, now in one quiet place.",

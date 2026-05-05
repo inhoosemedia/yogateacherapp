@@ -18,9 +18,27 @@ const display = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Asana — The yoga studio operating system",
+  metadataBase: new URL("https://yogateacherapp.com"),
+  title: {
+    default: "YogaTeacher — Mindbody for the rest of us",
+    template: "%s · YogaTeacher",
+  },
   description:
-    "A calm, modern CRM for boutique yoga studios. Members, classes, instructors, packages and bookings — all in one place.",
+    "Stop running your yoga business on WhatsApp + Sheets + Venmo. Members, classes, packages and bookings — in one calm app for yoga teachers and boutique studios.",
+  openGraph: {
+    title: "YogaTeacher — Mindbody for the rest of us",
+    description:
+      "Run your yoga business from one calm inbox. 30 days free, no demo calls, no contracts.",
+    url: "https://yogateacherapp.com",
+    siteName: "YogaTeacher",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "YogaTeacher — Mindbody for the rest of us",
+    description:
+      "Run your yoga business from one calm inbox. 30 days free, no demo calls.",
+  },
 };
 
 export default function RootLayout({

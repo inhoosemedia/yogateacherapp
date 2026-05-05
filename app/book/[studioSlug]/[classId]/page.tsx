@@ -1,3 +1,4 @@
+import { BrandMark } from "@/components/brand";
 import { db } from "@/db/drizzle";
 import {
   booking,
@@ -87,9 +88,9 @@ export default async function PublicClassPage({
         <div className="max-w-2xl mx-auto px-6 py-5 flex items-center gap-3">
           <Link
             href={`/book/${studioSlug}`}
-            className="size-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-display text-base shadow-sm"
+            className="size-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center shadow-sm"
           >
-            ॐ
+            <BrandMark size={20} />
           </Link>
           <div className="flex-1 min-w-0">
             <div className="font-display text-xl truncate">{s.name}</div>
@@ -215,7 +216,7 @@ export default async function PublicClassPage({
         <p className="mt-12 text-center text-xs text-muted-foreground">
           Powered by{" "}
           <Link href="/" className="text-primary hover:underline">
-            Asana CRM
+            YogaTeacher
           </Link>
         </p>
       </section>

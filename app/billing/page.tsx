@@ -1,3 +1,4 @@
+import { BrandMark } from "@/components/brand";
 import { Card, CardContent } from "@/components/ui/card";
 import { auth } from "@/lib/auth";
 import { formatMoney } from "@/lib/format";
@@ -41,12 +42,12 @@ export default async function BillingPage() {
         <div className="max-w-3xl mx-auto px-6 py-5 flex items-center justify-between">
           <Link
             href={subscribed || trialActive ? "/dashboard" : "/"}
-            className="inline-flex items-center gap-2 font-display text-lg"
+            className="inline-flex items-center gap-2 font-display text-lg tracking-tight"
           >
-            <span className="size-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center text-sm shadow-sm">
-              ॐ
+            <span className="size-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center shadow-sm">
+              <BrandMark size={18} />
             </span>
-            Asana
+            YogaTeacher
           </Link>
           <form action="/api/auth/sign-out" method="post">
             <button className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1">

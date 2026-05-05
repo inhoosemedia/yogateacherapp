@@ -1,3 +1,4 @@
+import { BrandMark } from "@/components/brand";
 import { DashboardPreview } from "@/components/landing/dashboard-preview";
 import {
   GrainOverlay,
@@ -37,12 +38,12 @@ export default async function Home() {
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
             href="/"
-            className="flex items-center gap-2 font-display text-lg"
+            className="flex items-center gap-2 font-display text-lg tracking-tight"
           >
-            <span className="size-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center text-sm shadow-sm">
-              ॐ
+            <span className="size-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center shadow-sm">
+              <BrandMark size={18} />
             </span>
-            Asana
+            YogaTeacher
           </Link>
           <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
             <a href="#product" className="hover:text-foreground transition-colors">
@@ -309,7 +310,7 @@ export default async function Home() {
             <div className="p-10 md:p-14 flex flex-col justify-center">
               <IconStar className="size-5 text-primary mb-5" />
               <blockquote className="font-display text-2xl md:text-3xl leading-[1.25] tracking-tight">
-                &ldquo;We replaced five spreadsheets and two apps with Asana.
+                &ldquo;We replaced five spreadsheets and two apps with YogaTeacher.
                 The check-in flow alone gave my front desk{" "}
                 <span className="italic text-primary">
                   twenty minutes back
@@ -421,7 +422,7 @@ export default async function Home() {
             <p className="text-xs text-muted-foreground">
               Need more than 5 studios or have specific needs?{" "}
               <a
-                href="mailto:hello@asana.app"
+                href="mailto:hello@yogateacherapp.com"
                 className="text-primary hover:underline"
               >
                 Talk to us
@@ -450,7 +451,7 @@ export default async function Home() {
               Honest comparison
             </div>
             <h2 className="font-display text-5xl tracking-tight">
-              Asana vs.{" "}
+              YogaTeacher vs.{" "}
               <span className="italic">that other tool</span>.
             </h2>
             <p className="mt-4 text-muted-foreground max-w-md mx-auto">
@@ -462,7 +463,7 @@ export default async function Home() {
             <div className="grid grid-cols-3 border-b border-border bg-secondary/40">
               <div className="px-6 py-4 text-[11px] uppercase tracking-[0.16em] text-muted-foreground" />
               <div className="px-6 py-4 text-center font-display text-base text-primary">
-                Asana
+                YogaTeacher
               </div>
               <div className="px-6 py-4 text-center font-display text-base text-muted-foreground">
                 Mindbody
@@ -563,26 +564,30 @@ export default async function Home() {
       <footer className="border-t border-border/60 py-10 px-6">
         <div className="max-w-6xl mx-auto flex items-center justify-between flex-wrap gap-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
-            <span className="size-7 rounded-md bg-primary text-primary-foreground flex items-center justify-center text-xs">
-              ॐ
+            <span className="size-7 rounded-md bg-primary text-primary-foreground flex items-center justify-center">
+              <BrandMark size={14} />
             </span>
             <span className="font-display text-base text-foreground">
-              Asana
+              YogaTeacher
             </span>
-            <span className="text-xs ml-2">
-              · The yoga studio operating system
+            <span className="text-xs ml-2 hidden sm:inline">
+              · The yoga teacher&apos;s app
             </span>
           </div>
           <div className="flex items-center gap-5 text-xs">
+            <a
+              href="mailto:hello@yogateacherapp.com"
+              className="hover:text-foreground"
+            >
+              hello@yogateacherapp.com
+            </a>
             <Link href="/privacy-policy" className="hover:text-foreground">
               Privacy
             </Link>
             <Link href="/terms-of-service" className="hover:text-foreground">
               Terms
             </Link>
-            <span>
-              © {new Date().getFullYear()} Asana CRM
-            </span>
+            <span>© {new Date().getFullYear()} YogaTeacher</span>
           </div>
         </div>
       </footer>

@@ -1,5 +1,6 @@
 "use client";
 
+import { BrandMark } from "@/components/brand";
 import UserProfile from "@/components/user-profile";
 import { cn } from "@/lib/utils";
 import {
@@ -37,8 +38,8 @@ export default function DashboardSideBar({ studioName }: { studioName: string })
         href="/dashboard"
         className="flex h-[60px] items-center gap-2.5 border-b border-border px-5 group"
       >
-        <span className="size-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center font-display text-sm shadow-sm">
-          ॐ
+        <span className="size-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center shadow-sm">
+          <BrandMark size={18} />
         </span>
         <div className="min-w-0">
           <div className="font-display text-[15px] leading-tight truncate">

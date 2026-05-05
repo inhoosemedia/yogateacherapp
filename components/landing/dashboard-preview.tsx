@@ -1,3 +1,4 @@
+import { BrandMark } from "@/components/brand";
 import {
   IconCalendarMonth,
   IconCash,
@@ -22,8 +23,8 @@ export function DashboardPreview() {
         {/* Sidebar */}
         <aside className="border-r border-border bg-sidebar p-3 hidden sm:block">
           <div className="flex items-center gap-2 px-2 py-2">
-            <span className="size-6 rounded-md bg-primary text-primary-foreground flex items-center justify-center text-[10px]">
-              ॐ
+            <span className="size-6 rounded-md bg-primary text-primary-foreground flex items-center justify-center">
+              <BrandMark size={12} />
             </span>
             <span className="font-display text-sm">Sunrise Yoga</span>
           </div>
