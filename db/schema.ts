@@ -14,6 +14,7 @@ export const user = pgTable("user", {
   email: text("email").notNull().unique(),
   emailVerified: boolean("emailVerified").notNull().default(false),
   image: text("image"),
+  isSuperAdmin: boolean("is_super_admin").notNull().default(false),
   createdAt: timestamp("createdAt").notNull().defaultNow(),
   updatedAt: timestamp("updatedAt").notNull().defaultNow(),
 });
@@ -58,6 +59,15 @@ export const verification = pgTable("verification", {
   updatedAt: timestamp("updatedAt").notNull().defaultNow(),
 });
 
+// ─── Platform settings (singleton kv) ─────────────────────────────────
+export const platformSetting = pgTable("platform_setting", {
+  key: text("key").primaryKey(),
+  value: text("value").notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" })
+    .notNull()
+    .defaultNow(),
+});
+
 // ─── Tenancy ───────────────────────────────────────────────────────────
 export const studio = pgTable("studio", {
   id: text("id").primaryKey(),
@@ -68,7 +78,15 @@ export const studio = pgTable("studio", {
   ownerUserId: text("owner_user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
+  // Billing
+  trialEndsAt: timestamp("trial_ends_at", { withTimezone: true, mode: "date" }).notNull(),
+  // trialing | active | past_due | cancelled | suspended
+  subscriptionStatus: text("subscription_status").notNull().default("trialing"),
+  planTier: text("plan_tier"), // studio | multi_studio
+  razorpayCustomerId: text("razorpay_customer_id"),
+  razorpaySubscriptionId: text("razorpay_subscription_id"),
+  subscriptionCurrentPeriodEnd: timestamp("subscription_current_period_end", { withTimezone: true, mode: "date" }),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
 });
 
 export const studioMember = pgTable(

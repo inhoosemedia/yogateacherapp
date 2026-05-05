@@ -12,14 +12,14 @@ export type ActiveStudio = {
   timezone: string;
   currency: string;
   role: string;
+  trialEndsAt: Date;
+  subscriptionStatus: string;
+  planTier: string | null;
+  subscriptionCurrentPeriodEnd: Date | null;
 };
 
 const ACTIVE_STUDIO_COOKIE = "active_studio_id";
 
-/**
- * Returns the user's active studio (the one stored in cookie, falling back
- * to their first studio membership). Returns null if user has no studios.
- */
 export async function getActiveStudio(
   userId: string,
 ): Promise<ActiveStudio | null> {
@@ -31,6 +31,10 @@ export async function getActiveStudio(
       timezone: studio.timezone,
       currency: studio.currency,
       role: studioMember.role,
+      trialEndsAt: studio.trialEndsAt,
+      subscriptionStatus: studio.subscriptionStatus,
+      planTier: studio.planTier,
+      subscriptionCurrentPeriodEnd: studio.subscriptionCurrentPeriodEnd,
     })
     .from(studioMember)
     .innerJoin(studio, eq(studio.id, studioMember.studioId))
@@ -49,10 +53,6 @@ export async function getActiveStudio(
   return found ?? memberships[0];
 }
 
-/**
- * Server-action helper: get the current user, their active studio, and assert
- * the user is a member. Redirects to sign-in / onboarding as needed.
- */
 export async function requireStudio(): Promise<{
   userId: string;
   studio: ActiveStudio;
@@ -64,10 +64,6 @@ export async function requireStudio(): Promise<{
   return { userId: session.user.id, studio: active };
 }
 
-/**
- * Verify the given studio belongs to the user — for use in mutating actions
- * where the studio id is supplied (e.g. switching).
- */
 export async function assertMembership(userId: string, studioId: string) {
   const [row] = await db
     .select({ id: studioMember.id })
@@ -80,4 +76,21 @@ export async function assertMembership(userId: string, studioId: string) {
     )
     .limit(1);
   if (!row) throw new Error("Not a member of this studio");
+}
+
+/**
+ * Studios can use the dashboard if:
+ *  - they're in their trial window, OR
+ *  - they have an active subscription
+ */
+export function studioHasAccess(s: ActiveStudio): boolean {
+  if (s.subscriptionStatus === "active") return true;
+  if (s.subscriptionStatus === "trialing" && s.trialEndsAt > new Date())
+    return true;
+  return false;
+}
+
+export function trialDaysRemaining(s: ActiveStudio): number {
+  const ms = s.trialEndsAt.getTime() - Date.now();
+  return Math.max(0, Math.ceil(ms / (24 * 60 * 60 * 1000)));
 }

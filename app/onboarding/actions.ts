@@ -40,6 +40,8 @@ export async function createStudio(formData: FormData) {
   }
 
   const studioId = nanoid();
+  const trialEndsAt = new Date();
+  trialEndsAt.setDate(trialEndsAt.getDate() + 30);
   await db.insert(studio).values({
     id: studioId,
     name,
@@ -47,6 +49,8 @@ export async function createStudio(formData: FormData) {
     timezone,
     currency,
     ownerUserId: session.user.id,
+    trialEndsAt,
+    subscriptionStatus: "trialing",
   });
   await db.insert(studioMember).values({
     id: nanoid(),

@@ -16,8 +16,8 @@ import { createStudio } from "../actions";
 
 export function OnboardingForm() {
   const [pending, start] = useTransition();
-  const [tz, setTz] = useState("Asia/Kolkata");
-  const [currency, setCurrency] = useState("INR");
+  const [tz, setTz] = useState("America/New_York");
+  const [currency, setCurrency] = useState("USD");
 
   return (
     <form
@@ -64,8 +64,8 @@ export function OnboardingForm() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="INR">INR ₹</SelectItem>
               <SelectItem value="USD">USD $</SelectItem>
+              <SelectItem value="INR">INR ₹</SelectItem>
               <SelectItem value="EUR">EUR €</SelectItem>
               <SelectItem value="GBP">GBP £</SelectItem>
               <SelectItem value="AUD">AUD $</SelectItem>

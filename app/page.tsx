@@ -21,10 +21,15 @@ import {
   IconUserCircle,
   IconUsers,
 } from "@tabler/icons-react";
+import { formatMoney } from "@/lib/format";
+import { getPlatformConfig } from "@/lib/platform";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const cfg = await getPlatformConfig();
+  const studioPrice = formatMoney(cfg.priceStudioCents, cfg.currency);
+  const multiPrice = formatMoney(cfg.priceMultiCents, cfg.currency);
   return (
     <main className="min-h-screen bg-canvas text-foreground overflow-hidden">
       {/* ─── Header ──────────────────────────────────────────────── */}
@@ -75,19 +80,19 @@ export default function Home() {
             <span className="size-1.5 rounded-full bg-primary animate-pulse" />
             <span className="font-medium text-foreground">30 days free</span>
             <span className="text-muted-foreground/60">·</span>
-            <span>No credit card required</span>
+            <span>No demo calls. No credit card.</span>
           </div>
           <h1 className="font-display text-6xl md:text-[88px] leading-[0.95] tracking-tight">
-            Run your studio
-            <br />
+            Mindbody for{" "}
+            <br className="md:hidden" />
             <span className="italic text-primary relative inline-block">
-              with one calm tool.
+              the rest of us.
               <SunDecoration className="absolute -right-12 -top-8 w-24 h-24 text-primary/30 -z-10" />
             </span>
           </h1>
           <p className="mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Members, classes, instructors, packages, bookings — all the
-            back-office of a thriving studio, without the spreadsheet sprawl.
+            Stop running your yoga business on WhatsApp + Sheets + Venmo.
+            Members, classes, packages, payments — in one calm app.
           </p>
           <div className="mt-10 flex justify-center gap-3 flex-wrap">
             <Link href="/sign-up">
@@ -103,10 +108,10 @@ export default function Home() {
             </Link>
           </div>
           <ul className="mt-7 flex justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground flex-wrap">
-            <Tick>30 days free</Tick>
-            <Tick>No credit card up front</Tick>
+            <Tick>No contracts</Tick>
+            <Tick>No upsells</Tick>
+            <Tick>No demo calls</Tick>
             <Tick>Cancel anytime</Tick>
-            <Tick>Multi-studio ready</Tick>
           </ul>
         </div>
 
@@ -128,25 +133,37 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── Trusted by / signal ────────────────────────────────── */}
-      <section className="py-12 border-y border-border/60 bg-secondary/40">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="text-center text-[11px] uppercase tracking-[0.2em] text-muted-foreground mb-6">
-            Trusted by boutique studios worldwide
+      {/* ─── Stop using ─────────────────────────────────────────── */}
+      <section className="py-14 border-y border-border/60 bg-secondary/40">
+        <div className="max-w-5xl mx-auto px-6 text-center">
+          <div className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground mb-5">
+            Stop running your business on
           </div>
-          <div className="flex items-center justify-center gap-x-12 gap-y-6 flex-wrap text-muted-foreground/70 font-display text-xl italic">
-            <span>Sunrise Yoga</span>
-            <span className="opacity-50">·</span>
-            <span>Lotus House</span>
-            <span className="opacity-50">·</span>
-            <span>Stillwater</span>
-            <span className="opacity-50">·</span>
-            <span>Prana Studio</span>
-            <span className="opacity-50">·</span>
-            <span>Asana Bandra</span>
-            <span className="opacity-50">·</span>
-            <span>Open Sky</span>
+          <div className="flex items-center justify-center gap-x-10 gap-y-4 flex-wrap text-foreground/60 font-display text-2xl">
+            <span className="line-through decoration-2 decoration-rose-400/70">
+              WhatsApp
+            </span>
+            <span className="opacity-30">+</span>
+            <span className="line-through decoration-2 decoration-rose-400/70">
+              Google Sheets
+            </span>
+            <span className="opacity-30">+</span>
+            <span className="line-through decoration-2 decoration-rose-400/70">
+              Venmo
+            </span>
+            <span className="opacity-30">+</span>
+            <span className="line-through decoration-2 decoration-rose-400/70">
+              Calendar apps
+            </span>
+            <span className="opacity-30">+</span>
+            <span className="line-through decoration-2 decoration-rose-400/70">
+              Memory
+            </span>
           </div>
+          <p className="mt-5 text-sm text-muted-foreground max-w-xl mx-auto">
+            One app. One inbox. Every payment, member and class — where you
+            can find them.
+          </p>
         </div>
       </section>
 
@@ -369,7 +386,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-5 max-w-4xl mx-auto">
             <PricingTier
               name="Studio"
-              price="₹2,500"
+              price={studioPrice}
               cadence="/ month"
               tagline="One studio, unlimited members"
               cta="Start free trial"
@@ -385,7 +402,7 @@ export default function Home() {
             <PricingTier
               featured
               name="Multi-studio"
-              price="₹6,000"
+              price={multiPrice}
               cadence="/ month"
               tagline="For owners running multiple locations"
               cta="Start free trial"
@@ -422,6 +439,76 @@ export default function Home() {
           <BigStat value="< 30s" label="Studio set up" />
           <BigStat value="0" label="Credit cards required" />
           <BigStat value="∞" label="Studios per account" />
+        </div>
+      </section>
+
+      {/* ─── Comparison ───────────────────────────────────────── */}
+      <section className="py-24 px-6 bg-canvas">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-14">
+            <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-3">
+              Honest comparison
+            </div>
+            <h2 className="font-display text-5xl tracking-tight">
+              Asana vs.{" "}
+              <span className="italic">that other tool</span>.
+            </h2>
+            <p className="mt-4 text-muted-foreground max-w-md mx-auto">
+              Built for actual teachers, not enterprise procurement.
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-border bg-card overflow-hidden shadow-xs">
+            <div className="grid grid-cols-3 border-b border-border bg-secondary/40">
+              <div className="px-6 py-4 text-[11px] uppercase tracking-[0.16em] text-muted-foreground" />
+              <div className="px-6 py-4 text-center font-display text-base text-primary">
+                Asana
+              </div>
+              <div className="px-6 py-4 text-center font-display text-base text-muted-foreground">
+                Mindbody
+              </div>
+            </div>
+            <CompareRow
+              label="Starting price"
+              ours="From $29 / month"
+              theirs="$159 – $549 / month"
+            />
+            <CompareRow
+              label="Sales call required"
+              ours={<Yes value="Never" />}
+              theirs={<No value="Yes — book a demo" />}
+            />
+            <CompareRow
+              label="Annual contract"
+              ours={<Yes value="Month-to-month" />}
+              theirs={<No value="12 months" />}
+            />
+            <CompareRow
+              label="Free trial"
+              ours={<Yes value="30 days, no card" />}
+              theirs={<No value="Card required" />}
+            />
+            <CompareRow
+              label="Setup time"
+              ours={<Yes value="30 seconds" />}
+              theirs={<No value="Days" />}
+            />
+            <CompareRow
+              label="Members enter the app"
+              ours={<Yes value="No app — just a link" />}
+              theirs={<No value="Forced sign-up" />}
+            />
+            <CompareRow
+              label="Built for"
+              ours="Solo teachers & boutique studios"
+              theirs="Enterprise gyms"
+            />
+          </div>
+
+          <p className="mt-6 text-xs text-center text-muted-foreground italic">
+            Pricing comparison from Mindbody&apos;s public pricing page,
+            October 2025. Your mileage may vary; ours stays the same.
+          </p>
         </div>
       </section>
 
@@ -565,6 +652,46 @@ function BigStat({ value, label }: { value: string; label: string }) {
         {label}
       </div>
     </div>
+  );
+}
+
+function CompareRow({
+  label,
+  ours,
+  theirs,
+}: {
+  label: string;
+  ours: React.ReactNode;
+  theirs: React.ReactNode;
+}) {
+  return (
+    <div className="grid grid-cols-3 border-t border-border first:border-t-0">
+      <div className="px-6 py-4 text-sm text-muted-foreground">{label}</div>
+      <div className="px-6 py-4 text-sm text-center text-foreground font-medium">
+        {ours}
+      </div>
+      <div className="px-6 py-4 text-sm text-center text-muted-foreground">
+        {theirs}
+      </div>
+    </div>
+  );
+}
+
+function Yes({ value }: { value: string }) {
+  return (
+    <span className="inline-flex items-center gap-1.5">
+      <span className="size-1.5 rounded-full bg-emerald-500" />
+      {value}
+    </span>
+  );
+}
+
+function No({ value }: { value: string }) {
+  return (
+    <span className="inline-flex items-center gap-1.5">
+      <span className="size-1.5 rounded-full bg-rose-400" />
+      {value}
+    </span>
   );
 }
 
