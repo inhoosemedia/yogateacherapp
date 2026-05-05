@@ -3,6 +3,7 @@
 import { db } from "@/db/drizzle";
 import { studio, studioMember } from "@/db/schema";
 import { auth } from "@/lib/auth";
+import { seedStudioDemo } from "@/lib/seed-demo";
 import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import { cookies, headers } from "next/headers";
@@ -58,6 +59,14 @@ export async function createStudio(formData: FormData) {
     userId: session.user.id,
     role: "owner",
   });
+
+  // Pre-load demo data so the dashboard isn't empty on first visit.
+  // Best-effort — never fails the studio creation.
+  try {
+    await seedStudioDemo({ studioId, currency });
+  } catch (e) {
+    console.error("Demo seed failed for studio", studioId, e);
+  }
 
   (await cookies()).set("active_studio_id", studioId, {
     httpOnly: false,
