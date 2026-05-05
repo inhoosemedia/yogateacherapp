@@ -17,43 +17,9 @@ import {
 
 const db = drizzle(process.env.DATABASE_URL);
 
-const CLASS_TYPES = [
-  { name: "Vinyasa Flow", color: "#d97706", duration: 60, capacity: 20 },
-  { name: "Hatha Slow Flow", color: "#0891b2", duration: 75, capacity: 15 },
-  { name: "Yin & Restorative", color: "#7c3aed", duration: 90, capacity: 12 },
-  { name: "Power Yoga", color: "#b45f4a", duration: 60, capacity: 20 },
-  { name: "Sunrise Meditation", color: "#65a30d", duration: 30, capacity: 25 },
-];
-const INSTRUCTORS = [
-  { name: "Priya Sharma", email: "priya@studio.demo", phone: "+1 555 0001", bio: "RYT-500 with 12 years teaching Vinyasa and Power Yoga." },
-  { name: "Arjun Mehta", email: "arjun@studio.demo", phone: "+1 555 0002", bio: "Hatha and pranayama specialist. Trained in Mysore." },
-  { name: "Maya Krishnan", email: "maya@studio.demo", phone: "+1 555 0003", bio: "Yin, Restorative and sound therapy. Reiki Level II." },
-];
-const MEMBERS = [
-  { name: "Anita Rao", email: "anita@example.com", phone: "+1 555 1001" },
-  { name: "Vikram Singh", email: "vikram@example.com", phone: "+1 555 1002" },
-  { name: "Meera Patel", email: "meera@example.com", phone: "+1 555 1003" },
-  { name: "Rahul Iyer", email: "rahul@example.com", phone: "+1 555 1004" },
-  { name: "Sneha Gupta", email: "sneha@example.com" },
-  { name: "Sarah Chen", email: "sarah@example.com", phone: "+1 555 1006" },
-  { name: "James Park", email: "james@example.com" },
-  { name: "Olivia Bennett", email: "olivia@example.com", phone: "+1 555 1008" },
-  { name: "Mohammed Al-Rashid", email: "mohammed@example.com" },
-  { name: "Lisa Tanaka", email: "lisa@example.com", phone: "+1 555 1010" },
-  { name: "Diego Silva", email: "diego@example.com" },
-  { name: "Emma Williams", email: "emma@example.com", phone: "+1 555 1012" },
-];
-
-function pricesFor(currency) {
-  const ladder = {
-    USD: [2500, 20000, 15000],
-    INR: [50000, 400000, 300000],
-    EUR: [2200, 18000, 13000],
-    GBP: [2000, 16000, 12000],
-    AUD: [3500, 28000, 21000],
-  };
-  const [d, p, m] = ladder[currency] ?? ladder.USD;
-  return { dropIn: d, pack: p, monthly: m };
+function priceFor(currency) {
+  const ladder = { USD: 2500, INR: 50000, EUR: 2200, GBP: 2000, AUD: 3500 };
+  return ladder[currency] ?? 2500;
 }
 
 async function seedOne(s, { force = false } = {}) {
@@ -67,107 +33,72 @@ async function seedOne(s, { force = false } = {}) {
       .from(member)
       .where(eq(member.studioId, s.id));
     if (ctc > 0 || mc > 0) {
-      console.log(`  ${s.name}: skipped (has ${ctc} class types, ${mc} members) — use --force to add anyway`);
+      console.log(`  ${s.name}: skipped (has ${ctc} class types, ${mc} members) — use --force`);
       return;
     }
   }
 
-  const ctRows = CLASS_TYPES.map((c) => ({
-    id: nanoid(), studioId: s.id, name: c.name, description: null,
-    durationMinutes: c.duration, defaultCapacity: c.capacity,
-    color: c.color, active: true,
-  }));
-  await db.insert(classType).values(ctRows);
+  const ct = {
+    id: nanoid(), studioId: s.id,
+    name: "Vinyasa Flow",
+    description: "Sample class type — edit or delete this and add your own.",
+    durationMinutes: 60, defaultCapacity: 15,
+    color: "#3f5141", active: true,
+  };
+  await db.insert(classType).values(ct);
 
-  const insRows = INSTRUCTORS.map((i) => ({
-    id: nanoid(), studioId: s.id, fullName: i.name,
-    email: i.email, phone: i.phone ?? null, bio: i.bio, active: true,
-  }));
-  await db.insert(instructor).values(insRows);
+  const ins = {
+    id: nanoid(), studioId: s.id,
+    fullName: "Sample Instructor",
+    email: "instructor@example.com",
+    phone: null,
+    bio: "Sample instructor — edit this with your team's details.",
+    active: true,
+  };
+  await db.insert(instructor).values(ins);
 
-  const memRows = MEMBERS.map((m, idx) => ({
-    id: nanoid(), studioId: s.id, fullName: m.name,
-    email: m.email, phone: m.phone ?? null,
-    status: idx === 6 ? "paused" : "active", notes: null,
-  }));
-  await db.insert(member).values(memRows);
+  const mem = {
+    id: nanoid(), studioId: s.id,
+    fullName: "Sample Student",
+    email: "student@example.com",
+    phone: null, status: "active",
+    notes: "Sample member — feel free to delete and add real students.",
+  };
+  await db.insert(member).values(mem);
 
-  const prices = pricesFor(s.currency);
-  const packDropIn = { id: nanoid(), studioId: s.id, name: "Drop-in", kind: "drop_in", credits: 1, validityDays: 7, priceCents: prices.dropIn, currency: s.currency, active: true };
-  const packTen = { id: nanoid(), studioId: s.id, name: "10-class pack", kind: "class_pack", credits: 10, validityDays: 60, priceCents: prices.pack, currency: s.currency, active: true };
-  const packUnlim = { id: nanoid(), studioId: s.id, name: "Monthly Unlimited", kind: "unlimited", credits: null, validityDays: 30, priceCents: prices.monthly, currency: s.currency, active: true };
-  await db.insert(package_).values([packDropIn, packTen, packUnlim]);
+  const pkg = {
+    id: nanoid(), studioId: s.id,
+    name: "Drop-in", kind: "drop_in", credits: 1, validityDays: 7,
+    priceCents: priceFor(s.currency), currency: s.currency, active: true,
+  };
+  await db.insert(package_).values(pkg);
 
   const now = new Date();
   const inDays = (n) => { const d = new Date(now); d.setDate(d.getDate() + n); return d; };
-  const mps = [
-    { id: nanoid(), studioId: s.id, memberId: memRows[0].id, packageId: packTen.id, creditsRemaining: 7, startsAt: inDays(-30), expiresAt: inDays(30), pricePaidCents: packTen.priceCents, status: "active" },
-    { id: nanoid(), studioId: s.id, memberId: memRows[1].id, packageId: packUnlim.id, creditsRemaining: null, startsAt: inDays(-5), expiresAt: inDays(25), pricePaidCents: packUnlim.priceCents, status: "active" },
-    { id: nanoid(), studioId: s.id, memberId: memRows[2].id, packageId: packDropIn.id, creditsRemaining: 1, startsAt: now, expiresAt: inDays(7), pricePaidCents: packDropIn.priceCents, status: "active" },
-    { id: nanoid(), studioId: s.id, memberId: memRows[3].id, packageId: packTen.id, creditsRemaining: 3, startsAt: inDays(-20), expiresAt: inDays(40), pricePaidCents: packTen.priceCents, status: "active" },
-    { id: nanoid(), studioId: s.id, memberId: memRows[5].id, packageId: packUnlim.id, creditsRemaining: null, startsAt: inDays(-15), expiresAt: inDays(15), pricePaidCents: packUnlim.priceCents, status: "active" },
-    { id: nanoid(), studioId: s.id, memberId: memRows[7].id, packageId: packTen.id, creditsRemaining: 0, startsAt: inDays(-90), expiresAt: inDays(-30), pricePaidCents: packTen.priceCents, status: "expired" },
-  ];
-  await db.insert(memberPackage).values(mps);
+  const mp = {
+    id: nanoid(), studioId: s.id, memberId: mem.id, packageId: pkg.id,
+    creditsRemaining: 1, startsAt: now, expiresAt: inDays(7),
+    pricePaidCents: pkg.priceCents, status: "active",
+  };
+  await db.insert(memberPackage).values(mp);
 
-  const ctVin = ctRows[0], ctHat = ctRows[1], ctYin = ctRows[2], ctPow = ctRows[3], ctSun = ctRows[4];
-  const insPriya = insRows[0], insArjun = insRows[1], insMaya = insRows[2];
-  const sched = [];
-  const startOfToday = new Date(); startOfToday.setHours(0,0,0,0);
+  const startsAt = new Date(); startsAt.setDate(startsAt.getDate() + 1); startsAt.setHours(18, 0, 0, 0);
+  const endsAt = new Date(startsAt.getTime() + ct.durationMinutes * 60_000);
+  const klass = {
+    id: nanoid(), studioId: s.id,
+    classTypeId: ct.id, instructorId: ins.id,
+    startsAt, endsAt, capacity: ct.defaultCapacity,
+    location: "Studio A", status: "scheduled", notes: null,
+  };
+  await db.insert(scheduledClass).values(klass);
 
-  function makeClass(d, h, mi, ct, ins) {
-    const startsAt = new Date(startOfToday);
-    startsAt.setDate(startsAt.getDate() + d);
-    startsAt.setHours(h, mi, 0, 0);
-    const endsAt = new Date(startsAt.getTime() + ct.durationMinutes * 60_000);
-    return { id: nanoid(), studioId: s.id, classTypeId: ct.id, instructorId: ins?.id ?? null, startsAt, endsAt, capacity: ct.defaultCapacity, location: "Studio A", status: "scheduled", notes: null };
-  }
+  await db.insert(booking).values({
+    id: nanoid(), studioId: s.id,
+    scheduledClassId: klass.id, memberId: mem.id, memberPackageId: mp.id,
+    status: "booked",
+  });
 
-  for (let d = 0; d < 7; d++) {
-    const date = new Date(startOfToday); date.setDate(date.getDate() + d);
-    const dow = date.getDay();
-    sched.push(makeClass(d, 6, 0, ctSun, insMaya));
-    if (dow !== 0) sched.push(makeClass(d, 7, 30, ctVin, insPriya));
-    if (dow >= 1 && dow <= 5) {
-      sched.push(makeClass(d, 12, 0, ctHat, insArjun));
-      sched.push(makeClass(d, 18, 0, ctPow, insPriya));
-    } else if (dow === 6) {
-      sched.push(makeClass(d, 10, 30, ctHat, insArjun));
-      sched.push(makeClass(d, 18, 0, ctYin, insMaya));
-    } else {
-      sched.push(makeClass(d, 16, 0, ctYin, insMaya));
-    }
-    if (dow === 2 || dow === 4) sched.push(makeClass(d, 19, 30, ctYin, insMaya));
-  }
-  await db.insert(scheduledClass).values(sched);
-
-  const upcoming = sched.filter((x) => x.startsAt.getTime() >= Date.now());
-  const past = sched.filter((x) => x.startsAt.getTime() < Date.now());
-  const bks = [];
-  let mIdx = 0;
-  for (let i = 0; i < upcoming.length; i++) {
-    const k = upcoming[i];
-    const target = Math.max(2, Math.round(k.capacity * (0.3 + ((i*7)%6)/10)));
-    const seen = new Set();
-    for (let j = 0; j < target && j < memRows.length; j++) {
-      const m = memRows[mIdx++ % memRows.length];
-      if (seen.has(m.id)) continue;
-      seen.add(m.id);
-      const pack = mps.find((mp) => mp.memberId === m.id && mp.status === "active");
-      bks.push({ id: nanoid(), studioId: s.id, scheduledClassId: k.id, memberId: m.id, memberPackageId: pack?.id ?? null, status: "booked" });
-    }
-  }
-  for (let i = 0; i < past.length; i++) {
-    const k = past[i];
-    for (let j = 0; j < 4 && j < memRows.length; j++) {
-      const m = memRows[(i+j) % memRows.length];
-      const noShow = (i + j) % 7 === 0;
-      bks.push({ id: nanoid(), studioId: s.id, scheduledClassId: k.id, memberId: m.id, memberPackageId: null, status: noShow ? "no_show" : "attended", checkedInAt: noShow ? null : k.startsAt });
-    }
-  }
-  if (bks.length) await db.insert(booking).values(bks).onConflictDoNothing();
-
-  console.log(`  ${s.name}: seeded ✓ (${ctRows.length} class types, ${memRows.length} members, ${sched.length} classes, ${bks.length} bookings)`);
+  console.log(`  ${s.name}: seeded ✓ (1 class type, 1 instructor, 1 member, 1 package, 1 class, 1 booking)`);
 }
 
 const force = process.argv.includes("--force");
