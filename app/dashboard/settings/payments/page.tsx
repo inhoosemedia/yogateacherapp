@@ -1,6 +1,5 @@
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -17,85 +16,73 @@ export default async function PaymentsPage() {
 
   const [row] = await db
     .select({
-      keyId: studio.studioRazorpayKeyId,
-      keySecret: studio.studioRazorpayKeySecret,
-      webhookSecret: studio.studioRazorpayWebhookSecret,
+      provider: studio.studioPaymentProvider,
+      razorpayKeyId: studio.studioRazorpayKeyId,
+      razorpayKeySecret: studio.studioRazorpayKeySecret,
+      razorpayWebhookSecret: studio.studioRazorpayWebhookSecret,
+      stripeSecretKey: studio.studioStripeSecretKey,
+      stripePublishableKey: studio.studioStripePublishableKey,
+      stripeWebhookSecret: studio.studioStripeWebhookSecret,
     })
     .from(studio)
     .where(eq(studio.id, s.id))
     .limit(1);
 
   const origin = process.env.NEXT_PUBLIC_APP_URL || "https://your-domain";
-  const webhookUrl = `${origin}/api/webhooks/studio-razorpay`;
-  const configured = Boolean(row?.keyId && row?.keySecret);
+  const razorpayWebhookUrl = `${origin}/api/webhooks/studio-razorpay`;
+  const stripeWebhookUrl = `${origin}/api/webhooks/studio-stripe`;
+
+  const provider = (row?.provider ?? null) as
+    | "razorpay"
+    | "stripe"
+    | null;
+  const razorpayConfigured = Boolean(
+    row?.razorpayKeyId && row?.razorpayKeySecret,
+  );
+  const stripeConfigured = Boolean(
+    row?.stripeSecretKey && row?.stripePublishableKey,
+  );
 
   return (
     <div className="max-w-3xl space-y-8">
       <PageHeader
         eyebrow="Studio"
         title="Member payments"
-        description="Let members buy packages on your booking link. Funds settle directly to your Razorpay account — we never touch the money."
+        description="Let members buy packages on your booking link. Pick a provider — funds settle directly to your account."
       />
 
       <Card>
         <CardHeader>
           <CardTitle>How it works</CardTitle>
           <CardDescription className="leading-relaxed">
-            1. Sign up free at{" "}
-            <a
-              href="https://dashboard.razorpay.com/signup"
-              target="_blank"
-              rel="noreferrer"
-              className="text-primary hover:underline"
-            >
-              razorpay.com
-            </a>{" "}
-            and grab your Key ID + Secret from{" "}
-            <em>Settings → API Keys</em>.{" "}
-            <br />
-            2. Paste them below.
-            <br />
-            3. In Razorpay, add a webhook pointing to{" "}
+            Choose <strong>Razorpay</strong> (best for India / UPI) or{" "}
+            <strong>Stripe</strong> (global, cards). Sign up free at the
+            provider, paste your keys below, add a webhook pointing back here.
+            Mark packages as &ldquo;Sell on public booking page&rdquo; — they
+            show up at{" "}
             <code className="text-xs px-1.5 py-0.5 rounded bg-secondary">
-              {webhookUrl}
+              /book/{s.slug}/packages
             </code>
-            , subscribe to <strong>payment.captured</strong> +{" "}
-            <strong>order.paid</strong>, copy the webhook secret here too.
-            <br />
-            4. Mark packages as &ldquo;Sell on public booking page&rdquo; — they
-            show up at <code className="text-xs px-1.5 py-0.5 rounded bg-secondary">/book/{s.slug}/packages</code>.
+            .
           </CardDescription>
         </CardHeader>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>
-            Razorpay credentials{" "}
-            <span
-              className={
-                "ml-2 inline-block size-2 rounded-full align-middle " +
-                (configured ? "bg-emerald-500" : "bg-stone-300")
-              }
-            />
-          </CardTitle>
-          <CardDescription>
-            {configured
-              ? "Connected. You can safely rotate keys at any time."
-              : "Not connected. Members can't buy packages online yet."}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <PaymentsForm
-            initial={{
-              keyId: row?.keyId ?? "",
-              hasSecret: Boolean(row?.keySecret),
-              hasWebhookSecret: Boolean(row?.webhookSecret),
-            }}
-            webhookUrl={webhookUrl}
-          />
-        </CardContent>
-      </Card>
+      <PaymentsForm
+        initial={{
+          provider,
+          razorpayKeyId: row?.razorpayKeyId ?? "",
+          hasRazorpaySecret: Boolean(row?.razorpayKeySecret),
+          hasRazorpayWebhookSecret: Boolean(row?.razorpayWebhookSecret),
+          stripePublishableKey: row?.stripePublishableKey ?? "",
+          hasStripeSecret: Boolean(row?.stripeSecretKey),
+          hasStripeWebhookSecret: Boolean(row?.stripeWebhookSecret),
+          razorpayConfigured,
+          stripeConfigured,
+        }}
+        razorpayWebhookUrl={razorpayWebhookUrl}
+        stripeWebhookUrl={stripeWebhookUrl}
+      />
     </div>
   );
 }

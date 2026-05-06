@@ -52,12 +52,14 @@ export function BuyPackageButton({
   packageName,
   priceLabel,
   enabled,
+  provider,
 }: {
   studioSlug: string;
   packageId: string;
   packageName: string;
   priceLabel: string;
   enabled: boolean;
+  provider: "razorpay" | "stripe" | null;
 }) {
   const [open, setOpen] = useState(false);
   const [pending, start] = useTransition();
@@ -66,50 +68,72 @@ export function BuyPackageButton({
   const [phone, setPhone] = useState("");
   const [done, setDone] = useState(false);
 
+  const submitRazorpay = async () => {
+    const loaded = await ensureRazorpay();
+    if (!loaded) {
+      toast.error("Couldn't load Razorpay. Try again.");
+      return;
+    }
+    const r = await fetch("/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ studioSlug, packageId, fullName, email, phone }),
+    });
+    const data = await r.json();
+    if (!r.ok) {
+      toast.error(data?.error ?? "Could not start checkout");
+      return;
+    }
+    const rp = new window.Razorpay!({
+      key: data.keyId,
+      amount: data.amount,
+      currency: data.currency,
+      name: data.studioName,
+      description: data.packageName,
+      order_id: data.orderId,
+      prefill: { name: fullName, email, contact: phone },
+      theme: { color: "#3f5141" },
+      handler: () => {
+        setDone(true);
+        toast.success("Payment successful — your package is ready!");
+      },
+      modal: {
+        ondismiss: () => {
+          // No state change needed.
+        },
+      },
+    });
+    rp.open();
+  };
+
+  const submitStripe = async () => {
+    const r = await fetch("/api/checkout/stripe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ studioSlug, packageId, fullName, email, phone }),
+    });
+    const data = await r.json();
+    if (!r.ok || !data.url) {
+      toast.error(data?.error ?? "Could not start checkout");
+      return;
+    }
+    // Redirect to Stripe Checkout. On success Stripe sends them back to
+    // /book/{slug}/packages?paid=1 — the page reads that and shows confirmation.
+    window.location.href = data.url;
+  };
+
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     start(async () => {
-      const loaded = await ensureRazorpay();
-      if (!loaded) {
-        toast.error("Couldn't load the payment provider. Try again.");
-        return;
+      try {
+        if (provider === "stripe") {
+          await submitStripe();
+        } else {
+          await submitRazorpay();
+        }
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : "Payment failed");
       }
-      const r = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          studioSlug,
-          packageId,
-          fullName,
-          email,
-          phone,
-        }),
-      });
-      const data = await r.json();
-      if (!r.ok) {
-        toast.error(data?.error ?? "Could not start checkout");
-        return;
-      }
-      const rp = new window.Razorpay!({
-        key: data.keyId,
-        amount: data.amount,
-        currency: data.currency,
-        name: data.studioName,
-        description: data.packageName,
-        order_id: data.orderId,
-        prefill: { name: fullName, email, contact: phone },
-        theme: { color: "#3f5141" },
-        handler: () => {
-          setDone(true);
-          toast.success("Payment successful — your package is ready!");
-        },
-        modal: {
-          ondismiss: () => {
-            // No state change needed.
-          },
-        },
-      });
-      rp.open();
     });
   };
 
@@ -186,6 +210,11 @@ export function BuyPackageButton({
             >
               {pending ? "Loading…" : `Pay ${priceLabel}`}
             </Button>
+            <p className="text-[11px] text-center text-muted-foreground">
+              Secured by{" "}
+              {provider === "stripe" ? "Stripe" : "Razorpay"} · payment goes
+              directly to the studio.
+            </p>
           </form>
         </DialogContent>
       </Dialog>

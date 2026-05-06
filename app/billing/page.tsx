@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { auth } from "@/lib/auth";
 import { formatMoney } from "@/lib/format";
 import { getPlatformConfig } from "@/lib/platform";
+import { isPlatformRazorpayConfigured } from "@/lib/razorpay";
 import { getActiveStudio, trialDaysRemaining } from "@/lib/studio";
 import {
   IconArrowLeft,
@@ -28,9 +29,7 @@ export default async function BillingPage() {
   const daysLeft = trialActive ? trialDaysRemaining(studio) : 0;
   const subscribed = status === "active";
 
-  const razorpayConfigured =
-    Boolean(process.env.RAZORPAY_KEY_ID) &&
-    Boolean(process.env.RAZORPAY_KEY_SECRET);
+  const razorpayConfigured = await isPlatformRazorpayConfigured();
 
   const cfg = await getPlatformConfig();
   const studioPrice = formatMoney(cfg.priceStudioCents, cfg.currency);
@@ -162,10 +161,12 @@ export default async function BillingPage() {
               <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">
                 <div className="font-medium">Razorpay isn&apos;t configured yet</div>
                 <p className="mt-1 text-amber-800/90">
-                  Subscriptions will activate once <code className="text-xs px-1.5 py-0.5 rounded bg-amber-100">RAZORPAY_KEY_ID</code>,{" "}
-                  <code className="text-xs px-1.5 py-0.5 rounded bg-amber-100">RAZORPAY_KEY_SECRET</code>,{" "}
-                  <code className="text-xs px-1.5 py-0.5 rounded bg-amber-100">RAZORPAY_PLAN_STUDIO</code>, and{" "}
-                  <code className="text-xs px-1.5 py-0.5 rounded bg-amber-100">RAZORPAY_PLAN_MULTI</code> are set as Vercel env vars.
+                  Subscriptions will activate once the platform Razorpay
+                  credentials are saved in{" "}
+                  <a href="/admin/settings" className="underline">
+                    Super Admin → Settings → API keys
+                  </a>{" "}
+                  (or set as Vercel env vars).
                 </p>
               </div>
             )}

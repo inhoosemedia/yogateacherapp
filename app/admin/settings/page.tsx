@@ -1,17 +1,40 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { getPlatformConfig } from "@/lib/platform";
+import {
+  PLATFORM_KEYS,
+  PLATFORM_KEY_LIST,
+  getKeyStatuses,
+} from "@/lib/secrets";
+import {
+  ApiKeysForm,
+  type KeyMeta,
+} from "./_components/api-keys-form";
 import { PricingForm } from "./_components/pricing-form";
 
 export default async function AdminSettings() {
   const cfg = await getPlatformConfig();
+  const statuses = await getKeyStatuses();
+  const metas: KeyMeta[] = PLATFORM_KEY_LIST.map((k) => ({
+    key: k,
+    label: PLATFORM_KEYS[k].label,
+    hint: PLATFORM_KEYS[k].hint,
+    secret: PLATFORM_KEYS[k].secret,
+    group: PLATFORM_KEYS[k].group,
+  }));
 
   return (
-    <div className="space-y-8 max-w-2xl">
+    <div className="space-y-8 max-w-3xl">
       <PageHeader
         eyebrow="Platform"
-        title="Pricing & currency"
-        description="Controls the prices shown on the landing page and /billing across the platform."
+        title="Platform settings"
+        description="Pricing shown on the public site, and the API keys that power email + payments."
       />
 
       <Card>
@@ -34,34 +57,18 @@ export default async function AdminSettings() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Razorpay</CardTitle>
+          <CardTitle>API keys</CardTitle>
           <CardDescription>
-            Subscription processing for the platform. These come from environment variables.
+            Stored in <code className="text-xs px-1 py-0.5 rounded bg-secondary">platform_setting</code>{" "}
+            (DB) and read at request time, with environment variables as a fallback.
+            Saved secrets show as <code className="text-xs px-1 py-0.5 rounded bg-secondary">••••••••</code> —
+            leave them blank to keep the saved value, or type a new value to rotate.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-2 text-sm">
-          <Row label="RAZORPAY_KEY_ID" value={mask(process.env.RAZORPAY_KEY_ID)} />
-          <Row label="RAZORPAY_KEY_SECRET" value={mask(process.env.RAZORPAY_KEY_SECRET)} />
-          <Row label="RAZORPAY_PLAN_STUDIO" value={process.env.RAZORPAY_PLAN_STUDIO || "—"} />
-          <Row label="RAZORPAY_PLAN_MULTI" value={process.env.RAZORPAY_PLAN_MULTI || "—"} />
-          <Row label="RAZORPAY_WEBHOOK_SECRET" value={mask(process.env.RAZORPAY_WEBHOOK_SECRET)} />
+        <CardContent>
+          <ApiKeysForm metas={metas} initial={statuses} />
         </CardContent>
       </Card>
     </div>
   );
-}
-
-function Row({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-center justify-between py-2 border-b border-border last:border-0">
-      <span className="text-muted-foreground font-mono text-xs">{label}</span>
-      <span className="font-mono text-xs">{value}</span>
-    </div>
-  );
-}
-
-function mask(v: string | undefined) {
-  if (!v) return "Not set";
-  if (v.length < 8) return "•".repeat(v.length);
-  return `${v.slice(0, 4)}${"•".repeat(8)}${v.slice(-4)}`;
 }

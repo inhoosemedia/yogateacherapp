@@ -1,5 +1,6 @@
 import { db } from "@/db/drizzle";
 import { studio } from "@/db/schema";
+import { getSecret } from "@/lib/secrets";
 import { eq } from "drizzle-orm";
 import crypto from "node:crypto";
 import { NextResponse } from "next/server";
@@ -19,7 +20,7 @@ export const runtime = "nodejs";
  *          subscription.halted, subscription.updated
  */
 export async function POST(req: Request) {
-  const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
+  const secret = await getSecret("razorpay_webhook_secret");
   if (!secret) {
     console.error("Webhook hit but RAZORPAY_WEBHOOK_SECRET not set");
     return NextResponse.json({ ok: false }, { status: 503 });

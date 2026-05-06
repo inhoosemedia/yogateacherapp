@@ -10,7 +10,7 @@ import { InitialsAvatar } from "@/components/ui/initials-avatar";
 import { PageHeader } from "@/components/ui/page-header";
 import { db } from "@/db/drizzle";
 import { studioInvite, studioMember, user } from "@/db/schema";
-import { isEmailConfigured } from "@/lib/email";
+import { getFromAddress, isEmailConfigured } from "@/lib/email";
 import { requireStudio } from "@/lib/studio";
 import { and, asc, eq } from "drizzle-orm";
 import { InviteForm } from "./_components/invite-form";
@@ -59,7 +59,7 @@ export default async function TeamPage() {
         description="Invite teammates and instructors. Each gets their own login with role-scoped access."
       />
 
-      {!isEmailConfigured() ? (
+      {!(await isEmailConfigured()) ? (
         <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
           <div className="font-medium">Email isn&apos;t configured yet</div>
           <p className="mt-1 text-amber-800/90">
@@ -68,7 +68,7 @@ export default async function TeamPage() {
             and copy the link manually.
           </p>
         </div>
-      ) : !usesVerifiedDomain() ? (
+      ) : !(await usesVerifiedDomain()) ? (
         <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
           <div className="font-medium">
             Heads up — invites can only be emailed to your own address until you
@@ -188,12 +188,10 @@ export default async function TeamPage() {
   );
 }
 
-// Returns true if RESEND_FROM_EMAIL points at a domain we know is *not*
-// `resend.dev`'s shared sandbox (which Resend restricts to the sender's own
-// address). Heuristic — false-positives are acceptable, the user can ignore.
-function usesVerifiedDomain(): boolean {
-  const from = process.env.RESEND_FROM_EMAIL ?? "";
-  if (!from) return false;
+// Returns true if the configured From address is *not* the resend.dev
+// shared sandbox (which Resend restricts to the sender's own address).
+async function usesVerifiedDomain(): Promise<boolean> {
+  const from = await getFromAddress();
   return !/onboarding@resend\.dev/i.test(from);
 }
 

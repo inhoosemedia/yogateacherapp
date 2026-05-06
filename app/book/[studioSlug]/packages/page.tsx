@@ -2,7 +2,11 @@ import { BrandMark } from "@/components/brand";
 import { db } from "@/db/drizzle";
 import { package_, studio } from "@/db/schema";
 import { formatMoney } from "@/lib/format";
-import { IconArrowLeft, IconCheck } from "@tabler/icons-react";
+import {
+  IconArrowLeft,
+  IconCheck,
+  IconCircleCheck,
+} from "@tabler/icons-react";
 import { and, asc, eq } from "drizzle-orm";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -12,10 +16,13 @@ export const dynamic = "force-dynamic";
 
 export default async function PublicPackagesPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ studioSlug: string }>;
+  searchParams: Promise<{ paid?: string; cancelled?: string }>;
 }) {
   const { studioSlug } = await params;
+  const sp = await searchParams;
   const [s] = await db
     .select()
     .from(studio)
@@ -23,9 +30,17 @@ export default async function PublicPackagesPage({
     .limit(1);
   if (!s) notFound();
 
-  const acceptsPayments = Boolean(
-    s.studioRazorpayKeyId && s.studioRazorpayKeySecret,
-  );
+  const provider: "razorpay" | "stripe" | null =
+    s.studioPaymentProvider === "stripe"
+      ? "stripe"
+      : s.studioPaymentProvider === "razorpay"
+        ? "razorpay"
+        : null;
+  const acceptsPayments =
+    (provider === "razorpay" &&
+      Boolean(s.studioRazorpayKeyId && s.studioRazorpayKeySecret)) ||
+    (provider === "stripe" &&
+      Boolean(s.studioStripeSecretKey && s.studioStripePublishableKey));
 
   const packages = await db
     .select()
@@ -78,6 +93,27 @@ export default async function PublicPackagesPage({
             your credits instantly.
           </p>
         </div>
+
+        {sp.paid === "1" && (
+          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-sm text-emerald-900 mb-6 flex items-start gap-3">
+            <IconCircleCheck className="size-5 text-emerald-700 mt-0.5 shrink-0" />
+            <div>
+              <div className="font-medium">Payment successful</div>
+              <p className="mt-0.5 text-emerald-800/90">
+                Your credits are activated. Head back to the schedule to book your
+                first class.
+              </p>
+            </div>
+          </div>
+        )}
+        {sp.cancelled === "1" && (
+          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900 mb-6">
+            <div className="font-medium">Payment cancelled</div>
+            <p className="mt-0.5 text-amber-800/90">
+              No charge was made. You can try again anytime.
+            </p>
+          </div>
+        )}
 
         {!acceptsPayments && (
           <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 mb-6">
@@ -132,6 +168,7 @@ export default async function PublicPackagesPage({
                     packageName={p.name}
                     priceLabel={formatMoney(p.priceCents, p.currency)}
                     enabled={acceptsPayments}
+                    provider={provider}
                   />
                 </div>
               </div>

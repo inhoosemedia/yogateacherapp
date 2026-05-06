@@ -86,12 +86,22 @@ export const studio = pgTable("studio", {
   planTier: text("plan_tier"), // studio | multi_studio
   razorpayCustomerId: text("razorpay_customer_id"),
   razorpaySubscriptionId: text("razorpay_subscription_id"),
+  // Platform Stripe identifiers (when platform_billing_provider = stripe)
+  stripeCustomerId: text("stripe_customer_id"),
+  stripeSubscriptionId: text("stripe_subscription_id"),
   subscriptionCurrentPeriodEnd: timestamp("subscription_current_period_end", { withTimezone: true, mode: "date" }),
-  // Member-payments: studio brings their own Razorpay account so payment
-  // settles directly to the studio (not the platform).
+  // Member-payments: studio picks one of these providers and brings their own
+  // account. Funds settle directly to the studio (not the platform).
+  // null | "razorpay" | "stripe"
+  studioPaymentProvider: text("studio_payment_provider"),
+  // Razorpay (India-friendly)
   studioRazorpayKeyId: text("studio_razorpay_key_id"),
   studioRazorpayKeySecret: text("studio_razorpay_key_secret"),
   studioRazorpayWebhookSecret: text("studio_razorpay_webhook_secret"),
+  // Stripe (global)
+  studioStripeSecretKey: text("studio_stripe_secret_key"),
+  studioStripePublishableKey: text("studio_stripe_publishable_key"),
+  studioStripeWebhookSecret: text("studio_stripe_webhook_secret"),
   // Per-studio notification preferences (jsonb of booleans by event key)
   notificationSettings: jsonb("notification_settings"),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
@@ -279,6 +289,9 @@ export const memberPackage = pgTable("member_package", {
   // Razorpay payment reference (for member-paid packages)
   razorpayOrderId: text("razorpay_order_id"),
   razorpayPaymentId: text("razorpay_payment_id"),
+  // Stripe payment reference
+  stripeCheckoutSessionId: text("stripe_checkout_session_id"),
+  stripePaymentIntentId: text("stripe_payment_intent_id"),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
 });
 

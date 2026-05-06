@@ -2,20 +2,28 @@ import "server-only";
 
 import { db } from "@/db/drizzle";
 import { notificationLog } from "@/db/schema";
+import { getSecret } from "@/lib/secrets";
 import { nanoid } from "nanoid";
 import { Resend } from "resend";
 
-let cached: Resend | null = null;
-function getResend(): Resend | null {
-  if (cached) return cached;
-  const key = process.env.RESEND_API_KEY;
+async function getResend(): Promise<Resend | null> {
+  const key = await getSecret("resend_api_key");
   if (!key) return null;
-  cached = new Resend(key);
-  return cached;
+  // Constructing Resend is cheap (no network) — re-create per call so a key
+  // rotation in the admin UI takes effect immediately.
+  return new Resend(key);
 }
 
-export function isEmailConfigured(): boolean {
-  return Boolean(process.env.RESEND_API_KEY);
+export async function isEmailConfigured(): Promise<boolean> {
+  return Boolean(await getSecret("resend_api_key"));
+}
+
+/**
+ * Returns the configured From address (DB → env → safe fallback).
+ * Exposed so UI can show / warn about the current sender.
+ */
+export async function getFromAddress(): Promise<string> {
+  return (await getSecret("resend_from_email")) || FROM_FALLBACK;
 }
 
 export type NotificationType =
@@ -44,13 +52,13 @@ export async function sendEmail(input: SendInput): Promise<{
   ok: boolean;
   error?: string;
 }> {
-  const resend = getResend();
+  const resend = await getResend();
   if (!resend) {
     await logRow(input, "failed", "RESEND_API_KEY not configured");
     return { ok: false, error: "Email is not configured" };
   }
 
-  const from = process.env.RESEND_FROM_EMAIL || FROM_FALLBACK;
+  const from = await getFromAddress();
   try {
     const { error } = await resend.emails.send({
       from,

@@ -34,7 +34,7 @@ export default async function NotificationsPage() {
     .orderBy(desc(notificationLog.sentAt))
     .limit(20);
 
-  const emailConfigured = isEmailConfigured();
+  const emailConfigured = await isEmailConfigured();
 
   return (
     <div className="max-w-3xl space-y-8">

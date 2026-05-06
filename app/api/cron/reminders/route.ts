@@ -12,6 +12,7 @@ import {
   parseNotificationPrefs,
   sendEmail,
 } from "@/lib/email";
+import { getSecret } from "@/lib/secrets";
 import { addHours } from "date-fns";
 import { and, between, eq, isNull } from "drizzle-orm";
 import { NextResponse } from "next/server";
@@ -40,7 +41,7 @@ export async function POST(req: Request) {
 }
 
 async function run(req: Request) {
-  const expected = process.env.CRON_SECRET;
+  const expected = await getSecret("cron_secret");
   if (!expected) {
     return NextResponse.json(
       { error: "CRON_SECRET not configured" },
