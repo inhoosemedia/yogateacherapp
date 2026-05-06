@@ -59,7 +59,7 @@ export default async function TeamPage() {
         description="Invite teammates and instructors. Each gets their own login with role-scoped access."
       />
 
-      {!isEmailConfigured() && (
+      {!isEmailConfigured() ? (
         <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
           <div className="font-medium">Email isn&apos;t configured yet</div>
           <p className="mt-1 text-amber-800/90">
@@ -68,7 +68,43 @@ export default async function TeamPage() {
             and copy the link manually.
           </p>
         </div>
-      )}
+      ) : !usesVerifiedDomain() ? (
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+          <div className="font-medium">
+            Heads up — invites can only be emailed to your own address until you
+            verify a domain in Resend
+          </div>
+          <p className="mt-1 text-amber-800/90 leading-relaxed">
+            Your <code className="text-xs px-1.5 py-0.5 rounded bg-amber-100">RESEND_FROM_EMAIL</code>{" "}
+            is using <code className="text-xs px-1.5 py-0.5 rounded bg-amber-100">onboarding@resend.dev</code>{" "}
+            which Resend restricts to the address you signed up with. To email
+            invites (and reminders / confirmations) to real members:{" "}
+            <ol className="list-decimal ml-5 mt-2 space-y-0.5">
+              <li>
+                Add a domain at{" "}
+                <a
+                  href="https://resend.com/domains"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline"
+                >
+                  resend.com/domains
+                </a>{" "}
+                (5–10 min, needs DNS access).
+              </li>
+              <li>
+                Once verified, set{" "}
+                <code className="text-xs px-1.5 py-0.5 rounded bg-amber-100">
+                  RESEND_FROM_EMAIL=&quot;YogaTeacher &lt;hello@yourdomain.com&gt;&quot;
+                </code>{" "}
+                in Vercel env and redeploy.
+              </li>
+            </ol>
+            Until then, every invite is still saved — use{" "}
+            <strong>Copy link</strong> below to share manually.
+          </p>
+        </div>
+      ) : null}
 
       <Card>
         <CardHeader>
@@ -150,6 +186,15 @@ export default async function TeamPage() {
       )}
     </div>
   );
+}
+
+// Returns true if RESEND_FROM_EMAIL points at a domain we know is *not*
+// `resend.dev`'s shared sandbox (which Resend restricts to the sender's own
+// address). Heuristic — false-positives are acceptable, the user can ignore.
+function usesVerifiedDomain(): boolean {
+  const from = process.env.RESEND_FROM_EMAIL ?? "";
+  if (!from) return false;
+  return !/onboarding@resend\.dev/i.test(from);
 }
 
 function RoleBadge({ role }: { role: string }) {

@@ -27,9 +27,10 @@ export function InviteForm() {
         if (r.emailed) {
           toast.success(`Invite sent to ${email}`);
         } else {
-          toast.message("Invite created — copy the link below to share manually.", {
-            description: r.link,
-            duration: 10_000,
+          toast.error(`Couldn't email the invite — ${r.emailError}`, {
+            description:
+              "Invite is still saved. Use 'Copy link' on the row below to share it manually.",
+            duration: 12_000,
           });
         }
         setEmail("");

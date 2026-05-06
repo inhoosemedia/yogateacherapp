@@ -127,7 +127,12 @@ export async function inviteTeamMember(input: {
   }
 
   revalidatePath("/dashboard/settings/team");
-  return { inviteId, link: inviteUrl(token), emailed: result.ok };
+  return {
+    inviteId,
+    link: inviteUrl(token),
+    emailed: result.ok,
+    emailError: result.ok ? null : result.error ?? "Email send failed",
+  };
 }
 
 export async function revokeInvite(inviteId: string) {
