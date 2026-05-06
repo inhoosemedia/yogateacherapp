@@ -14,6 +14,7 @@ type PackageInput = {
   validityDays: number;
   priceCents: number;
   active?: boolean;
+  publiclyPurchasable?: boolean;
 };
 
 export async function createPackage(input: PackageInput) {
@@ -29,6 +30,7 @@ export async function createPackage(input: PackageInput) {
     priceCents: input.priceCents,
     currency: studio.currency,
     active: input.active ?? true,
+    publiclyPurchasable: input.publiclyPurchasable ?? false,
   });
   revalidatePath("/dashboard/packages");
 }
@@ -45,6 +47,7 @@ export async function updatePackage(id: string, input: PackageInput) {
       validityDays: input.validityDays,
       priceCents: input.priceCents,
       active: input.active ?? true,
+      publiclyPurchasable: input.publiclyPurchasable ?? false,
     })
     .where(and(eq(package_.id, id), eq(package_.studioId, studio.id)));
   revalidatePath("/dashboard/packages");

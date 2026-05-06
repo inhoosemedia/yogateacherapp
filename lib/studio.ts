@@ -64,6 +64,20 @@ export async function requireStudio(): Promise<{
   return { userId: session.user.id, studio: active };
 }
 
+export async function listMembershipsForUser(
+  userId: string,
+): Promise<{ id: string; name: string; role: string }[]> {
+  return db
+    .select({
+      id: studio.id,
+      name: studio.name,
+      role: studioMember.role,
+    })
+    .from(studioMember)
+    .innerJoin(studio, eq(studio.id, studioMember.studioId))
+    .where(eq(studioMember.userId, userId));
+}
+
 export async function assertMembership(userId: string, studioId: string) {
   const [row] = await db
     .select({ id: studioMember.id })

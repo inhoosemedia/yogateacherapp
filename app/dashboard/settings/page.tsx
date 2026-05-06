@@ -10,8 +10,14 @@ import { db } from "@/db/drizzle";
 import { studio as studioTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { getActiveStudio } from "@/lib/studio";
+import {
+  IconBell,
+  IconCreditCard,
+  IconUsersGroup,
+} from "@tabler/icons-react";
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { BookingLinkCard } from "./_components/booking-link-card";
 import { StudioSettingsForm } from "./_components/studio-settings-form";
@@ -35,6 +41,27 @@ export default async function SettingsPage() {
         title="Settings"
         description="Manage your studio name, currency, timezone, and the public booking link."
       />
+
+      <div className="grid sm:grid-cols-3 gap-3">
+        <SettingsLink
+          href="/dashboard/settings/team"
+          icon={<IconUsersGroup className="size-4" />}
+          title="Team & instructors"
+          description="Invite admins, staff, and instructors."
+        />
+        <SettingsLink
+          href="/dashboard/settings/notifications"
+          icon={<IconBell className="size-4" />}
+          title="Notifications"
+          description="Email events for members."
+        />
+        <SettingsLink
+          href="/dashboard/settings/payments"
+          icon={<IconCreditCard className="size-4" />}
+          title="Member payments"
+          description="Razorpay for online package sales."
+        />
+      </div>
 
       <Card>
         <CardHeader>
@@ -83,5 +110,30 @@ export default async function SettingsPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+function SettingsLink({
+  href,
+  icon,
+  title,
+  description,
+}: {
+  href: string;
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="rounded-2xl border border-border bg-card p-5 hover:shadow-md hover:-translate-y-0.5 transition-all"
+    >
+      <div className="size-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-3">
+        {icon}
+      </div>
+      <div className="font-display text-base">{title}</div>
+      <p className="text-xs text-muted-foreground mt-0.5">{description}</p>
+    </Link>
   );
 }

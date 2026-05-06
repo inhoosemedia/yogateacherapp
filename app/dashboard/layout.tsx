@@ -1,6 +1,8 @@
 import { auth } from "@/lib/auth";
+import { getInstructorContext } from "@/lib/instructor";
 import {
   getActiveStudio,
+  listMembershipsForUser,
   studioHasAccess,
   trialDaysRemaining,
 } from "@/lib/studio";
@@ -21,7 +23,15 @@ export default async function DashboardLayout({
 
   const studio = await getActiveStudio(session.user.id);
   if (!studio) redirect("/onboarding");
+  // Instructors only get the instructor portal — but only redirect when their
+  // instructor record actually exists, otherwise we'd loop.
+  if (studio.role === "instructor") {
+    const insCtx = await getInstructorContext();
+    if (insCtx) redirect("/instructor");
+  }
   if (!studioHasAccess(studio)) redirect("/billing");
+
+  const memberships = await listMembershipsForUser(session.user.id);
 
   const daysLeft =
     studio.subscriptionStatus === "trialing"
@@ -32,7 +42,11 @@ export default async function DashboardLayout({
     <div className="flex h-screen overflow-hidden w-full bg-canvas canvas-grain">
       <DashboardSideBar studioName={studio.name} />
       <main className="flex-1 overflow-y-auto">
-        <DashboardTopNav studioName={studio.name} />
+        <DashboardTopNav
+          studioName={studio.name}
+          active={{ id: studio.id, name: studio.name }}
+          studios={memberships}
+        />
         {daysLeft !== null && daysLeft <= 7 && (
           <TrialBanner daysLeft={daysLeft} />
         )}

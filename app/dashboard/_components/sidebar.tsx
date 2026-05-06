@@ -6,11 +6,13 @@ import { cn } from "@/lib/utils";
 import {
   IconCalendarMonth,
   IconChalkboard,
+  IconChartBar,
   IconLayoutDashboard,
   IconPackage,
   IconSettings,
   IconUserCircle,
   IconUsers,
+  IconUsersGroup,
 } from "@tabler/icons-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -19,12 +21,14 @@ const PRIMARY = [
   { label: "Overview", href: "/dashboard", icon: IconLayoutDashboard },
   { label: "Members", href: "/dashboard/members", icon: IconUsers },
   { label: "Classes", href: "/dashboard/classes", icon: IconCalendarMonth },
+  { label: "Reports", href: "/dashboard/reports", icon: IconChartBar },
 ];
 
 const LIBRARY = [
   { label: "Class types", href: "/dashboard/class-types", icon: IconChalkboard },
   { label: "Instructors", href: "/dashboard/instructors", icon: IconUserCircle },
   { label: "Packages", href: "/dashboard/packages", icon: IconPackage },
+  { label: "Team", href: "/dashboard/settings/team", icon: IconUsersGroup },
 ];
 
 export default function DashboardSideBar({ studioName }: { studioName: string }) {

@@ -22,6 +22,7 @@ export default async function PackagesPage() {
       priceCents: package_.priceCents,
       currency: package_.currency,
       active: package_.active,
+      publiclyPurchasable: package_.publiclyPurchasable,
       sold: sql<number>`(
         select count(*)::int from ${memberPackage}
         where ${memberPackage.packageId} = ${package_.id}
@@ -82,6 +83,7 @@ function PricingCard({
     priceCents: number;
     currency: string;
     active: boolean;
+    publiclyPurchasable: boolean;
     sold: number;
   };
 }) {
@@ -142,6 +144,7 @@ function PricingCard({
             validityDays: pkg.validityDays,
             priceCents: pkg.priceCents,
             active: pkg.active,
+            publiclyPurchasable: pkg.publiclyPurchasable,
           }}
         >
           <Button variant="outline" size="sm">

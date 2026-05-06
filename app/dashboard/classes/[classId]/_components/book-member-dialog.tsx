@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useMemo, useState, useTransition } from "react";
 import { toast } from "sonner";
-import { bookMember } from "../actions";
+import { bookMember, joinWaitlist } from "../actions";
 
 type Eligible = {
   id: string;
@@ -43,25 +43,34 @@ export function BookMemberDialog({
       .slice(0, 50);
   }, [eligibleMembers, q]);
 
-  const book = (memberId: string) =>
+  const action = (memberId: string) =>
     start(async () => {
       try {
-        await bookMember({ scheduledClassId, memberId });
-        toast.success("Booked");
+        if (full) {
+          await joinWaitlist({ scheduledClassId, memberId });
+          toast.success("Added to waitlist");
+        } else {
+          await bookMember({ scheduledClassId, memberId });
+          toast.success("Booked");
+        }
         setOpen(false);
       } catch (e) {
-        toast.error(e instanceof Error ? e.message : "Booking failed");
+        toast.error(e instanceof Error ? e.message : "Failed");
       }
     });
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button disabled={full}>{full ? "Full" : "Book a member"}</Button>
+        <Button variant={full ? "outline" : "default"}>
+          {full ? "Add to waitlist" : "Book a member"}
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Book a member</DialogTitle>
+          <DialogTitle>
+            {full ? "Add to waitlist" : "Book a member"}
+          </DialogTitle>
         </DialogHeader>
         <Input
           placeholder="Search…"
@@ -79,7 +88,7 @@ export function BookMemberDialog({
               <button
                 key={m.id}
                 disabled={pending}
-                onClick={() => book(m.id)}
+                onClick={() => action(m.id)}
                 className="w-full flex items-center justify-between py-3 text-left hover:bg-stone-50 -mx-6 px-6 transition-colors"
               >
                 <div>
@@ -90,7 +99,9 @@ export function BookMemberDialog({
                       : "No active package"}
                   </div>
                 </div>
-                <span className="text-xs text-amber-700">Book →</span>
+                <span className="text-xs text-amber-700">
+                  {full ? "Waitlist →" : "Book →"}
+                </span>
               </button>
             ))
           )}

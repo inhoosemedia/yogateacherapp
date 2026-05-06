@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -55,6 +56,8 @@ export function ScheduleClassDialog({
   );
   const [location, setLocation] = useState("");
   const [notes, setNotes] = useState("");
+  const [repeats, setRepeats] = useState(false);
+  const [repeatWeeks, setRepeatWeeks] = useState("8");
 
   const onTypeChange = (id: string) => {
     setClassTypeId(id);
@@ -68,13 +71,12 @@ export function ScheduleClassDialog({
   const submit = () =>
     start(async () => {
       try {
-        // Build the Date explicitly from local components to avoid any
-        // ambiguity around how `new Date("YYYY-MM-DDTHH:MM:00")` is parsed.
         const [yy, mm, dd] = date.split("-").map(Number);
         const [hh, mi] = time.split(":").map(Number);
         const localDate = new Date(yy, (mm ?? 1) - 1, dd ?? 1, hh ?? 0, mi ?? 0, 0);
         const startsAt = localDate.toISOString();
-        await scheduleClass({
+        const weeks = repeats ? Math.max(1, Math.min(52, parseInt(repeatWeeks, 10) || 1)) : 1;
+        const r = await scheduleClass({
           classTypeId,
           instructorId: instructorId || undefined,
           startsAt,
@@ -82,11 +84,15 @@ export function ScheduleClassDialog({
           capacity: parseInt(capacity, 10),
           location,
           notes,
+          repeatWeeks: weeks,
         });
-        toast.success("Class scheduled");
+        toast.success(
+          weeks > 1 ? `Scheduled ${r.count} classes` : "Class scheduled",
+        );
         setOpen(false);
         setLocation("");
         setNotes("");
+        setRepeats(false);
       } catch (e) {
         toast.error(e instanceof Error ? e.message : "Schedule failed");
       }
@@ -195,6 +201,34 @@ export function ScheduleClassDialog({
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
             />
+          </div>
+
+          <div className="rounded-xl border border-border bg-secondary/40 p-3 space-y-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <Label htmlFor="repeats" className="text-sm">
+                  Repeat weekly
+                </Label>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  Same day & time, every week.
+                </p>
+              </div>
+              <Switch id="repeats" checked={repeats} onCheckedChange={setRepeats} />
+            </div>
+            {repeats && (
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">For</span>
+                <Input
+                  type="number"
+                  min="2"
+                  max="52"
+                  className="w-20 h-9"
+                  value={repeatWeeks}
+                  onChange={(e) => setRepeatWeeks(e.target.value)}
+                />
+                <span className="text-xs text-muted-foreground">weeks</span>
+              </div>
+            )}
           </div>
         </div>
         <DialogFooter>

@@ -4,10 +4,16 @@ import {
   booking,
   classType,
   instructor,
+  package_,
   scheduledClass,
   studio,
 } from "@/db/schema";
-import { IconClock, IconMapPin, IconUserCircle } from "@tabler/icons-react";
+import {
+  IconClock,
+  IconMapPin,
+  IconPackage,
+  IconUserCircle,
+} from "@tabler/icons-react";
 import { and, asc, eq, gte, sql } from "drizzle-orm";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -61,6 +67,17 @@ export default async function PublicSchedule({
 
   const grouped = groupByDate(rows);
 
+  const [hasPublicPackages] = await db
+    .select({ c: sql<number>`count(*)::int` })
+    .from(package_)
+    .where(
+      and(
+        eq(package_.studioId, s.id),
+        eq(package_.active, true),
+        eq(package_.publiclyPurchasable, true),
+      ),
+    );
+
   return (
     <main className="min-h-screen bg-canvas canvas-grain">
       {/* Header */}
@@ -94,6 +111,17 @@ export default async function PublicSchedule({
           <p className="mt-4 text-muted-foreground text-[15px] max-w-md mx-auto">
             Pick a class, drop your details, and we&apos;ll see you in studio.
           </p>
+          {hasPublicPackages.c > 0 && (
+            <div className="mt-6">
+              <Link
+                href={`/book/${studioSlug}/packages`}
+                className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full bg-primary/10 text-primary hover:bg-primary/15 transition-colors"
+              >
+                <IconPackage className="size-3.5" />
+                Browse class packs & memberships
+              </Link>
+            </div>
+          )}
         </div>
 
         {grouped.length === 0 ? (
@@ -182,8 +210,8 @@ export default async function PublicSchedule({
                                 Cancelled
                               </span>
                             ) : full ? (
-                              <span className="text-[11px] uppercase tracking-wider text-stone-600 bg-stone-100 border border-stone-200 rounded-full px-2 py-0.5">
-                                Full
+                              <span className="text-[11px] uppercase tracking-wider text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-2 py-0.5">
+                                Waitlist
                               </span>
                             ) : (
                               <div>

@@ -6,16 +6,20 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
 import { toast } from "sonner";
 
-export default function SignUp() {
+function SignUpContent() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  // Allow only same-origin paths to prevent open-redirect.
+  const rawReturn = searchParams.get("returnTo") ?? "";
+  const returnTo = rawReturn.startsWith("/") ? rawReturn : "/onboarding";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,14 +28,14 @@ export default function SignUp() {
       name,
       email,
       password,
-      callbackURL: "/onboarding",
+      callbackURL: returnTo,
     });
     setLoading(false);
     if (error) {
       toast.error(error.message || "Sign up failed");
       return;
     }
-    router.push("/onboarding");
+    router.push(returnTo);
     router.refresh();
   };
 
@@ -109,5 +113,13 @@ export default function SignUp() {
         </Link>
       </p>
     </AuthShell>
+  );
+}
+
+export default function SignUp() {
+  return (
+    <Suspense fallback={null}>
+      <SignUpContent />
+    </Suspense>
   );
 }

@@ -25,9 +25,15 @@ export default async function MembersPage() {
         title="Members"
         description="Track contact info, packages, attendance and notes for every student."
         actions={
-          <MemberDialog mode="create">
-            <Button>Add member</Button>
-          </MemberDialog>
+          <div className="flex items-center gap-2">
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+            <a href="/api/exports/members">
+              <Button variant="outline">Export CSV</Button>
+            </a>
+            <MemberDialog mode="create">
+              <Button>Add member</Button>
+            </MemberDialog>
+          </div>
         }
       />
 

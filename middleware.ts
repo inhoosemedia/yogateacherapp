@@ -13,7 +13,8 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith("/dashboard") ||
     pathname.startsWith("/onboarding") ||
     pathname.startsWith("/billing") ||
-    pathname.startsWith("/admin");
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/instructor");
 
   if (!sessionCookie && protectedPath) {
     return NextResponse.redirect(
@@ -30,6 +31,7 @@ export const config = {
     "/onboarding/:path*",
     "/billing/:path*",
     "/admin/:path*",
+    "/instructor/:path*",
     "/sign-in",
     "/sign-up",
   ],

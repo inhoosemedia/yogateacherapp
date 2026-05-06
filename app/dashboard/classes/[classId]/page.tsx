@@ -12,21 +12,24 @@ import {
   instructor,
   member,
   scheduledClass,
+  waitlistEntry,
 } from "@/db/schema";
 import { requireStudio } from "@/lib/studio";
 import {
   IconArrowLeft,
   IconClock,
+  IconHourglassHigh,
   IconMapPin,
   IconUserCircle,
 } from "@tabler/icons-react";
-import { and, eq } from "drizzle-orm";
+import { and, asc, eq } from "drizzle-orm";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getEligibleMembers } from "./actions";
 import { BookMemberDialog } from "./_components/book-member-dialog";
 import { CancelClassButton } from "./_components/cancel-class-button";
 import { Roster } from "./_components/roster";
+import { WaitlistPanel } from "./_components/waitlist-panel";
 
 export default async function ClassDetail({
   params,
@@ -76,6 +79,25 @@ export default async function ClassDetail({
     .where(eq(booking.scheduledClassId, classId));
 
   const eligible = await getEligibleMembers(classId);
+
+  const waitlist = await db
+    .select({
+      id: waitlistEntry.id,
+      memberId: member.id,
+      memberName: member.fullName,
+      memberEmail: member.email,
+      joinedAt: waitlistEntry.createdAt,
+    })
+    .from(waitlistEntry)
+    .innerJoin(member, eq(member.id, waitlistEntry.memberId))
+    .where(
+      and(
+        eq(waitlistEntry.scheduledClassId, classId),
+        eq(waitlistEntry.status, "waiting"),
+      ),
+    )
+    .orderBy(asc(waitlistEntry.createdAt));
+
   const bookedCount = roster.filter(
     (r) => r.status === "booked" || r.status === "attended",
   ).length;
@@ -188,18 +210,39 @@ export default async function ClassDetail({
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="border-b">
-            <CardTitle className="text-base">Notes</CardTitle>
-          </CardHeader>
-          <CardContent className="text-sm text-foreground/90 whitespace-pre-wrap py-4 leading-relaxed">
-            {k.notes || (
-              <span className="text-muted-foreground italic">
-                No notes for this class.
-              </span>
-            )}
-          </CardContent>
-        </Card>
+        <div className="space-y-6">
+          <Card>
+            <CardHeader className="border-b flex flex-row items-center justify-between">
+              <div>
+                <CardTitle className="text-base inline-flex items-center gap-2">
+                  <IconHourglassHigh className="size-4 text-primary" />
+                  Waitlist
+                </CardTitle>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {waitlist.length === 0
+                    ? "No one waiting."
+                    : `${waitlist.length} in line — auto-promoted on cancel.`}
+                </p>
+              </div>
+            </CardHeader>
+            <CardContent className="p-0">
+              <WaitlistPanel entries={waitlist} />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="border-b">
+              <CardTitle className="text-base">Notes</CardTitle>
+            </CardHeader>
+            <CardContent className="text-sm text-foreground/90 whitespace-pre-wrap py-4 leading-relaxed">
+              {k.notes || (
+                <span className="text-muted-foreground italic">
+                  No notes for this class.
+                </span>
+              )}
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );

@@ -1,0 +1,171 @@
+import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { InitialsAvatar } from "@/components/ui/initials-avatar";
+import { PageHeader } from "@/components/ui/page-header";
+import { db } from "@/db/drizzle";
+import { studioInvite, studioMember, user } from "@/db/schema";
+import { isEmailConfigured } from "@/lib/email";
+import { requireStudio } from "@/lib/studio";
+import { and, asc, eq } from "drizzle-orm";
+import { InviteForm } from "./_components/invite-form";
+import {
+  CopyLinkButton,
+  RemoveMemberButton,
+  RevokeButton,
+} from "./_components/invite-actions";
+
+export default async function TeamPage() {
+  const { studio, userId } = await requireStudio();
+
+  const members = await db
+    .select({
+      rowId: studioMember.id,
+      userId: studioMember.userId,
+      role: studioMember.role,
+      joinedAt: studioMember.createdAt,
+      name: user.name,
+      email: user.email,
+    })
+    .from(studioMember)
+    .innerJoin(user, eq(user.id, studioMember.userId))
+    .where(eq(studioMember.studioId, studio.id))
+    .orderBy(asc(studioMember.createdAt));
+
+  const invites = await db
+    .select()
+    .from(studioInvite)
+    .where(
+      and(
+        eq(studioInvite.studioId, studio.id),
+      ),
+    )
+    .orderBy(asc(studioInvite.createdAt));
+
+  const pending = invites.filter((i) => !i.acceptedAt);
+  const origin =
+    process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+
+  return (
+    <div className="max-w-4xl space-y-8">
+      <PageHeader
+        eyebrow="Studio"
+        title="Team & instructors"
+        description="Invite teammates and instructors. Each gets their own login with role-scoped access."
+      />
+
+      {!isEmailConfigured() && (
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+          <div className="font-medium">Email isn&apos;t configured yet</div>
+          <p className="mt-1 text-amber-800/90">
+            Set <code className="text-xs px-1.5 py-0.5 rounded bg-amber-100">RESEND_API_KEY</code>{" "}
+            in your env to email invites. Until then, you can still create invites
+            and copy the link manually.
+          </p>
+        </div>
+      )}
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Invite a team member</CardTitle>
+          <CardDescription>
+            Admins can manage everything. Staff can run the front desk (check-ins,
+            roster). Instructors only see their own classes.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <InviteForm />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Team</CardTitle>
+          <CardDescription>{members.length} on the team</CardDescription>
+        </CardHeader>
+        <CardContent className="p-0">
+          <ul className="divide-y divide-border">
+            {members.map((m) => (
+              <li
+                key={m.rowId}
+                className="px-6 py-3.5 flex items-center gap-3"
+              >
+                <InitialsAvatar name={m.name} size="sm" />
+                <div className="flex-1 min-w-0">
+                  <div className="font-medium">{m.name}</div>
+                  <div className="text-xs text-muted-foreground">{m.email}</div>
+                </div>
+                <RoleBadge role={m.role} />
+                {m.userId !== userId && m.role !== "owner" && (
+                  <RemoveMemberButton memberRowId={m.rowId} />
+                )}
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+      </Card>
+
+      {pending.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Pending invites</CardTitle>
+            <CardDescription>
+              These haven&apos;t been accepted yet. Each link is valid for 7 days.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-0">
+            <ul className="divide-y divide-border">
+              {pending.map((i) => {
+                const link = `${origin}/invite/${i.token}`;
+                const expired = new Date(i.expiresAt) < new Date();
+                return (
+                  <li
+                    key={i.id}
+                    className="px-6 py-3.5 flex items-center gap-3 flex-wrap"
+                  >
+                    <div className="flex-1 min-w-[200px]">
+                      <div className="font-medium">{i.email}</div>
+                      <div className="text-xs text-muted-foreground">
+                        Expires{" "}
+                        {new Date(i.expiresAt).toLocaleDateString()}
+                        {expired && (
+                          <span className="ml-2 text-rose-700">· expired</span>
+                        )}
+                      </div>
+                    </div>
+                    <RoleBadge role={i.role} />
+                    <CopyLinkButton link={link} />
+                    <RevokeButton inviteId={i.id} />
+                  </li>
+                );
+              })}
+            </ul>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+}
+
+function RoleBadge({ role }: { role: string }) {
+  const styles: Record<string, string> = {
+    owner: "bg-foreground text-background border-foreground",
+    admin: "bg-primary/15 text-primary border-primary/30",
+    staff: "bg-emerald-50 text-emerald-700 border-emerald-200",
+    instructor: "bg-amber-50 text-amber-700 border-amber-200",
+  };
+  return (
+    <Badge
+      className={
+        styles[role] ?? "bg-stone-100 text-stone-600 border-stone-200"
+      }
+    >
+      {role}
+    </Badge>
+  );
+}

@@ -1,6 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import {
   IconCheck,
@@ -9,12 +15,15 @@ import {
   IconQrcode,
 } from "@tabler/icons-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { QRCodeCanvas } from "qrcode.react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 export function BookingLinkCard({ slug }: { slug: string }) {
   const [origin, setOrigin] = useState("");
   const [copied, setCopied] = useState(false);
+  const [qrOpen, setQrOpen] = useState(false);
+  const qrRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setOrigin(window.location.origin);
@@ -31,6 +40,19 @@ export function BookingLinkCard({ slug }: { slug: string }) {
     } catch {
       toast.error("Could not copy");
     }
+  };
+
+  const downloadQr = () => {
+    const canvas = qrRef.current?.querySelector("canvas");
+    if (!canvas) {
+      toast.error("Couldn't render QR code");
+      return;
+    }
+    const link = document.createElement("a");
+    link.download = `${slug}-booking-qr.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+    toast.success("QR code downloaded");
   };
 
   return (
@@ -70,17 +92,48 @@ export function BookingLinkCard({ slug }: { slug: string }) {
             Open public schedule
           </Button>
         </Link>
-        <a
-          href={`https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(url)}`}
-          target="_blank"
-          rel="noreferrer noopener"
+        <Button
+          variant="outline"
+          size="sm"
+          type="button"
+          onClick={() => setQrOpen(true)}
         >
-          <Button variant="outline" size="sm">
-            <IconQrcode className="size-4" />
-            QR code
-          </Button>
-        </a>
+          <IconQrcode className="size-4" />
+          QR code
+        </Button>
       </div>
+
+      <Dialog open={qrOpen} onOpenChange={setQrOpen}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Booking link QR code</DialogTitle>
+          </DialogHeader>
+          <p className="text-xs text-muted-foreground">
+            Print and put it on your studio door, or screenshot for Instagram.
+          </p>
+          <div
+            ref={qrRef}
+            className="flex items-center justify-center bg-white rounded-xl p-6 ring-1 ring-border"
+          >
+            {origin && (
+              <QRCodeCanvas
+                value={url}
+                size={256}
+                bgColor="#ffffff"
+                fgColor="#3f5141"
+                level="M"
+                includeMargin
+              />
+            )}
+          </div>
+          <div className="flex justify-end gap-2 pt-2">
+            <Button variant="outline" onClick={() => setQrOpen(false)}>
+              Close
+            </Button>
+            <Button onClick={downloadQr}>Download PNG</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

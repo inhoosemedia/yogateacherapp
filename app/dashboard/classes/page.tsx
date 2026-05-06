@@ -92,6 +92,10 @@ export default async function ClassesPage({
         actions={
           <div className="flex items-center gap-2">
             <ViewSwitcher view={view} filter={filter} />
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+            <a href="/api/exports/bookings">
+              <Button variant="outline">Export CSV</Button>
+            </a>
             <ScheduleClassDialog
               classTypes={types.map((t) => ({
                 id: t.id,

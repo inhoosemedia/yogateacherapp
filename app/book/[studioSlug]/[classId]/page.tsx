@@ -69,14 +69,13 @@ export default async function PublicClassPage({
   const cancelled = k.status === "cancelled";
   const past = new Date(k.startsAt) < new Date();
   const full = k.bookedCount >= k.capacity;
-  const blocked = cancelled || past || full;
+  // Full classes are NOT blocked — visitor can join the waitlist instead.
+  const blocked = cancelled || past;
   const blockedReason = cancelled
     ? "This class has been cancelled."
     : past
       ? "This class has already started."
-      : full
-        ? "This class is full."
-        : null;
+      : null;
 
   const duration = Math.round(
     (new Date(k.endsAt).getTime() - new Date(k.startsAt).getTime()) / 60000,
@@ -192,14 +191,15 @@ export default async function PublicClassPage({
           ) : (
             <div className="rounded-2xl border border-border bg-card p-7">
               <div className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground mb-3">
-                Reserve your spot
+                {full ? "Join the waitlist" : "Reserve your spot"}
               </div>
               <h2 className="font-display text-2xl tracking-tight">
-                Book this class
+                {full ? "This class is full" : "Book this class"}
               </h2>
               <p className="text-sm text-muted-foreground mt-1.5">
-                If you have an active package, a credit will be used. If
-                not, you can pay at the studio.
+                {full
+                  ? "Add yourself to the waitlist and we'll email you the moment a seat opens."
+                  : "If you have an active package, a credit will be used. If not, you can pay at the studio."}
               </p>
               <div className="mt-6">
                 <BookForm
@@ -207,6 +207,7 @@ export default async function PublicClassPage({
                   scheduledClassId={k.id}
                   className={k.classTypeName}
                   startsAt={k.startsAt}
+                  initiallyFull={full}
                 />
               </div>
             </div>

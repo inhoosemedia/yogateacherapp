@@ -33,6 +33,7 @@ type Pkg = {
   validityDays: number;
   priceCents: number;
   active: boolean;
+  publiclyPurchasable?: boolean;
 };
 
 export function PackageDialog({
@@ -56,6 +57,9 @@ export function PackageDialog({
     pkg ? (pkg.priceCents / 100).toFixed(2) : "0",
   );
   const [active, setActive] = useState(pkg?.active ?? true);
+  const [publiclyPurchasable, setPubliclyPurchasable] = useState(
+    pkg?.publiclyPurchasable ?? false,
+  );
 
   const submit = () =>
     start(async () => {
@@ -67,6 +71,7 @@ export function PackageDialog({
           validityDays: parseInt(validityDays, 10),
           priceCents: Math.round(parseFloat(price || "0") * 100),
           active,
+          publiclyPurchasable,
         };
         if (mode === "create") {
           await createPackage(payload);
@@ -166,6 +171,18 @@ export function PackageDialog({
           <div className="flex items-center justify-between rounded-md border p-3">
             <Label>Active</Label>
             <Switch checked={active} onCheckedChange={setActive} />
+          </div>
+          <div className="flex items-center justify-between rounded-md border p-3">
+            <div>
+              <Label>Sell on public booking page</Label>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Visitors can buy this package via Razorpay (studio settings).
+              </p>
+            </div>
+            <Switch
+              checked={publiclyPurchasable}
+              onCheckedChange={setPubliclyPurchasable}
+            />
           </div>
         </div>
         <DialogFooter className="sm:justify-between">
