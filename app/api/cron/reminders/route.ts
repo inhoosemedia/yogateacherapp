@@ -21,12 +21,14 @@ export const dynamic = "force-dynamic";
 
 /**
  * Fires class-reminder emails to every member booked for a class starting
- * roughly 23–25 hours from now. Idempotent via booking.reminder_sent_at.
+ * roughly 12-48h from now. Idempotent via booking.reminder_sent_at.
  *
- * Called by Vercel Cron (or any scheduler) hourly. Auth via Bearer token.
+ * Vercel Hobby allows only daily crons, so the window is wide enough that
+ * a single daily run catches every class happening "tomorrow" regardless of
+ * what hour-of-day the cron triggers.
  *
- * vercel.json snippet:
- * { "crons": [{ "path": "/api/cron/reminders", "schedule": "0 * * * *" }] }
+ * vercel.json:
+ *   { "crons": [{ "path": "/api/cron/reminders", "schedule": "0 9 * * *" }] }
  *
  * Headers: Authorization: Bearer ${CRON_SECRET}
  */
@@ -50,11 +52,12 @@ async function run(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Window: classes starting between 23h and 25h from now, that haven't been
-  // reminded yet. Generous window so a late cron run still catches everything.
+  // Window: any class starting in the next ~12–48 hours that hasn't been
+  // reminded yet. Daily cron catches every "tomorrow" class; idempotency is
+  // enforced by booking.reminder_sent_at so multiple calls in a day are safe.
   const now = new Date();
-  const windowStart = addHours(now, 23);
-  const windowEnd = addHours(now, 25);
+  const windowStart = addHours(now, 12);
+  const windowEnd = addHours(now, 48);
 
   const rows = await db
     .select({
