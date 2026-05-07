@@ -7,7 +7,9 @@ import { usePathname } from "next/navigation";
 type Item = {
   label: string;
   href: string;
-  icon: React.ElementType;
+  // Pre-rendered JSX so the parent (server) can hand a tabler icon across the
+  // RSC boundary without trying to serialize a function reference.
+  icon: React.ReactNode;
 };
 
 export function AdminNav({ items }: { items: Item[] }) {
@@ -33,12 +35,13 @@ export function AdminNav({ items }: { items: Item[] }) {
             {active && (
               <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-r-full bg-foreground" />
             )}
-            <item.icon
+            <span
               className={cn(
-                "size-4",
                 active ? "text-foreground" : "text-muted-foreground",
               )}
-            />
+            >
+              {item.icon}
+            </span>
             {item.label}
           </Link>
         );

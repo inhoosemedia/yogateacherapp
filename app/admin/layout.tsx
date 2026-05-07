@@ -40,10 +40,26 @@ export default async function AdminLayout({
         <nav className="flex-1 p-3 space-y-0.5">
           <AdminNav
             items={[
-              { label: "Overview", href: "/admin", icon: IconLayoutDashboard },
-              { label: "Studios", href: "/admin/studios", icon: IconBuildingStore },
-              { label: "Users", href: "/admin/users", icon: IconUsers },
-              { label: "Pricing & currency", href: "/admin/settings", icon: IconCoin },
+              {
+                label: "Overview",
+                href: "/admin",
+                icon: <IconLayoutDashboard className="size-4" />,
+              },
+              {
+                label: "Studios",
+                href: "/admin/studios",
+                icon: <IconBuildingStore className="size-4" />,
+              },
+              {
+                label: "Users",
+                href: "/admin/users",
+                icon: <IconUsers className="size-4" />,
+              },
+              {
+                label: "Pricing & currency",
+                href: "/admin/settings",
+                icon: <IconCoin className="size-4" />,
+              },
             ]}
           />
         </nav>

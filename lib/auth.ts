@@ -34,6 +34,7 @@ function trustedOrigins(): string[] {
   if (process.env.NODE_ENV !== "production") {
     out.add("http://localhost:3000");
     out.add("http://localhost:3100");
+    out.add("http://localhost:3300"); // demo orchestrator
   }
   return Array.from(out);
 }
