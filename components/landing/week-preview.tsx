@@ -38,7 +38,7 @@ export function WeekCalendarPreview() {
         <span className="size-2.5 rounded-full bg-amber-300/70" />
         <span className="size-2.5 rounded-full bg-emerald-300/70" />
         <div className="ml-3 text-[10px] text-muted-foreground tracking-wide">
-          asana.app / classes
+          yogateacherapp.com / classes
         </div>
         <div className="ml-auto inline-flex items-center gap-1 bg-card rounded-full p-0.5 ring-1 ring-border">
           <span className="px-2 py-0.5 text-[9px] rounded-full bg-secondary font-medium">

@@ -17,7 +17,7 @@ export function MembersPreview() {
         <span className="size-2.5 rounded-full bg-amber-300/70" />
         <span className="size-2.5 rounded-full bg-emerald-300/70" />
         <div className="ml-3 text-[10px] text-muted-foreground tracking-wide">
-          asana.app / members
+          yogateacherapp.com / members
         </div>
       </div>
 

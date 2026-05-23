@@ -15,7 +15,7 @@ export function DashboardPreview() {
         <span className="size-2.5 rounded-full bg-amber-300/70" />
         <span className="size-2.5 rounded-full bg-emerald-300/70" />
         <div className="ml-3 text-[10px] text-muted-foreground tracking-wide">
-          asana.app / dashboard
+          yogateacherapp.com / dashboard
         </div>
       </div>
 
@@ -59,7 +59,7 @@ export function DashboardPreview() {
             <Stat icon={<IconUsers className="size-3" />} label="Members" value="248" />
             <Stat icon={<IconUserCheck className="size-3" />} label="Active" value="186" />
             <Stat icon={<IconCalendarMonth className="size-3" />} label="Today" value="6" />
-            <Stat icon={<IconCash className="size-3" />} label="MTD" value="₹4.2L" />
+            <Stat icon={<IconCash className="size-3" />} label="MTD" value="$4.2K" />
           </div>
 
           <div className="rounded-lg border border-border bg-card overflow-hidden">
