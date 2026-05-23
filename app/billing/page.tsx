@@ -1,4 +1,5 @@
 import { BrandMark } from "@/components/brand";
+import { SignOutButton } from "@/components/sign-out-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { auth } from "@/lib/auth";
 import { formatMoney } from "@/lib/format";
@@ -8,7 +9,6 @@ import { getActiveStudio, trialDaysRemaining } from "@/lib/studio";
 import {
   IconArrowLeft,
   IconCheck,
-  IconLogout,
   IconSparkles,
 } from "@tabler/icons-react";
 import { headers } from "next/headers";
@@ -48,12 +48,7 @@ export default async function BillingPage() {
             </span>
             YogaTeacher
           </Link>
-          <form action="/api/auth/sign-out" method="post">
-            <button className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1">
-              <IconLogout className="size-3.5" />
-              Sign out
-            </button>
-          </form>
+          <SignOutButton className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1" />
         </div>
       </header>
 

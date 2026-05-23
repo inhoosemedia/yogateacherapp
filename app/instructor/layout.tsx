@@ -1,6 +1,7 @@
 import { BrandMark } from "@/components/brand";
+import { SignOutButton } from "@/components/sign-out-button";
 import { requireInstructor } from "@/lib/instructor";
-import { IconLogout, IconUserCircle } from "@tabler/icons-react";
+import { IconUserCircle } from "@tabler/icons-react";
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -33,12 +34,7 @@ export default async function InstructorLayout({
             <IconUserCircle className="size-4" />
             <span>{ctx.fullName}</span>
           </div>
-          <form action="/api/auth/sign-out" method="post">
-            <button className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5">
-              <IconLogout className="size-4" />
-              Sign out
-            </button>
-          </form>
+          <SignOutButton className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5" />
         </div>
       </header>
       <div className="max-w-4xl mx-auto px-6 py-10">{children}</div>

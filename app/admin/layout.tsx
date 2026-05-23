@@ -1,9 +1,9 @@
+import { SignOutButton } from "@/components/sign-out-button";
 import { requireSuperAdmin } from "@/lib/admin";
 import {
   IconBuildingStore,
   IconCoin,
   IconLayoutDashboard,
-  IconLogout,
   IconShield,
   IconUsers,
 } from "@tabler/icons-react";
@@ -71,12 +71,7 @@ export default async function AdminLayout({
             <IconLayoutDashboard className="size-4" />
             Back to my studio
           </Link>
-          <form action="/api/auth/sign-out" method="post">
-            <button className="w-full flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-secondary/60 hover:text-foreground transition-colors">
-              <IconLogout className="size-4" />
-              Sign out
-            </button>
-          </form>
+          <SignOutButton />
         </div>
       </aside>
       <main className="flex-1 overflow-y-auto">
