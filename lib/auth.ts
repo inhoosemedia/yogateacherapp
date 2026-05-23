@@ -1,5 +1,6 @@
 import { db } from "@/db/drizzle";
 import { account, session, user, verification } from "@/db/schema";
+import { passwordResetTemplate, sendEmail } from "@/lib/email";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
@@ -58,6 +59,26 @@ export const auth = betterAuth({
     enabled: true,
     autoSignIn: true,
     requireEmailVerification: false,
+    // Reset-password flow: we bypass Better-Auth's intermediate redirect and
+    // send users straight to our own /reset-password page with the token in
+    // the query string. Tokens are 1h-valid (Better-Auth default).
+    sendResetPassword: async ({ user: u, token }) => {
+      const appUrl =
+        process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+      const resetUrl = `${appUrl}/reset-password?token=${encodeURIComponent(token)}`;
+      const tpl = passwordResetTemplate({
+        resetUrl,
+        userName: u.name,
+      });
+      await sendEmail({
+        studioId: null,
+        type: "password_reset",
+        to: u.email,
+        subject: tpl.subject,
+        html: tpl.html,
+        text: tpl.text,
+      });
+    },
   },
   socialProviders: process.env.GOOGLE_CLIENT_ID
     ? {

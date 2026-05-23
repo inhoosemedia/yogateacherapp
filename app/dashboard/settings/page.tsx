@@ -19,6 +19,7 @@ import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { ChangePasswordForm } from "@/components/change-password-form";
 import { BookingLinkCard } from "./_components/booking-link-card";
 import { StudioSettingsForm } from "./_components/studio-settings-form";
 
@@ -97,16 +98,23 @@ export default async function SettingsPage() {
       <Card>
         <CardHeader>
           <CardTitle>Account</CardTitle>
+          <CardDescription>
+            Your YogaTeacher login. Change the password any time — sign in to
+            other devices stays active unless you opt out.
+          </CardDescription>
         </CardHeader>
-        <CardContent className="text-sm text-foreground/90 space-y-1.5">
-          <div>
-            <span className="text-muted-foreground">Name: </span>
-            {session.user.name}
+        <CardContent className="space-y-4">
+          <div className="text-sm text-foreground/90 space-y-1.5">
+            <div>
+              <span className="text-muted-foreground">Name: </span>
+              {session.user.name}
+            </div>
+            <div>
+              <span className="text-muted-foreground">Email: </span>
+              {session.user.email}
+            </div>
           </div>
-          <div>
-            <span className="text-muted-foreground">Email: </span>
-            {session.user.email}
-          </div>
+          <ChangePasswordForm />
         </CardContent>
       </Card>
     </div>

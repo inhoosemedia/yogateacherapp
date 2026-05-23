@@ -32,6 +32,7 @@ export type NotificationType =
   | "class_reminder"
   | "waitlist_promoted"
   | "invite"
+  | "password_reset"
   | "test";
 
 type SendInput = {
@@ -318,6 +319,29 @@ export function inviteTemplate(opts: {
     subject,
     html: shell({ studioName: opts.studioName, body }),
     text,
+  };
+}
+
+export function passwordResetTemplate(opts: {
+  resetUrl: string;
+  userName?: string | null;
+}): { subject: string; html: string; text: string } {
+  const subject = "Reset your YogaTeacher password";
+  const greeting = opts.userName ? `Hi ${escape(opts.userName)},` : "Hi,";
+  const body = `
+    <h1 style="font-size:24px;font-weight:600;letter-spacing:-0.02em;margin:0 0 6px;">Reset your password</h1>
+    <p style="margin:0 0 18px;color:#5a5448;font-size:15px;line-height:1.6;">
+      ${greeting} you (or someone using your address) asked to reset your
+      password. Click below to set a new one — the link is valid for one hour.
+    </p>
+    <p style="margin:0 0 22px;"><a href="${opts.resetUrl}" style="display:inline-block;padding:12px 22px;background:#3f5141;color:#fff;border-radius:8px;text-decoration:none;font-weight:500;font-size:15px;">Choose a new password</a></p>
+    <p style="margin:0 0 10px;color:#9a9183;font-size:13px;line-height:1.55;">If you didn't request this, you can safely ignore this email — your current password will stay the same.</p>
+    <p style="margin:0;color:#9a9183;font-size:12px;line-height:1.55;">Or paste this link into your browser:<br/><span style="color:#5a5448;word-break:break-all;">${escape(opts.resetUrl)}</span></p>
+  `;
+  return {
+    subject,
+    html: shell({ studioName: "YogaTeacher", body, preheader: "Reset link · valid for 1 hour" }),
+    text: `Reset your password: ${opts.resetUrl}\nThe link is valid for one hour. If you didn't request this, ignore this email.`,
   };
 }
 
