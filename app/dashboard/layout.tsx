@@ -50,7 +50,7 @@ export default async function DashboardLayout({
         {daysLeft !== null && daysLeft <= 7 && (
           <TrialBanner daysLeft={daysLeft} />
         )}
-        <div className="px-6 lg:px-10 py-8 max-w-[1400px] mx-auto">
+        <div className="px-4 sm:px-6 lg:px-10 py-6 sm:py-8 max-w-[1400px] mx-auto">
           {children}
         </div>
       </main>

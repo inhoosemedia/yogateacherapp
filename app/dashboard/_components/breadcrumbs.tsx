@@ -41,16 +41,21 @@ export function Breadcrumbs({ studioName }: { studioName: string }) {
   }
 
   return (
-    <nav className="flex items-center gap-1.5 text-sm">
+    <nav className="flex items-center gap-1.5 text-sm min-w-0 truncate">
       {crumbs.map((c, i) => {
         const last = i === crumbs.length - 1;
+        // On small screens, hide non-leaf crumbs so the active label always fits
+        const hideOnMobile = !last;
         return (
-          <span key={c.href} className="flex items-center gap-1.5">
+          <span
+            key={c.href}
+            className={`flex items-center gap-1.5 ${hideOnMobile ? "hidden sm:flex" : ""}`}
+          >
             {i > 0 && (
               <IconChevronRight className="size-3.5 text-muted-foreground/60" />
             )}
             {last ? (
-              <span className="font-medium text-foreground">{c.label}</span>
+              <span className="font-medium text-foreground truncate">{c.label}</span>
             ) : (
               <Link
                 href={c.href}
