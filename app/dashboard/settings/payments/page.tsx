@@ -23,6 +23,10 @@ export default async function PaymentsPage() {
       stripeSecretKey: studio.studioStripeSecretKey,
       stripePublishableKey: studio.studioStripePublishableKey,
       stripeWebhookSecret: studio.studioStripeWebhookSecret,
+      paypalClientId: studio.studioPaypalClientId,
+      paypalClientSecret: studio.studioPaypalClientSecret,
+      paypalWebhookId: studio.studioPaypalWebhookId,
+      paypalMode: studio.studioPaypalMode,
     })
     .from(studio)
     .where(eq(studio.id, s.id))
@@ -31,8 +35,10 @@ export default async function PaymentsPage() {
   const origin = process.env.NEXT_PUBLIC_APP_URL || "https://your-domain";
   const razorpayWebhookUrl = `${origin}/api/webhooks/studio-razorpay`;
   const stripeWebhookUrl = `${origin}/api/webhooks/studio-stripe`;
+  const paypalWebhookUrl = `${origin}/api/webhooks/studio-paypal`;
 
   const provider = (row?.provider ?? null) as
+    | "paypal"
     | "razorpay"
     | "stripe"
     | null;
@@ -42,24 +48,27 @@ export default async function PaymentsPage() {
   const stripeConfigured = Boolean(
     row?.stripeSecretKey && row?.stripePublishableKey,
   );
+  const paypalConfigured = Boolean(
+    row?.paypalClientId && row?.paypalClientSecret,
+  );
 
   return (
     <div className="max-w-3xl space-y-8">
       <PageHeader
         eyebrow="Studio"
         title="Member payments"
-        description="Let members buy packages on your booking link. Pick a provider — funds settle directly to your account."
+        description="Let members buy packages on your booking link. Pick a provider — funds settle directly to your account. PayPal is the default."
       />
 
       <Card>
         <CardHeader>
           <CardTitle>How it works</CardTitle>
           <CardDescription className="leading-relaxed">
-            Choose <strong>Razorpay</strong> (best for India / UPI) or{" "}
-            <strong>Stripe</strong> (global, cards). Sign up free at the
-            provider, paste your keys below, add a webhook pointing back here.
-            Mark packages as &ldquo;Sell on public booking page&rdquo; — they
-            show up at{" "}
+            Choose <strong>PayPal</strong> (recommended global default),{" "}
+            <strong>Stripe</strong> (cards, ACH), or <strong>Razorpay</strong>{" "}
+            (India / UPI). Sign up free at the provider, paste your keys below,
+            add a webhook pointing back here. Mark packages as &ldquo;Sell on
+            public booking page&rdquo; — they show up at{" "}
             <code className="text-xs px-1.5 py-0.5 rounded bg-secondary">
               /book/{s.slug}/packages
             </code>
@@ -77,11 +86,17 @@ export default async function PaymentsPage() {
           stripePublishableKey: row?.stripePublishableKey ?? "",
           hasStripeSecret: Boolean(row?.stripeSecretKey),
           hasStripeWebhookSecret: Boolean(row?.stripeWebhookSecret),
+          paypalClientId: row?.paypalClientId ?? "",
+          paypalMode: (row?.paypalMode === "sandbox" ? "sandbox" : "live"),
+          hasPaypalSecret: Boolean(row?.paypalClientSecret),
+          hasPaypalWebhookId: Boolean(row?.paypalWebhookId),
           razorpayConfigured,
           stripeConfigured,
+          paypalConfigured,
         }}
         razorpayWebhookUrl={razorpayWebhookUrl}
         stripeWebhookUrl={stripeWebhookUrl}
+        paypalWebhookUrl={paypalWebhookUrl}
       />
     </div>
   );

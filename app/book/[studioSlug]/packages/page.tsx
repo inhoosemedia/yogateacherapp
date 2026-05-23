@@ -11,6 +11,7 @@ import { and, asc, eq } from "drizzle-orm";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BuyPackageButton } from "./_components/buy-package-button";
+import { PayPalCapture } from "./_components/paypal-capture";
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +20,11 @@ export default async function PublicPackagesPage({
   searchParams,
 }: {
   params: Promise<{ studioSlug: string }>;
-  searchParams: Promise<{ paid?: string; cancelled?: string }>;
+  searchParams: Promise<{
+    paid?: string;
+    cancelled?: string;
+    paypal_order?: string;
+  }>;
 }) {
   const { studioSlug } = await params;
   const sp = await searchParams;
@@ -30,13 +35,17 @@ export default async function PublicPackagesPage({
     .limit(1);
   if (!s) notFound();
 
-  const provider: "razorpay" | "stripe" | null =
-    s.studioPaymentProvider === "stripe"
-      ? "stripe"
-      : s.studioPaymentProvider === "razorpay"
-        ? "razorpay"
-        : null;
+  const provider: "paypal" | "razorpay" | "stripe" | null =
+    s.studioPaymentProvider === "paypal"
+      ? "paypal"
+      : s.studioPaymentProvider === "stripe"
+        ? "stripe"
+        : s.studioPaymentProvider === "razorpay"
+          ? "razorpay"
+          : null;
   const acceptsPayments =
+    (provider === "paypal" &&
+      Boolean(s.studioPaypalClientId && s.studioPaypalClientSecret)) ||
     (provider === "razorpay" &&
       Boolean(s.studioRazorpayKeyId && s.studioRazorpayKeySecret)) ||
     (provider === "stripe" &&
@@ -93,6 +102,10 @@ export default async function PublicPackagesPage({
             your credits instantly.
           </p>
         </div>
+
+        {sp.paypal_order && (
+          <PayPalCapture studioSlug={studioSlug} orderId={sp.paypal_order} />
+        )}
 
         {sp.paid === "1" && (
           <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-sm text-emerald-900 mb-6 flex items-start gap-3">

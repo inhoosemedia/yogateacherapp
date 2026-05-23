@@ -89,6 +89,8 @@ export const studio = pgTable("studio", {
   // Platform Stripe identifiers (when platform_billing_provider = stripe)
   stripeCustomerId: text("stripe_customer_id"),
   stripeSubscriptionId: text("stripe_subscription_id"),
+  // Platform PayPal identifier (when platform_billing_provider = paypal)
+  paypalSubscriptionId: text("paypal_subscription_id"),
   subscriptionCurrentPeriodEnd: timestamp("subscription_current_period_end", { withTimezone: true, mode: "date" }),
   // Member-payments: studio picks one of these providers and brings their own
   // account. Funds settle directly to the studio (not the platform).
@@ -102,6 +104,12 @@ export const studio = pgTable("studio", {
   studioStripeSecretKey: text("studio_stripe_secret_key"),
   studioStripePublishableKey: text("studio_stripe_publishable_key"),
   studioStripeWebhookSecret: text("studio_stripe_webhook_secret"),
+  // PayPal (global) — REST API credentials from PayPal Developer dashboard
+  studioPaypalClientId: text("studio_paypal_client_id"),
+  studioPaypalClientSecret: text("studio_paypal_client_secret"),
+  studioPaypalWebhookId: text("studio_paypal_webhook_id"),
+  // Toggle between PayPal live ("live") and sandbox ("sandbox"). Default live.
+  studioPaypalMode: text("studio_paypal_mode"),
   // Per-studio notification preferences (jsonb of booleans by event key)
   notificationSettings: jsonb("notification_settings"),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
@@ -292,6 +300,9 @@ export const memberPackage = pgTable("member_package", {
   // Stripe payment reference
   stripeCheckoutSessionId: text("stripe_checkout_session_id"),
   stripePaymentIntentId: text("stripe_payment_intent_id"),
+  // PayPal payment reference
+  paypalOrderId: text("paypal_order_id"),
+  paypalCaptureId: text("paypal_capture_id"),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
 });
 

@@ -1,6 +1,10 @@
 import { db } from "@/db/drizzle";
 import { studio } from "@/db/schema";
 import { auth } from "@/lib/auth";
+import {
+  createPayPalSubscription,
+  getPlatformPayPalCreds,
+} from "@/lib/paypal";
 import { getRazorpay, planIdFor, type PlanTier } from "@/lib/razorpay";
 import { getSecret } from "@/lib/secrets";
 import { getPlatformBillingProvider, getPlatformStripe } from "@/lib/stripe";
@@ -30,9 +34,8 @@ export async function POST(req: Request) {
     }
 
     const provider = await getPlatformBillingProvider();
-    if (provider === "stripe") {
-      return subscribeWithStripe(active, session.user, tier, req);
-    }
+    if (provider === "paypal") return subscribeWithPayPal(active, session.user, tier, req);
+    if (provider === "stripe") return subscribeWithStripe(active, session.user, tier, req);
     return subscribeWithRazorpay(active, session.user, tier);
   } catch (e) {
     console.error("subscribe error", e);
@@ -72,7 +75,7 @@ async function subscribeWithRazorpay(
   const sub = await razorpay.subscriptions.create({
     plan_id: planId,
     customer_notify: 1,
-    total_count: 120, // 10 years of monthly billing
+    total_count: 120,
     notes: {
       studio_id: active.id,
       studio_name: active.name,
@@ -157,6 +160,58 @@ async function subscribeWithStripe(
   return NextResponse.json({
     sessionId: session.id,
     shortUrl: session.url,
+    status: "created",
+  });
+}
+
+async function subscribeWithPayPal(
+  active: { id: string; name: string },
+  user: { id: string; email: string },
+  tier: PlanTier,
+  req: Request,
+) {
+  const creds = await getPlatformPayPalCreds();
+  if (!creds) {
+    return NextResponse.json(
+      {
+        error:
+          "PayPal is not configured. Set the platform PayPal credentials in /admin/settings.",
+      },
+      { status: 503 },
+    );
+  }
+  const planId = await getSecret(
+    tier === "studio" ? "paypal_plan_studio" : "paypal_plan_multi",
+  );
+  if (!planId) {
+    return NextResponse.json(
+      {
+        error: `No PayPal plan ID set for tier "${tier}". Add it in /admin/settings → API keys.`,
+      },
+      { status: 503 },
+    );
+  }
+  const origin =
+    process.env.NEXT_PUBLIC_APP_URL ||
+    req.headers.get("origin") ||
+    `https://${req.headers.get("host") ?? "localhost"}`;
+
+  const sub = await createPayPalSubscription(creds, {
+    planId,
+    customId: `v1:${active.id}:${tier}`,
+    subscriberEmail: user.email,
+    returnUrl: `${origin}/billing?paid=1`,
+    cancelUrl: `${origin}/billing?cancelled=1`,
+  });
+
+  await db
+    .update(studio)
+    .set({ planTier: tier, paypalSubscriptionId: sub.id })
+    .where(eq(studio.id, active.id));
+
+  return NextResponse.json({
+    id: sub.id,
+    shortUrl: sub.approveUrl,
     status: "created",
   });
 }

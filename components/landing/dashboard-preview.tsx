@@ -19,7 +19,7 @@ export function DashboardPreview() {
         </div>
       </div>
 
-      <div className="grid grid-cols-[180px_1fr]">
+      <div className="grid grid-cols-1 sm:grid-cols-[180px_1fr]">
         {/* Sidebar */}
         <aside className="border-r border-border bg-sidebar p-3 hidden sm:block">
           <div className="flex items-center gap-2 px-2 py-2">
@@ -44,18 +44,18 @@ export function DashboardPreview() {
         </aside>
 
         {/* Content */}
-        <div className="p-5 space-y-4">
+        <div className="p-3 sm:p-5 space-y-3 sm:space-y-4 min-w-0">
           <div>
             <div className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
               Tuesday, May 5
             </div>
-            <div className="font-display text-xl mt-1">
+            <div className="font-display text-lg sm:text-xl mt-1">
               Good morning,{" "}
               <span className="italic text-primary">Sunrise Yoga</span>
             </div>
           </div>
 
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             <Stat icon={<IconUsers className="size-3" />} label="Members" value="248" />
             <Stat icon={<IconUserCheck className="size-3" />} label="Active" value="186" />
             <Stat icon={<IconCalendarMonth className="size-3" />} label="Today" value="6" />
@@ -63,11 +63,11 @@ export function DashboardPreview() {
           </div>
 
           <div className="rounded-lg border border-border bg-card overflow-hidden">
-            <div className="px-4 py-2.5 border-b border-border bg-secondary/30 flex items-center justify-between">
+            <div className="px-3 sm:px-4 py-2.5 border-b border-border bg-secondary/30 flex items-center justify-between gap-2">
               <div className="text-[11px] font-medium">
                 Today&apos;s schedule
               </div>
-              <div className="text-[9px] text-muted-foreground">
+              <div className="text-[9px] text-muted-foreground shrink-0">
                 6 classes · 92 booked
               </div>
             </div>
@@ -150,8 +150,8 @@ function ScheduleRow({
 }) {
   const pct = (booked / cap) * 100;
   return (
-    <li className="px-4 py-2 flex items-center gap-3">
-      <div className="w-9">
+    <li className="px-3 sm:px-4 py-2 flex items-center gap-2 sm:gap-3 min-w-0">
+      <div className="w-9 shrink-0">
         <div className="font-display text-[11px] tabular-nums leading-none">
           {time}
         </div>
@@ -160,18 +160,18 @@ function ScheduleRow({
         </div>
       </div>
       <span
-        className="w-0.5 h-7 rounded-full"
+        className="w-0.5 h-7 rounded-full shrink-0"
         style={{ backgroundColor: color }}
       />
       <div className="flex-1 min-w-0">
         <div className="font-medium truncate">{name}</div>
-        <div className="text-[9px] text-muted-foreground">{who}</div>
+        <div className="text-[9px] text-muted-foreground truncate">{who}</div>
       </div>
-      <div className="text-right">
+      <div className="text-right shrink-0">
         <div className="text-[10px] font-medium tabular-nums">
           {booked}/{cap}
         </div>
-        <div className="w-12 h-0.5 rounded-full bg-secondary mt-1 overflow-hidden">
+        <div className="w-10 sm:w-12 h-0.5 rounded-full bg-secondary mt-1 overflow-hidden">
           <div
             className="h-full rounded-full bg-primary"
             style={{ width: `${pct}%` }}
@@ -179,7 +179,7 @@ function ScheduleRow({
         </div>
       </div>
       {full && (
-        <span className="text-[8px] uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-1.5 py-0.5">
+        <span className="hidden sm:inline text-[8px] uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-1.5 py-0.5 shrink-0">
           full
         </span>
       )}

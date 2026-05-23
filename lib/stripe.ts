@@ -16,11 +16,13 @@ export async function getPlatformStripe(): Promise<Stripe | null> {
 }
 
 export async function getPlatformBillingProvider(): Promise<
-  "razorpay" | "stripe"
+  "razorpay" | "stripe" | "paypal"
 > {
   const v = (await getSecret("platform_billing_provider"))?.toLowerCase();
   if (v === "stripe") return "stripe";
-  return "razorpay";
+  if (v === "razorpay") return "razorpay";
+  // Default: PayPal. Most globally-friendly and the new platform default.
+  return "paypal";
 }
 
 export async function isPlatformStripeConfigured(): Promise<boolean> {

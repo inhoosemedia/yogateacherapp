@@ -141,8 +141,54 @@ export async function updateStudioStripe(input: {
   revalidatePath(`/book/${s.slug}/packages`);
 }
 
-export async function setActiveProvider(provider: "razorpay" | "stripe") {
-  if (provider !== "razorpay" && provider !== "stripe") {
+export async function updateStudioPayPal(input: {
+  clientId: string;
+  clientSecret: string;
+  webhookId: string;
+  mode: "live" | "sandbox";
+}) {
+  const { studio: s } = await requireStudio();
+  const patch: {
+    studioPaypalClientId: string | null;
+    studioPaypalMode: string;
+    studioPaypalClientSecret?: string | null;
+    studioPaypalWebhookId?: string | null;
+  } = {
+    studioPaypalClientId: input.clientId.trim() || null,
+    studioPaypalMode: input.mode === "sandbox" ? "sandbox" : "live",
+  };
+  if (input.clientSecret !== "__keep__") {
+    patch.studioPaypalClientSecret = input.clientSecret.trim() || null;
+  }
+  if (input.webhookId !== "__keep__") {
+    patch.studioPaypalWebhookId = input.webhookId.trim() || null;
+  }
+  await db.update(studio).set(patch).where(eq(studio.id, s.id));
+  // PayPal is the default — if no provider is active yet and PayPal just got
+  // configured, make it the active provider.
+  const finalClientId = patch.studioPaypalClientId;
+  const finalClientSecret =
+    patch.studioPaypalClientSecret !== undefined
+      ? patch.studioPaypalClientSecret
+      : "kept";
+  if (!s.studioPaymentProvider && finalClientId && finalClientSecret) {
+    await db
+      .update(studio)
+      .set({ studioPaymentProvider: "paypal" })
+      .where(eq(studio.id, s.id));
+  }
+  revalidatePath("/dashboard/settings/payments");
+  revalidatePath(`/book/${s.slug}/packages`);
+}
+
+export async function setActiveProvider(
+  provider: "paypal" | "razorpay" | "stripe",
+) {
+  if (
+    provider !== "paypal" &&
+    provider !== "razorpay" &&
+    provider !== "stripe"
+  ) {
     throw new Error("Invalid provider");
   }
   const { studio: s } = await requireStudio();
@@ -153,6 +199,8 @@ export async function setActiveProvider(provider: "razorpay" | "stripe") {
       razorpayKeySecret: studio.studioRazorpayKeySecret,
       stripeSecretKey: studio.studioStripeSecretKey,
       stripePublishableKey: studio.studioStripePublishableKey,
+      paypalClientId: studio.studioPaypalClientId,
+      paypalClientSecret: studio.studioPaypalClientSecret,
     })
     .from(studio)
     .where(eq(studio.id, s.id))
@@ -165,6 +213,12 @@ export async function setActiveProvider(provider: "razorpay" | "stripe") {
     !(row?.stripeSecretKey && row?.stripePublishableKey)
   ) {
     throw new Error("Configure Stripe credentials first");
+  }
+  if (
+    provider === "paypal" &&
+    !(row?.paypalClientId && row?.paypalClientSecret)
+  ) {
+    throw new Error("Configure PayPal credentials first");
   }
   await db
     .update(studio)

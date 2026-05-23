@@ -27,7 +27,10 @@ type RazorpayOptions = {
   order_id: string;
   prefill: { name?: string; email?: string; contact?: string };
   theme?: { color?: string };
-  handler?: (resp: { razorpay_payment_id: string; razorpay_order_id: string }) => void;
+  handler?: (resp: {
+    razorpay_payment_id: string;
+    razorpay_order_id: string;
+  }) => void;
   modal?: { ondismiss?: () => void };
 };
 
@@ -59,7 +62,7 @@ export function BuyPackageButton({
   packageName: string;
   priceLabel: string;
   enabled: boolean;
-  provider: "razorpay" | "stripe" | null;
+  provider: "paypal" | "razorpay" | "stripe" | null;
 }) {
   const [open, setOpen] = useState(false);
   const [pending, start] = useTransition();
@@ -97,11 +100,7 @@ export function BuyPackageButton({
         setDone(true);
         toast.success("Payment successful — your package is ready!");
       },
-      modal: {
-        ondismiss: () => {
-          // No state change needed.
-        },
-      },
+      modal: { ondismiss: () => {} },
     });
     rp.open();
   };
@@ -117,16 +116,32 @@ export function BuyPackageButton({
       toast.error(data?.error ?? "Could not start checkout");
       return;
     }
-    // Redirect to Stripe Checkout. On success Stripe sends them back to
-    // /book/{slug}/packages?paid=1 — the page reads that and shows confirmation.
     window.location.href = data.url;
+  };
+
+  const submitPayPal = async () => {
+    const r = await fetch("/api/checkout/paypal", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ studioSlug, packageId, fullName, email, phone }),
+    });
+    const data = await r.json();
+    if (!r.ok || !data.approveUrl) {
+      toast.error(data?.error ?? "Could not start checkout");
+      return;
+    }
+    // PayPal redirect — the public packages page reads ?paypal_order=<id> on
+    // return and POSTs to /api/checkout/paypal/capture to finalise.
+    window.location.href = data.approveUrl;
   };
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     start(async () => {
       try {
-        if (provider === "stripe") {
+        if (provider === "paypal") {
+          await submitPayPal();
+        } else if (provider === "stripe") {
           await submitStripe();
         } else {
           await submitRazorpay();
@@ -147,6 +162,13 @@ export function BuyPackageButton({
       </div>
     );
   }
+
+  const providerName =
+    provider === "paypal"
+      ? "PayPal"
+      : provider === "stripe"
+        ? "Stripe"
+        : "Razorpay";
 
   return (
     <>
@@ -211,9 +233,7 @@ export function BuyPackageButton({
               {pending ? "Loading…" : `Pay ${priceLabel}`}
             </Button>
             <p className="text-[11px] text-center text-muted-foreground">
-              Secured by{" "}
-              {provider === "stripe" ? "Stripe" : "Razorpay"} · payment goes
-              directly to the studio.
+              Secured by {providerName} · payment goes directly to the studio.
             </p>
           </form>
         </DialogContent>
