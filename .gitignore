@@ -44,3 +44,6 @@ next-env.d.ts
 AuthKey_8LYJ3Y87D4.p8
 # Demo video / screenshots output
 demo-output/
+
+# Customer (Inhoose Media) production credentials — never commit
+customer-credentials/
