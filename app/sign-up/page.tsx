@@ -36,7 +36,9 @@ function SignUpContent() {
       toast.error(error.message || "Sign up failed");
       return;
     }
-    trackSignUp();
+    // Wait for the Google Ads conversion beacon to fire (or 800ms timeout)
+    // before navigating, otherwise the browser may kill the request mid-flight.
+    await trackSignUp();
     router.push(returnTo);
     router.refresh();
   };
