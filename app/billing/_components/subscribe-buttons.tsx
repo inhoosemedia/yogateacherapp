@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { trackSubscription } from "@/lib/gtag";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
@@ -28,6 +29,11 @@ export function SubscribeButtons({
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || "Could not start checkout");
         if (data.shortUrl) {
+          // Fire the intent-to-subscribe event before we leave the page —
+          // the actual conversion lands on /billing?paid=1 via the platform
+          // webhook, but capturing the click here gives Google Ads a useful
+          // upper-funnel signal.
+          trackSubscription(tier);
           window.location.href = data.shortUrl;
         } else {
           throw new Error("No checkout URL returned");

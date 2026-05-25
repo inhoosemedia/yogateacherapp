@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { trackPurchase } from "@/lib/gtag";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
@@ -54,6 +55,8 @@ export function BuyPackageButton({
   packageId,
   packageName,
   priceLabel,
+  priceCents,
+  currency,
   enabled,
   provider,
 }: {
@@ -61,9 +64,12 @@ export function BuyPackageButton({
   packageId: string;
   packageName: string;
   priceLabel: string;
+  priceCents: number;
+  currency: string;
   enabled: boolean;
   provider: "paypal" | "razorpay" | "stripe" | null;
 }) {
+  const priceValue = priceCents / 100;
   const [open, setOpen] = useState(false);
   const [pending, start] = useTransition();
   const [fullName, setFullName] = useState("");
@@ -96,7 +102,14 @@ export function BuyPackageButton({
       order_id: data.orderId,
       prefill: { name: fullName, email, contact: phone },
       theme: { color: "#3f5141" },
-      handler: () => {
+      handler: (resp) => {
+        trackPurchase({
+          value: priceValue,
+          currency,
+          packageName,
+          provider: "razorpay",
+          transactionId: resp.razorpay_payment_id,
+        });
         setDone(true);
         toast.success("Payment successful — your package is ready!");
       },
@@ -116,6 +129,16 @@ export function BuyPackageButton({
       toast.error(data?.error ?? "Could not start checkout");
       return;
     }
+    // Best-effort intent signal before the redirect. The real "purchase"
+    // event fires from the PackageConversionFire component when the user
+    // lands back on ?paid=1 (Stripe's redirect destination).
+    trackPurchase({
+      value: priceValue,
+      currency,
+      packageName,
+      provider: "stripe",
+      transactionId: data.sessionId,
+    });
     window.location.href = data.url;
   };
 
@@ -130,8 +153,8 @@ export function BuyPackageButton({
       toast.error(data?.error ?? "Could not start checkout");
       return;
     }
-    // PayPal redirect — the public packages page reads ?paypal_order=<id> on
-    // return and POSTs to /api/checkout/paypal/capture to finalise.
+    // PayPal redirect — the actual purchase event fires from PayPalCapture
+    // when the capture endpoint confirms success.
     window.location.href = data.approveUrl;
   };
 

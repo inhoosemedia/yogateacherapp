@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { trackBooking } from "@/lib/gtag";
 import {
   IconCheck,
   IconCircleCheck,
@@ -62,7 +63,12 @@ export function BookForm({
         return;
       }
       setResult(r);
-      if (!r.ok) toast.error(r.error);
+      if (!r.ok) {
+        toast.error(r.error);
+      } else if (!r.waitlisted) {
+        // Only count an actual booking as a conversion (not a waitlist join).
+        trackBooking(className);
+      }
     });
   };
 

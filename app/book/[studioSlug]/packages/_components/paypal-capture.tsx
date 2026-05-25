@@ -1,5 +1,6 @@
 "use client";
 
+import { trackPurchase } from "@/lib/gtag";
 import { IconCircleCheck, IconLoader2 } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -41,6 +42,15 @@ export function PayPalCapture({
           return;
         }
         setState("done");
+        // Fire the conversion. The capture endpoint doesn't return amount/
+        // currency so we send the event without monetary details — Google
+        // Ads still credits the conversion and can build audiences from it.
+        trackPurchase({
+          value: 0,
+          currency: "USD",
+          provider: "paypal",
+          transactionId: orderId,
+        });
         // Clean the URL so a refresh doesn't re-run capture
         router.replace(`/book/${studioSlug}/packages?paid=1`);
       } catch (e) {

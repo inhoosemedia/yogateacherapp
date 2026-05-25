@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/auth-client";
+import { trackSignUp } from "@/lib/gtag";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
@@ -35,6 +36,7 @@ function SignUpContent() {
       toast.error(error.message || "Sign up failed");
       return;
     }
+    trackSignUp();
     router.push(returnTo);
     router.refresh();
   };

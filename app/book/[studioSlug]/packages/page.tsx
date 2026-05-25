@@ -180,6 +180,8 @@ export default async function PublicPackagesPage({
                     packageId={p.id}
                     packageName={p.name}
                     priceLabel={formatMoney(p.priceCents, p.currency)}
+                    priceCents={p.priceCents}
+                    currency={p.currency}
                     enabled={acceptsPayments}
                     provider={provider}
                   />

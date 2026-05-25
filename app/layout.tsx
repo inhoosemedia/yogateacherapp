@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from "@/components/google-analytics";
 import { Toaster } from "@/components/ui/sonner";
 import { Fraunces, Inter } from "next/font/google";
 import type { Metadata } from "next";
@@ -60,6 +61,7 @@ export default function RootLayout({
           {children}
           <Toaster position="top-right" richColors />
         </ThemeProvider>
+        <GoogleAnalytics />
       </body>
     </html>
   );
