@@ -90,6 +90,7 @@ export default async function SettingsPage() {
               name: studio.name,
               timezone: studio.timezone,
               currency: studio.currency,
+              logoUrl: studio.logoUrl,
             }}
           />
         </CardContent>

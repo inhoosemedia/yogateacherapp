@@ -1,322 +1,256 @@
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 
+export const metadata = {
+  title: "Terms of Service",
+  description:
+    "Terms of service for YogaTeacher (yogateacherapp.com).",
+};
+
 export default function TermsOfService() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950">
-      <div className="container mx-auto px-4 py-16 max-w-4xl">
+    <main className="min-h-screen bg-canvas canvas-grain">
+      <div className="container mx-auto px-4 py-16 max-w-3xl">
         <div className="mb-8">
           <Link
             href="/"
-            className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             ← Back to home
           </Link>
         </div>
 
-        <Card className="shadow-xl border-0">
+        <Card>
           <CardContent className="p-8 md:p-12">
-            <h1 className="text-3xl md:text-4xl font-bold mb-8">
+            <div className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground mb-3">
+              YogaTeacher · yogateacherapp.com
+            </div>
+            <h1 className="font-display text-4xl md:text-5xl tracking-tight mb-3">
               Terms of Service
             </h1>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-8">
-              Last updated: {new Date().toLocaleDateString()}
+            <p className="text-sm text-muted-foreground mb-10">
+              Last updated: 25 May 2026
             </p>
 
-            <div className="space-y-8 text-gray-700 dark:text-gray-300">
+            <div className="space-y-8 text-foreground/90 leading-relaxed">
               <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  1. Acceptance of Terms
-                </h2>
-                <p className="leading-relaxed">
-                  By accessing and using Apple Pass (&apos;Service&apos;), you
-                  accept and agree to be bound by the terms and provisions of
-                  this agreement. If you do not agree to abide by the above,
-                  please do not use this Service.
+                <p>
+                  These Terms govern your use of{" "}
+                  <strong>Yoga Teacher App</strong> at{" "}
+                  <a
+                    href="https://www.yogateacherapp.com"
+                    className="text-primary hover:underline"
+                  >
+                    yogateacherapp.com
+                  </a>{" "}
+                  (the &ldquo;<strong>Service</strong>&rdquo;), operated by
+                  Inhoose Media (&ldquo;<strong>we</strong>,&rdquo; &ldquo;
+                  <strong>us</strong>,&rdquo; &ldquo;
+                  <strong>YogaTeacher</strong>&rdquo;). By creating an account,
+                  scheduling a class, accepting an invitation, or paying for a
+                  package, you agree to these Terms.
                 </p>
               </section>
 
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  2. Description of Service
-                </h2>
-                <p className="leading-relaxed">
-                  Apple Pass provides a platform for creating, managing, and
-                  distributing digital passes for Apple Wallet. Our Service
-                  includes tools for designing passes, managing pass data,
-                  tracking pass usage, and sending push notifications to pass
-                  holders.
+              <Section title="1. The Service">
+                <p>
+                  YogaTeacher is a software-as-a-service platform that lets
+                  yoga studios and independent teachers run their day-to-day
+                  business: members, classes, packages, public booking,
+                  recurring schedules, instructor portal, waitlists,
+                  transactional email, and member payments (via PayPal, Stripe,
+                  or Razorpay). We don&apos;t teach yoga and we don&apos;t hold
+                  member funds — payments settle directly from members to the
+                  studio&apos;s own payment account.
                 </p>
-              </section>
+              </Section>
 
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  3. User Accounts
-                </h2>
-                <div className="space-y-3">
-                  <p className="leading-relaxed">
-                    To use certain features of the Service, you must register
-                    for an account. When you register for an account, you agree
-                    to:
-                  </p>
-                  <ul className="list-disc list-inside space-y-1 ml-4">
-                    <li>Provide accurate, current, and complete information</li>
-                    <li>
-                      Maintain and update your information to keep it accurate
-                      and complete
-                    </li>
-                    <li>Maintain the security of your account credentials</li>
-                    <li>
-                      Accept responsibility for all activities that occur under
-                      your account
-                    </li>
-                    <li>
-                      Notify us immediately of any unauthorized use of your
-                      account
-                    </li>
-                  </ul>
-                </div>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  4. Subscription and Payment
-                </h2>
-                <div className="space-y-3">
-                  <p className="leading-relaxed">
-                    Some aspects of our Service are provided on a subscription
-                    basis. By subscribing, you agree to:
-                  </p>
-                  <ul className="list-disc list-inside space-y-1 ml-4">
-                    <li>
-                      Pay all applicable fees as described in our pricing plans
-                    </li>
-                    <li>
-                      Provide current, complete, and accurate billing
-                      information
-                    </li>
-                    <li>
-                      Authorize us to charge your payment method on a recurring
-                      basis
-                    </li>
-                    <li>
-                      Be responsible for all charges incurred under your account
-                    </li>
-                  </ul>
-                  <p className="leading-relaxed mt-3">
-                    Subscription fees are non-refundable except as required by
-                    law. We reserve the right to change our subscription plans
-                    or adjust pricing with 30 days&apos; notice.
-                  </p>
-                </div>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  5. User Responsibilities and Conduct
-                </h2>
-                <div className="space-y-3">
-                  <p className="leading-relaxed">
-                    You agree to use the Service only for lawful purposes and in
-                    accordance with these Terms. You agree not to:
-                  </p>
-                  <ul className="list-disc list-inside space-y-1 ml-4">
-                    <li>
-                      Use the Service in any way that violates any applicable
-                      laws or regulations
-                    </li>
-                    <li>
-                      Create passes that contain false, misleading, or
-                      fraudulent information
-                    </li>
-                    <li>
-                      Impersonate any person or entity or misrepresent your
-                      affiliation
-                    </li>
-                    <li>
-                      Upload or transmit viruses or any other type of malicious
-                      code
-                    </li>
-                    <li>
-                      Attempt to gain unauthorized access to any portion of the
-                      Service
-                    </li>
-                    <li>Interfere with or disrupt the Service or servers</li>
-                    <li>
-                      Use the Service to send spam or unsolicited communications
-                    </li>
-                    <li>Violate the privacy rights of others</li>
-                  </ul>
-                </div>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  6. Intellectual Property Rights
-                </h2>
-                <div className="space-y-3">
-                  <h3 className="text-lg font-medium mb-2">
-                    Our Intellectual Property
-                  </h3>
-                  <p className="leading-relaxed">
-                    The Service and its original content, features, and
-                    functionality are owned by Apple Pass and are protected by
-                    international copyright, trademark, patent, trade secret,
-                    and other intellectual property laws.
-                  </p>
-
-                  <h3 className="text-lg font-medium mb-2 mt-4">
-                    Your Content
-                  </h3>
-                  <p className="leading-relaxed">
-                    You retain ownership of any content you create using our
-                    Service. By using our Service, you grant us a worldwide,
-                    non-exclusive, royalty-free license to use, reproduce, and
-                    display your content solely for the purpose of providing the
-                    Service to you.
-                  </p>
-                </div>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  7. Privacy
-                </h2>
-                <p className="leading-relaxed">
-                  Your use of our Service is also governed by our Privacy
-                  Policy. Please review our Privacy Policy, which also governs
-                  the Site and informs users of our data collection practices.
+              <Section title="2. Accounts">
+                <p>
+                  You must provide accurate signup information and keep your
+                  password secure. You are responsible for everything done under
+                  your account. Studios may invite teammates and instructors;
+                  invited users get role-scoped access (admin, staff, or
+                  instructor) and are bound by these Terms.
                 </p>
-              </section>
+              </Section>
 
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  8. Disclaimers
-                </h2>
-                <div className="space-y-3">
-                  <p className="leading-relaxed uppercase font-medium">
-                    The Service is provided on an &aposAS IS&apos and &aposAS
-                    AVAILABLE&apos basis without warranties of any kind, either
-                    express or implied, including but not limited to:
-                  </p>
-                  <ul className="list-disc list-inside space-y-1 ml-4">
-                    <li>Warranties of merchantability</li>
-                    <li>Fitness for a particular purpose</li>
-                    <li>Non-infringement</li>
-                    <li>
-                      That the Service will be uninterrupted or error-free
-                    </li>
-                    <li>That defects will be corrected</li>
-                    <li>
-                      That the Service is free of viruses or harmful components
-                    </li>
-                  </ul>
-                </div>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  9. Limitation of Liability
-                </h2>
-                <p className="leading-relaxed uppercase font-medium">
-                  To the maximum extent permitted by law, Apple Pass shall not
-                  be liable for any indirect, incidental, special,
-                  consequential, or punitive damages, or any loss of profits or
-                  revenues, whether incurred directly or indirectly, or any loss
-                  of data, use, goodwill, or other intangible losses resulting
-                  from:
+              <Section title="3. Free trial and subscriptions">
+                <p>
+                  New studios get a 30-day free trial with no card required.
+                  After the trial, continued use requires an active
+                  subscription via your chosen payment provider. Subscriptions
+                  renew monthly until cancelled. Cancelling stops further
+                  charges; access is retained until the end of the paid period.
                 </p>
-                <ul className="list-disc list-inside space-y-1 ml-4 mt-3">
-                  <li>Your use or inability to use the Service</li>
-                  <li>Any unauthorized access to or use of our servers</li>
+                <p>
+                  Prices shown on the public site are exclusive of any local
+                  taxes that may apply. We may change prices with at least 30
+                  days&apos; notice; you can cancel before the new price takes
+                  effect.
+                </p>
+              </Section>
+
+              <Section title="4. Member payments (studio-direct)">
+                <p>
+                  If you enable online payment for packages, your members pay
+                  the studio&apos;s own PayPal, Stripe, or Razorpay account.
+                  We do not touch the funds and do not take a cut of member
+                  payments. Refunds, chargebacks, and disputes are handled
+                  between the studio, the member, and the payment provider —
+                  YogaTeacher is not party to those transactions.
+                </p>
+              </Section>
+
+              <Section title="5. Acceptable use">
+                <p>You agree not to:</p>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>Send spam or unsolicited bulk email through the platform.</li>
                   <li>
-                    Any interruption or cessation of transmission to or from the
-                    Service
+                    Upload data you don&apos;t have the right to (members&apos;
+                    personal information beyond what your business needs, etc.).
                   </li>
                   <li>
-                    Any bugs, viruses, or similar harmful code transmitted
-                    through the Service
+                    Attempt to access other studios&apos; data, reverse-engineer
+                    the platform, or probe for vulnerabilities.
                   </li>
-                  <li>Any errors or omissions in any content</li>
+                  <li>
+                    Use the service for anything unlawful, infringing, or
+                    fraudulent.
+                  </li>
                 </ul>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  10. Indemnification
-                </h2>
-                <p className="leading-relaxed">
-                  You agree to defend, indemnify, and hold harmless Apple Pass
-                  and its affiliates, officers, directors, employees, and agents
-                  from and against any claims, liabilities, damages, judgments,
-                  awards, losses, costs, expenses, or fees arising out of or
-                  relating to your violation of these Terms or your use of the
-                  Service.
+                <p className="mt-3">
+                  We may suspend or terminate accounts that violate these rules.
+                  Abuse reports:{" "}
+                  <a
+                    href="mailto:hello@yogateacherapp.com"
+                    className="text-primary hover:underline"
+                  >
+                    hello@yogateacherapp.com
+                  </a>
+                  .
                 </p>
-              </section>
+              </Section>
 
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  11. Termination
-                </h2>
-                <p className="leading-relaxed">
-                  We may terminate or suspend your account and bar access to the
-                  Service immediately, without prior notice or liability, under
-                  our sole discretion, for any reason whatsoever, including
-                  without limitation if you breach the Terms. Upon termination,
-                  your right to use the Service will cease immediately.
+              <Section title="6. Your data">
+                <p>
+                  You retain ownership of all data you put into YogaTeacher
+                  (members, classes, packages, notes, etc.). We use that data
+                  only to run the service for you. CSV exports are available at
+                  any time under <em>Members</em>, <em>Classes</em>, and{" "}
+                  <em>Reports</em>. Deletion is handled per our{" "}
+                  <Link
+                    href="/privacy-policy"
+                    className="text-primary hover:underline"
+                  >
+                    Privacy Policy
+                  </Link>
+                  .
                 </p>
-              </section>
+              </Section>
 
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  12. Governing Law
-                </h2>
-                <p className="leading-relaxed">
-                  These Terms shall be governed and construed in accordance with
-                  the laws of [Your Jurisdiction], without regard to its
-                  conflict of law provisions. Our failure to enforce any right
-                  or provision of these Terms will not be considered a waiver of
-                  those rights.
+              <Section title="7. Availability and changes">
+                <p>
+                  We aim for high availability but do not guarantee 100% uptime.
+                  We may add, change, or remove features as the product evolves.
+                  Material removals to paid features will be announced at least
+                  30 days in advance.
                 </p>
-              </section>
+              </Section>
 
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  13. Changes to Terms
-                </h2>
-                <p className="leading-relaxed">
-                  We reserve the right, at our sole discretion, to modify or
-                  replace these Terms at any time. If a revision is material, we
-                  will provide at least 30 days notice prior to any new terms
-                  taking effect.
+              <Section title="8. Disclaimers">
+                <p>
+                  The Service is provided &ldquo;as is&rdquo; without warranties
+                  of any kind. We don&apos;t warrant that the Service will be
+                  uninterrupted, error-free, or perfectly secure. Use of the
+                  Service is at your own risk.
                 </p>
-              </section>
+              </Section>
 
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  14. Contact Information
-                </h2>
-                <p className="leading-relaxed">
-                  If you have any questions about these Terms, please contact us
-                  at:
+              <Section title="9. Liability">
+                <p>
+                  To the maximum extent permitted by law, YogaTeacher, Inhoose
+                  Media, and their suppliers will not be liable for any
+                  indirect, incidental, special, consequential, or punitive
+                  damages — including lost revenue or data — arising from your
+                  use of the Service. Our total liability for any claim is
+                  capped at the amount you paid us in the 12 months preceding
+                  the claim (or, if you haven&apos;t paid us anything, US$50).
                 </p>
-                <div className="mt-3 space-y-1">
-                  <p>Email: legal@applepass.com</p>
-                  <p>Address: [Your Company Address]</p>
-                </div>
-              </section>
+              </Section>
 
-              <section className="pt-8 border-t border-gray-200 dark:border-gray-700">
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  By using Apple Pass, you acknowledge that you have read,
-                  understood, and agree to be bound by these Terms of Service.
+              <Section title="10. Indemnity">
+                <p>
+                  You agree to indemnify and hold us harmless from claims
+                  arising out of (a) your use of the Service in violation of
+                  these Terms, (b) data you upload that infringes someone
+                  else&apos;s rights, or (c) your dealings with your own
+                  members, employees, or instructors.
                 </p>
-              </section>
+              </Section>
+
+              <Section title="11. Termination">
+                <p>
+                  You can cancel any time by contacting{" "}
+                  <a
+                    href="mailto:hello@yogateacherapp.com"
+                    className="text-primary hover:underline"
+                  >
+                    hello@yogateacherapp.com
+                  </a>{" "}
+                  or via your subscription portal. We may suspend or terminate
+                  your account if you violate these Terms or fail to pay. On
+                  termination, sections 6, 8, 9, 10, and 12 survive.
+                </p>
+              </Section>
+
+              <Section title="12. Governing law">
+                <p>
+                  These Terms are governed by the laws of England and Wales.
+                  Disputes will be resolved in the courts of that jurisdiction
+                  unless local consumer-protection law gives you the right to
+                  bring a claim in your country of residence.
+                </p>
+              </Section>
+
+              <Section title="13. Contact">
+                <p>
+                  <strong>Yoga Teacher App</strong> by Inhoose Media
+                  <br />
+                  <a
+                    href="mailto:hello@yogateacherapp.com"
+                    className="text-primary hover:underline"
+                  >
+                    hello@yogateacherapp.com
+                  </a>
+                  <br />
+                  <a
+                    href="https://www.yogateacherapp.com"
+                    className="text-primary hover:underline"
+                  >
+                    yogateacherapp.com
+                  </a>
+                </p>
+              </Section>
             </div>
           </CardContent>
         </Card>
       </div>
-    </div>
+    </main>
+  );
+}
+
+function Section({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section>
+      <h2 className="font-display text-2xl tracking-tight mb-3">{title}</h2>
+      <div className="space-y-3">{children}</div>
+    </section>
   );
 }

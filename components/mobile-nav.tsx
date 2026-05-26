@@ -14,10 +14,12 @@ import { useEffect, useState } from "react";
 export function MobileNav({
   studioName,
   eyebrow = "Studio",
+  logoUrl,
   children,
 }: {
   studioName: string;
   eyebrow?: string;
+  logoUrl?: string | null;
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -72,9 +74,18 @@ export function MobileNav({
       >
         <div className="flex h-[60px] items-center justify-between border-b border-border px-4">
           <div className="flex items-center gap-2.5 min-w-0">
-            <span className="size-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center shadow-sm shrink-0">
-              <BrandMark size={18} />
-            </span>
+            {logoUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={logoUrl}
+                alt={studioName}
+                className="size-8 rounded-lg object-contain bg-card shadow-sm shrink-0"
+              />
+            ) : (
+              <span className="size-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center shadow-sm shrink-0">
+                <BrandMark size={18} />
+              </span>
+            )}
             <div className="min-w-0">
               <div className="font-display text-[15px] leading-tight truncate">
                 {studioName}

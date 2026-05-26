@@ -72,16 +72,31 @@ export function DashboardNavBody() {
   );
 }
 
-export default function DashboardSideBar({ studioName }: { studioName: string }) {
+export default function DashboardSideBar({
+  studioName,
+  logoUrl,
+}: {
+  studioName: string;
+  logoUrl?: string | null;
+}) {
   return (
     <aside className="hidden lg:flex w-[260px] shrink-0 border-r border-border bg-sidebar flex-col">
       <Link
         href="/dashboard"
         className="flex h-[60px] items-center gap-2.5 border-b border-border px-5 group"
       >
-        <span className="size-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center shadow-sm">
-          <BrandMark size={18} />
-        </span>
+        {logoUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={logoUrl}
+            alt={studioName}
+            className="size-8 rounded-lg object-contain bg-card shadow-sm"
+          />
+        ) : (
+          <span className="size-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center shadow-sm">
+            <BrandMark size={18} />
+          </span>
+        )}
         <div className="min-w-0">
           <div className="font-display text-[15px] leading-tight truncate">
             {studioName}

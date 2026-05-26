@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
@@ -7,30 +7,38 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 
 export default function ModeToggle() {
-    const { theme, setTheme } = useTheme();
-    const [mounted, setMounted] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-    // After mounting, we have access to the theme
-    useEffect(() => setMounted(true), []);
+  // next-themes is client-only; wait for hydration before rendering so we
+  // don't flash the wrong icon.
+  useEffect(() => setMounted(true), []);
 
-    if (!mounted) {
-        // Render nothing on the server and until the theme is mounted
-        return null;
-    }
-
+  if (!mounted) {
     return (
-        <div>
-            {theme === "dark" ? (
-                <Button variant="ghost" className="hover:bg-inherit border-zinc-900 bg-[#0c0c0d]" size="icon" onClick={() => setTheme("light")}>
-                    <Sun className="w-5 h-5" />
-                    <span className="sr-only">Toggle theme</span>
-                </Button>
-            ) : (
-                <Button variant="ghost" size="icon" className="hover:bg-inherit border-zinc-100 bg-inherit" onClick={() => setTheme("dark")}>
-                    <Moon className="w-5 h-5" />
-                    <span className="sr-only">Toggle theme</span>
-                </Button>
-            )}
-        </div>
+      <Button
+        variant="ghost"
+        size="icon"
+        aria-hidden
+        className="opacity-0 pointer-events-none"
+      >
+        <Sun className="size-4" />
+      </Button>
     );
+  }
+
+  const isDark = resolvedTheme === "dark";
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
+      title={isDark ? "Switch to light theme" : "Switch to dark theme"}
+      className="text-muted-foreground hover:text-foreground hover:bg-secondary/60"
+    >
+      {isDark ? <Sun className="size-4" /> : <Moon className="size-4" />}
+      <span className="sr-only">Toggle theme</span>
+    </Button>
+  );
 }

@@ -8,16 +8,18 @@ type Studio = { id: string; name: string; role: string };
 
 export default function DashboardTopNav({
   studioName,
+  logoUrl,
   active,
   studios,
 }: {
   studioName: string;
+  logoUrl?: string | null;
   active?: { id: string; name: string };
   studios?: Studio[];
 }) {
   return (
     <header className="sticky top-0 z-20 flex h-[60px] items-center gap-3 border-b border-border bg-canvas/85 backdrop-blur-md px-4 sm:px-6">
-      <MobileNav studioName={studioName}>
+      <MobileNav studioName={studioName} logoUrl={logoUrl ?? null}>
         <DashboardNavBody />
       </MobileNav>
       <Breadcrumbs studioName={studioName} />

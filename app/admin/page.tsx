@@ -8,9 +8,12 @@ import {
   studio,
   user,
 } from "@/db/schema";
+import { formatMoney } from "@/lib/format";
+import { getPlatformConfig } from "@/lib/platform";
 import {
   IconBuildingStore,
   IconCalendarMonth,
+  IconCash,
   IconUsers,
   IconUsersGroup,
 } from "@tabler/icons-react";
@@ -26,6 +29,8 @@ export default async function AdminOverview() {
     [trialing],
     [active],
     [past],
+    activeByTier,
+    cfg,
   ] = await Promise.all([
     db.select({ c: sql<number>`count(*)::int` }).from(studio),
     db.select({ c: sql<number>`count(*)::int` }).from(user),
@@ -44,7 +49,28 @@ export default async function AdminOverview() {
       .select({ c: sql<number>`count(*)::int` })
       .from(studio)
       .where(sql`${studio.subscriptionStatus} = 'trialing' and ${studio.trialEndsAt} <= now()`),
+    // Active subs grouped by plan tier — used to compute MRR
+    db
+      .select({
+        tier: studio.planTier,
+        c: sql<number>`count(*)::int`,
+      })
+      .from(studio)
+      .where(sql`${studio.subscriptionStatus} = 'active'`)
+      .groupBy(studio.planTier),
+    getPlatformConfig(),
   ]);
+
+  // MRR = (count of active studios on Studio plan × price) + (count on Multi
+  // plan × price). Studios with no planTier set are assumed Studio tier.
+  let mrrCents = 0;
+  for (const row of activeByTier) {
+    const cents =
+      row.tier === "multi_studio"
+        ? cfg.priceMultiCents
+        : cfg.priceStudioCents;
+    mrrCents += cents * row.c;
+  }
 
   return (
     <div className="space-y-8">
@@ -82,10 +108,29 @@ export default async function AdminOverview() {
         />
       </div>
 
-      <div className="grid sm:grid-cols-3 gap-4">
-        <SubBox label="Active subscriptions" value={active.c} tone="emerald" />
-        <SubBox label="In free trial" value={trialing.c} tone="amber" />
-        <SubBox label="Trial expired" value={past.c} tone="rose" />
+      {/* MRR — derived from active subscriptions × platform plan prices. */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="sm:col-span-1 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/[0.06] via-card to-card p-5">
+          <div className="flex items-start justify-between gap-3">
+            <div className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground font-medium">
+              MRR
+            </div>
+            <div className="size-8 rounded-lg bg-primary/15 text-primary flex items-center justify-center">
+              <IconCash className="size-4" />
+            </div>
+          </div>
+          <div className="mt-3 font-display text-3xl tracking-tight">
+            {formatMoney(mrrCents, cfg.currency)}
+          </div>
+          <div className="mt-1 text-xs text-muted-foreground">
+            {active.c} active {active.c === 1 ? "subscription" : "subscriptions"}
+          </div>
+        </div>
+        <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <SubBox label="Active subscriptions" value={active.c} tone="emerald" />
+          <SubBox label="In free trial" value={trialing.c} tone="amber" />
+          <SubBox label="Trial expired" value={past.c} tone="rose" />
+        </div>
       </div>
 
       <div className="text-sm text-muted-foreground">

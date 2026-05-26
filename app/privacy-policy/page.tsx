@@ -1,283 +1,285 @@
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 
+export const metadata = {
+  title: "Privacy Policy",
+  description:
+    "How YogaTeacher (yogateacherapp.com) collects, uses, and protects your information.",
+};
+
 export default function PrivacyPolicy() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950">
-      <div className="container mx-auto px-4 py-16 max-w-4xl">
+    <main className="min-h-screen bg-canvas canvas-grain">
+      <div className="container mx-auto px-4 py-16 max-w-3xl">
         <div className="mb-8">
           <Link
             href="/"
-            className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             ← Back to home
           </Link>
         </div>
 
-        <Card className="shadow-xl border-0">
+        <Card>
           <CardContent className="p-8 md:p-12">
-            <h1 className="text-3xl md:text-4xl font-bold mb-8">
+            <div className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground mb-3">
+              YogaTeacher · yogateacherapp.com
+            </div>
+            <h1 className="font-display text-4xl md:text-5xl tracking-tight mb-3">
               Privacy Policy
             </h1>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-8">
-              Last updated: {new Date().toLocaleDateString()}
+            <p className="text-sm text-muted-foreground mb-10">
+              Last updated: 25 May 2026
             </p>
 
-            <div className="space-y-8 text-gray-700 dark:text-gray-300">
+            <div className="space-y-8 text-foreground/90 leading-relaxed">
               <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  1. Introduction
-                </h2>
-                <p className="leading-relaxed">
-                  Welcome to Nextjs Starter Kit (&aposwe,&apos &aposour,&apos or
-                  &aposus&apos). We are committed to protecting your personal
-                  information and your right to privacy. This Privacy Policy
-                  explains how we collect, use, disclose, and safeguard your
-                  information when you use our service.
+                <p>
+                  This Privacy Policy explains how{" "}
+                  <strong>Yoga Teacher App</strong> (operating{" "}
+                  <a
+                    href="https://www.yogateacherapp.com"
+                    className="text-primary hover:underline"
+                  >
+                    yogateacherapp.com
+                  </a>
+                  , &ldquo;<strong>we</strong>,&rdquo; &ldquo;<strong>us</strong>
+                  ,&rdquo; or &ldquo;<strong>YogaTeacher</strong>&rdquo;)
+                  collects, uses, and shares information when you visit the site,
+                  create a studio, book a class, or pay for a package. By using
+                  the service you agree to the practices described here.
                 </p>
               </section>
 
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  2. Information We Collect
-                </h2>
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="text-lg font-medium mb-2">
-                      Personal Information
-                    </h3>
-                    <p className="leading-relaxed">
-                      When you register for an account, we collect:
-                    </p>
-                    <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
-                      <li>Name</li>
-                      <li>Email address</li>
-                      <li>
-                        Google account information (when using Google Sign-In)
-                      </li>
-                      <li>Organization details</li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-medium mb-2">
-                      Pass Information
-                    </h3>
-                    <p className="leading-relaxed">
-                      When you create Apple Passes, we store:
-                    </p>
-                    <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
-                      <li>Pass content and metadata</li>
-                      <li>Pass templates and designs</li>
-                      <li>Pass usage analytics</li>
-                      <li>Pass installation data</li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-medium mb-2">
-                      Automatically Collected Information
-                    </h3>
-                    <p className="leading-relaxed">
-                      We automatically collect certain information when you use
-                      our service:
-                    </p>
-                    <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
-                      <li>IP address</li>
-                      <li>Browser type and version</li>
-                      <li>Device information</li>
-                      <li>Usage data and analytics</li>
-                    </ul>
-                  </div>
-                </div>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  3. How We Use Your Information
-                </h2>
-                <p className="leading-relaxed mb-3">
-                  We use your information to:
+              <Section title="1. Who we are">
+                <p>
+                  YogaTeacher is a software-as-a-service platform that lets yoga
+                  studios and independent teachers manage members, classes,
+                  packages and bookings. The platform is operated by Inhoose
+                  Media. Questions: write to{" "}
+                  <a
+                    href="mailto:hello@yogateacherapp.com"
+                    className="text-primary hover:underline"
+                  >
+                    hello@yogateacherapp.com
+                  </a>
+                  .
                 </p>
-                <ul className="list-disc list-inside space-y-1 ml-4">
-                  <li>Provide and maintain our service</li>
-                  <li>Create and manage your account</li>
-                  <li>Generate and distribute Apple Passes</li>
-                  <li>Send you important updates and notifications</li>
-                  <li>Respond to your inquiries and support requests</li>
-                  <li>Monitor and analyze usage patterns</li>
-                  <li>Improve our service and develop new features</li>
-                  <li>Comply with legal obligations</li>
-                </ul>
-              </section>
+              </Section>
 
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  4. Data Sharing and Disclosure
-                </h2>
-                <p className="leading-relaxed mb-3">
-                  We may share your information in the following situations:
-                </p>
-                <ul className="list-disc list-inside space-y-1 ml-4">
+              <Section title="2. Information we collect">
+                <p>We collect only what is necessary to run the service:</p>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
                   <li>
-                    <strong>With your consent:</strong> We may share your
-                    information for any purpose with your explicit consent
+                    <strong>Account data:</strong> name, email, hashed password,
+                    studio name, time zone, currency, studio logo URL (if set).
                   </li>
                   <li>
-                    <strong>Service providers:</strong> We share data with
-                    third-party vendors who assist in providing our services
+                    <strong>Operational data:</strong> classes you schedule,
+                    members you add (name, email, phone, notes you write),
+                    packages you create, bookings, attendance, waitlist entries.
                   </li>
                   <li>
-                    <strong>Legal requirements:</strong> We may disclose
-                    information if required by law or valid legal process
+                    <strong>Payment data:</strong> if you charge members or pay
+                    for the platform subscription, our payment processors
+                    (PayPal, Stripe, Razorpay) handle card and bank details
+                    directly — we only store the transaction reference, amount,
+                    currency, and processor IDs. We never see your card number.
                   </li>
                   <li>
-                    <strong>Business transfers:</strong> In connection with any
-                    merger, sale, or acquisition
+                    <strong>Communications:</strong> emails we send via Resend
+                    (booking confirmations, reminders, invitations, password
+                    resets). The recipient address and subject are logged for
+                    troubleshooting.
                   </li>
                   <li>
-                    <strong>Protection of rights:</strong> To protect our
-                    rights, privacy, safety, or property
+                    <strong>Server logs:</strong> standard request logs (IP
+                    address, user agent, path, status code) for security and
+                    debugging. Retained ≤ 30 days.
+                  </li>
+                  <li>
+                    <strong>Analytics:</strong> if Google Ads / Analytics is
+                    configured, gtag.js sets standard analytics cookies for
+                    audience measurement and conversion tracking.
                   </li>
                 </ul>
-              </section>
+              </Section>
 
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  5. Third-Party Services
-                </h2>
-                <p className="leading-relaxed">
-                  We use the following third-party services that may collect
-                  information:
-                </p>
-                <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
+              <Section title="3. How we use information">
+                <ul className="list-disc ml-6 space-y-1">
+                  <li>To run the platform — store your studio data and serve it back to you.</li>
                   <li>
-                    <strong>Google Sign-In:</strong> For authentication services
+                    To send transactional emails you would expect: booking
+                    confirmations, class reminders, password resets, invitations.
+                    You can disable individual events at{" "}
+                    <em>Settings → Notifications</em>.
                   </li>
                   <li>
-                    <strong>Payment processors:</strong> For handling
-                    subscription payments
+                    To process payments via your chosen processor (PayPal,
+                    Stripe, Razorpay).
                   </li>
                   <li>
-                    <strong>Analytics services:</strong> To understand service
-                    usage
-                  </li>
-                </ul>
-                <p className="mt-3 leading-relaxed">
-                  These services have their own privacy policies governing the
-                  use of your information.
-                </p>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  6. Data Security
-                </h2>
-                <p className="leading-relaxed">
-                  We implement appropriate technical and organizational security
-                  measures to protect your personal information. However, no
-                  method of transmission over the Internet or electronic storage
-                  is 100% secure, and we cannot guarantee absolute security.
-                </p>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  7. Data Retention
-                </h2>
-                <p className="leading-relaxed">
-                  We retain your personal information for as long as necessary
-                  to provide our services and fulfill the purposes outlined in
-                  this Privacy Policy. We will also retain and use your
-                  information to comply with legal obligations, resolve
-                  disputes, and enforce our agreements.
-                </p>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  8. Your Rights
-                </h2>
-                <p className="leading-relaxed mb-3">
-                  Depending on your location, you may have the following rights:
-                </p>
-                <ul className="list-disc list-inside space-y-1 ml-4">
-                  <li>
-                    <strong>Access:</strong> Request access to your personal
-                    information
+                    To measure how the public landing page performs (anonymous,
+                    aggregate).
                   </li>
                   <li>
-                    <strong>Correction:</strong> Request correction of
-                    inaccurate information
-                  </li>
-                  <li>
-                    <strong>Deletion:</strong> Request deletion of your personal
-                    information
-                  </li>
-                  <li>
-                    <strong>Portability:</strong> Request a copy of your data in
-                    a portable format
-                  </li>
-                  <li>
-                    <strong>Objection:</strong> Object to certain processing of
-                    your information
+                    To investigate abuse, fraud, or violations of the Terms.
                   </li>
                 </ul>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  9. Children&aposs Privacy
-                </h2>
-                <p className="leading-relaxed">
-                  Our service is not intended for children under 13 years of
-                  age. We do not knowingly collect personal information from
-                  children under 13. If you are a parent or guardian and believe
-                  your child has provided us with personal information, please
-                  contact us.
+                <p className="mt-3">
+                  We do <strong>not</strong> sell your information. We do{" "}
+                  <strong>not</strong> share it with advertisers beyond the
+                  analytics processors named below.
                 </p>
-              </section>
+              </Section>
 
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  10. International Data Transfers
-                </h2>
-                <p className="leading-relaxed">
-                  Your information may be transferred to and processed in
-                  countries other than your country of residence. These
-                  countries may have data protection laws that are different
-                  from the laws of your country.
+              <Section title="4. Processors and sub-processors">
+                <p>
+                  We use the following processors to run YogaTeacher. Each
+                  processes data on our behalf under their own terms:
                 </p>
-              </section>
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>
+                    <strong>Neon</strong> — Postgres database hosting (EU-West-2).
+                  </li>
+                  <li>
+                    <strong>Vercel</strong> — application hosting, request logs.
+                  </li>
+                  <li>
+                    <strong>Better-Auth</strong> — authentication library running
+                    on our own servers (no external service).
+                  </li>
+                  <li>
+                    <strong>Resend</strong> — transactional email delivery.
+                  </li>
+                  <li>
+                    <strong>PayPal, Stripe, Razorpay</strong> — payment
+                    processors. The studio owner chooses which provider to use;
+                    funds settle directly to the studio&apos;s account, not ours.
+                  </li>
+                  <li>
+                    <strong>Google Ads / Analytics</strong> — only when
+                    configured by the platform operator. Used for traffic
+                    measurement and ad conversion tracking on public pages.
+                  </li>
+                </ul>
+              </Section>
 
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  11. Updates to This Policy
-                </h2>
-                <p className="leading-relaxed">
-                  We may update this Privacy Policy from time to time. We will
-                  notify you of any changes by posting the new Privacy Policy on
-                  this page and updating the &aposLast updated&apos date.
+              <Section title="5. Cookies and tracking">
+                <p>
+                  We set a session cookie when you sign in so we know who you
+                  are on subsequent requests. We set an{" "}
+                  <code className="text-xs px-1 py-0.5 rounded bg-secondary">
+                    active_studio_id
+                  </code>{" "}
+                  cookie when you switch between studios. If Google
+                  Ads/Analytics is configured, gtag.js sets standard analytics
+                  cookies (typically <code>_ga</code>, <code>_gid</code>,{" "}
+                  <code>_gat</code>). No third-party advertising cookies are set
+                  by us beyond these.
                 </p>
-              </section>
+              </Section>
 
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  12. Contact Us
-                </h2>
-                <p className="leading-relaxed">
-                  If you have any questions about this Privacy Policy or our
-                  data practices, please contact us at:
+              <Section title="6. Security">
+                <p>
+                  Passwords are hashed with industry-standard algorithms
+                  (Better-Auth&apos;s default). Data in transit is TLS-encrypted.
+                  Payment credentials never touch our servers — they are entered
+                  into the payment processor&apos;s checkout flow. We do not
+                  store card numbers, CVVs, or bank account numbers.
                 </p>
-                <div className="mt-3 space-y-1">
-                  <p>Email: privacy@applepass.com</p>
-                  <p>Address: [Your Company Address]</p>
-                </div>
-              </section>
+              </Section>
+
+              <Section title="7. Your rights">
+                <p>
+                  Depending on where you live, you may have rights to access,
+                  correct, export, or delete your personal data; to restrict or
+                  object to processing; and to lodge a complaint with a data
+                  protection authority. To exercise any of these, email{" "}
+                  <a
+                    href="mailto:hello@yogateacherapp.com"
+                    className="text-primary hover:underline"
+                  >
+                    hello@yogateacherapp.com
+                  </a>{" "}
+                  from the address associated with your account. We will respond
+                  within 30 days.
+                </p>
+              </Section>
+
+              <Section title="8. Data retention">
+                <p>
+                  Active account data is kept for the life of the studio. If you
+                  delete your studio (Settings → Account → contact us), all
+                  associated members, classes, bookings, and packages are
+                  cascade-deleted within 30 days. Backups are purged within 90
+                  days. Notification logs and server logs are kept ≤ 30 days.
+                </p>
+              </Section>
+
+              <Section title="9. Children">
+                <p>
+                  YogaTeacher is not directed to children under 13 (or under 16
+                  in the EEA). Studio owners are responsible for any data they
+                  add about members under those ages on the studio&apos;s
+                  behalf.
+                </p>
+              </Section>
+
+              <Section title="10. International transfers">
+                <p>
+                  Our primary database is in Neon&apos;s EU-West-2 region.
+                  Vercel and our processors may serve content from globally
+                  distributed edges. Data is encrypted in transit and at rest.
+                </p>
+              </Section>
+
+              <Section title="11. Changes">
+                <p>
+                  We may update this policy from time to time. Material changes
+                  will be announced in the dashboard or by email at least 14 days
+                  before they take effect.
+                </p>
+              </Section>
+
+              <Section title="12. Contact">
+                <p>
+                  <strong>Yoga Teacher App</strong> by Inhoose Media
+                  <br />
+                  <a
+                    href="mailto:hello@yogateacherapp.com"
+                    className="text-primary hover:underline"
+                  >
+                    hello@yogateacherapp.com
+                  </a>
+                  <br />
+                  <a
+                    href="https://www.yogateacherapp.com"
+                    className="text-primary hover:underline"
+                  >
+                    yogateacherapp.com
+                  </a>
+                </p>
+              </Section>
             </div>
           </CardContent>
         </Card>
       </div>
-    </div>
+    </main>
+  );
+}
+
+function Section({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section>
+      <h2 className="font-display text-2xl tracking-tight mb-3">{title}</h2>
+      <div className="space-y-3">{children}</div>
+    </section>
   );
 }

@@ -6,10 +6,13 @@ import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CURRENCY_OPTIONS, TIMEZONE_OPTIONS } from "@/lib/format";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { createStudio } from "../actions";
@@ -40,20 +43,26 @@ export function OnboardingForm() {
         <Label htmlFor="name">Studio name</Label>
         <Input id="name" name="name" required placeholder="Sunrise Yoga" />
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="timezone">Timezone</Label>
           <Select value={tz} onValueChange={setTz}>
             <SelectTrigger id="timezone">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Asia/Kolkata">Asia / Kolkata</SelectItem>
-              <SelectItem value="America/New_York">America / New York</SelectItem>
-              <SelectItem value="America/Los_Angeles">America / Los Angeles</SelectItem>
-              <SelectItem value="Europe/London">Europe / London</SelectItem>
-              <SelectItem value="Europe/Berlin">Europe / Berlin</SelectItem>
-              <SelectItem value="Australia/Sydney">Australia / Sydney</SelectItem>
+            <SelectContent className="max-h-80">
+              {TIMEZONE_OPTIONS.map((group) => (
+                <SelectGroup key={group.group}>
+                  <SelectLabel className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                    {group.group}
+                  </SelectLabel>
+                  {group.zones.map((z) => (
+                    <SelectItem key={z.value} value={z.value}>
+                      {z.label}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              ))}
             </SelectContent>
           </Select>
         </div>
@@ -63,12 +72,12 @@ export function OnboardingForm() {
             <SelectTrigger id="currency">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="USD">USD $</SelectItem>
-              <SelectItem value="INR">INR ₹</SelectItem>
-              <SelectItem value="EUR">EUR €</SelectItem>
-              <SelectItem value="GBP">GBP £</SelectItem>
-              <SelectItem value="AUD">AUD $</SelectItem>
+            <SelectContent className="max-h-80">
+              {CURRENCY_OPTIONS.map((c) => (
+                <SelectItem key={c.code} value={c.code}>
+                  {c.label}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>

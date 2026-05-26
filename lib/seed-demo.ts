@@ -13,14 +13,30 @@ import {
 import { eq, sql } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
-// Currency-scaled list price (cents)
+// Currency-scaled list price (cents). Used for the auto-seeded sample
+// drop-in package — the member_package itself is recorded as price_paid=0
+// so it doesn't pollute MTD revenue, but the package list price is locale-
+// realistic so the studio sees a sensible default.
 function priceFor(currency: string): number {
   const ladder: Record<string, number> = {
     USD: 2500, // $25
-    INR: 50000, // ₹500
     EUR: 2200,
     GBP: 2000,
     AUD: 3500,
+    CAD: 3500,
+    NZD: 4000,
+    ZAR: 35000, // R350
+    SGD: 3500,
+    HKD: 20000,
+    JPY: 350000, // ¥3500
+    AED: 9500,
+    CHF: 2200,
+    SEK: 25000,
+    NOK: 25000,
+    DKK: 17000,
+    MXN: 45000,
+    BRL: 12000,
+    INR: 50000, // ₹500
   };
   return ladder[currency] ?? 2500;
 }
@@ -110,6 +126,9 @@ export async function seedStudioDemo(input: {
     d.setDate(d.getDate() + n);
     return d;
   };
+  // Demo member-package is FREE so a new studio's MTD revenue starts at 0.
+  // Otherwise the dashboard would show "$25" / "£20" / etc. on day one,
+  // confusing studios who haven't sold anything yet.
   const mp = {
     id: nanoid(),
     studioId,
@@ -118,7 +137,7 @@ export async function seedStudioDemo(input: {
     creditsRemaining: 1,
     startsAt: now,
     expiresAt: inDays(7),
-    pricePaidCents: pkg.priceCents,
+    pricePaidCents: 0,
     status: "active",
   };
   await db.insert(memberPackage).values(mp);

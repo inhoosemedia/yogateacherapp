@@ -79,6 +79,9 @@ export const studio = pgTable("studio", {
   ownerUserId: text("owner_user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
+  // Optional public logo URL. Shown in the dashboard sidebar, public booking
+  // page header, and public packages page.
+  logoUrl: text("logo_url"),
   // Billing (platform → studio)
   trialEndsAt: timestamp("trial_ends_at", { withTimezone: true, mode: "date" }).notNull(),
   // trialing | active | past_due | cancelled | suspended

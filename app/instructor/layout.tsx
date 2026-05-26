@@ -1,3 +1,4 @@
+import ModeToggle from "@/app/dashboard/_components/mode-toggle";
 import { BrandMark } from "@/components/brand";
 import { SignOutButton } from "@/components/sign-out-button";
 import { requireInstructor } from "@/lib/instructor";
@@ -34,6 +35,7 @@ export default async function InstructorLayout({
             <IconUserCircle className="size-4" />
             <span>{ctx.fullName}</span>
           </div>
+          <ModeToggle />
           <SignOutButton className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5" />
         </div>
       </header>

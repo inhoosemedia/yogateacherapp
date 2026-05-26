@@ -167,6 +167,7 @@ export default async function DashboardHome() {
           label="Active packages"
           value={String(activePackageCount?.count ?? 0)}
           hint="Not expired"
+          href="/dashboard/packages"
           accent="ochre"
         />
         <StatCard
@@ -182,6 +183,7 @@ export default async function DashboardHome() {
           label="Revenue · MTD"
           value={formatMoney(monthRevenue?.total ?? 0, studio.currency)}
           hint={today.toLocaleDateString(undefined, { month: "long" })}
+          href="/dashboard/reports"
         />
       </div>
 

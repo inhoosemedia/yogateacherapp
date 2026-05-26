@@ -16,6 +16,7 @@ export type ActiveStudio = {
   subscriptionStatus: string;
   planTier: string | null;
   subscriptionCurrentPeriodEnd: Date | null;
+  logoUrl: string | null;
 };
 
 const ACTIVE_STUDIO_COOKIE = "active_studio_id";
@@ -35,6 +36,7 @@ export async function getActiveStudio(
       subscriptionStatus: studio.subscriptionStatus,
       planTier: studio.planTier,
       subscriptionCurrentPeriodEnd: studio.subscriptionCurrentPeriodEnd,
+      logoUrl: studio.logoUrl,
     })
     .from(studioMember)
     .innerJoin(studio, eq(studio.id, studioMember.studioId))

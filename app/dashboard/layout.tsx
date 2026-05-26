@@ -40,10 +40,11 @@ export default async function DashboardLayout({
 
   return (
     <div className="flex h-screen overflow-hidden w-full bg-canvas canvas-grain">
-      <DashboardSideBar studioName={studio.name} />
+      <DashboardSideBar studioName={studio.name} logoUrl={studio.logoUrl} />
       <main className="flex-1 overflow-y-auto">
         <DashboardTopNav
           studioName={studio.name}
+          logoUrl={studio.logoUrl}
           active={{ id: studio.id, name: studio.name }}
           studios={memberships}
         />

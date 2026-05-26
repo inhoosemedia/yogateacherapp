@@ -21,20 +21,20 @@ export function PackagesPreview() {
           <Pkg
             label="Drop-in"
             name="Single class"
-            price="$500"
+            price="$45"
             features={["1 class", "Valid 7 days"]}
           />
           <Pkg
             featured
             label="Class pack"
             name="10-class pack"
-            price="$4,000"
+            price="$397"
             features={["10 classes", "Valid 60 days", "Auto credits"]}
           />
           <Pkg
             label="Unlimited"
             name="Monthly"
-            price="$7,000"
+            price="$149"
             features={["Unlimited", "Valid 30 days"]}
           />
         </div>

@@ -20,19 +20,41 @@ export async function updateStudioSettings(input: {
   name: string;
   timezone: string;
   currency: string;
+  logoUrl?: string | null;
 }) {
   const { userId } = await requireStudio();
   await assertMembership(userId, input.id);
+  // Light URL sanity check — must be http(s) so the public schedule renders
+  // it as an <img> safely. Empty string clears the logo.
+  let logoUrl: string | null | undefined = undefined;
+  if (input.logoUrl !== undefined) {
+    const u = input.logoUrl?.trim() ?? "";
+    if (u === "") {
+      logoUrl = null;
+    } else if (/^https?:\/\//i.test(u)) {
+      logoUrl = u;
+    } else {
+      throw new Error("Logo URL must start with http:// or https://");
+    }
+  }
   await db
     .update(studio)
     .set({
       name: input.name.trim(),
       timezone: input.timezone,
       currency: input.currency,
+      ...(logoUrl !== undefined ? { logoUrl } : {}),
     })
     .where(eq(studio.id, input.id));
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/settings");
+  // Public booking page caches the studio header — bust it
+  const [row] = await db
+    .select({ slug: studio.slug })
+    .from(studio)
+    .where(eq(studio.id, input.id))
+    .limit(1);
+  if (row?.slug) revalidatePath(`/book/${row.slug}`);
 }
 
 export async function updateNotificationPrefs(prefs: NotificationPrefs) {
