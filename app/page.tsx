@@ -40,9 +40,14 @@ export default async function Home() {
             href="/"
             className="flex items-center gap-2 font-display text-lg tracking-tight"
           >
-            <span className="size-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center shadow-sm">
-              <BrandMark size={18} />
-            </span>
+            <Image
+              src="/logo.png"
+              alt="YogaTeacher"
+              width={32}
+              height={32}
+              className="size-8 shadow-sm rounded-full"
+              priority
+            />
             YogaTeacher
           </Link>
           <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
@@ -298,7 +303,7 @@ export default async function Home() {
           <div className="grid md:grid-cols-2 rounded-3xl overflow-hidden border border-border bg-card shadow-sm">
             <div className="relative aspect-[4/3] md:aspect-auto md:min-h-[420px]">
               <Image
-                src="https://picsum.photos/seed/asana-yoga-quote/1200/900"
+                src="/review.jpg"
                 alt="Yoga studio scene"
                 fill
                 sizes="(min-width: 768px) 50vw, 100vw"
@@ -564,9 +569,13 @@ export default async function Home() {
       <footer className="border-t border-border/60 py-10 px-6">
         <div className="max-w-6xl mx-auto flex items-center justify-between flex-wrap gap-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
-            <span className="size-7 rounded-md bg-primary text-primary-foreground flex items-center justify-center">
-              <BrandMark size={14} />
-            </span>
+            <Image
+              src="/logo.png"
+              alt="YogaTeacher"
+              width={28}
+              height={28}
+              className="size-7 rounded-full"
+            />
             <span className="font-display text-base text-foreground">
               YogaTeacher
             </span>

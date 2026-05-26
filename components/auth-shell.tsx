@@ -1,4 +1,4 @@
-import { BrandMark } from "@/components/brand";
+import Image from "next/image";
 import Link from "next/link";
 
 export function AuthShell({
@@ -17,9 +17,14 @@ export function AuthShell({
             href="/"
             className="inline-flex items-center gap-2 mb-10 font-display text-lg tracking-tight"
           >
-            <span className="size-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center shadow-sm">
-              <BrandMark size={20} />
-            </span>
+            <Image
+              src="/logo.png"
+              alt="YogaTeacher"
+              width={36}
+              height={36}
+              className="size-9 rounded-full shadow-sm"
+              priority
+            />
             YogaTeacher
           </Link>
           {children}
