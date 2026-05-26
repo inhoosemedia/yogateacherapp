@@ -1,4 +1,3 @@
-import { BrandMark } from "@/components/brand";
 import { DashboardPreview } from "@/components/landing/dashboard-preview";
 import {
   GrainOverlay,
