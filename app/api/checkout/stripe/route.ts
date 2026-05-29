@@ -94,7 +94,7 @@ export async function POST(req: Request) {
       line_items: [
         {
           price_data: {
-            currency: pkg.currency.toLowerCase(),
+            currency: s.currency.toLowerCase(),
             product_data: { name: pkg.name },
             unit_amount: pkg.priceCents,
           },

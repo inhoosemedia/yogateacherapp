@@ -162,7 +162,7 @@ export default async function PublicPackagesPage({
                 <div className="font-display text-2xl mt-1">{p.name}</div>
                 <div className="mt-4 flex items-baseline gap-1">
                   <div className="font-display text-4xl tracking-tight">
-                    {formatMoney(p.priceCents, p.currency)}
+                    {formatMoney(p.priceCents, s.currency)}
                   </div>
                 </div>
                 <ul className="mt-5 space-y-2 text-sm">
@@ -179,9 +179,9 @@ export default async function PublicPackagesPage({
                     studioSlug={studioSlug}
                     packageId={p.id}
                     packageName={p.name}
-                    priceLabel={formatMoney(p.priceCents, p.currency)}
+                    priceLabel={formatMoney(p.priceCents, s.currency)}
                     priceCents={p.priceCents}
-                    currency={p.currency}
+                    currency={s.currency}
                     enabled={acceptsPayments}
                     provider={provider}
                   />

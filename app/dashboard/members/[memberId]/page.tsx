@@ -195,7 +195,7 @@ export default async function MemberDetail({
                   credits: p.credits,
                   validityDays: p.validityDays,
                   priceCents: p.priceCents,
-                  currency: p.currency,
+                  currency: studio.currency,
                 }))}
               />
             </CardHeader>

@@ -20,7 +20,6 @@ export default async function PackagesPage() {
       credits: package_.credits,
       validityDays: package_.validityDays,
       priceCents: package_.priceCents,
-      currency: package_.currency,
       active: package_.active,
       publiclyPurchasable: package_.publiclyPurchasable,
       sold: sql<number>`(
@@ -63,7 +62,7 @@ export default async function PackagesPage() {
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {rows.map((p) => (
-            <PricingCard key={p.id} pkg={p} />
+            <PricingCard key={p.id} pkg={p} currency={studio.currency} />
           ))}
         </div>
       )}
@@ -72,6 +71,7 @@ export default async function PackagesPage() {
 }
 
 function PricingCard({
+  currency,
   pkg,
 }: {
   pkg: {
@@ -81,11 +81,11 @@ function PricingCard({
     credits: number | null;
     validityDays: number;
     priceCents: number;
-    currency: string;
     active: boolean;
     publiclyPurchasable: boolean;
     sold: number;
   };
+  currency: string;
 }) {
   const featured = pkg.kind === "unlimited";
   return (
@@ -112,7 +112,7 @@ function PricingCard({
       </div>
       <div className="mt-5 flex items-baseline gap-1">
         <div className="font-display text-4xl tracking-tight">
-          {formatMoney(pkg.priceCents, pkg.currency)}
+          {formatMoney(pkg.priceCents, currency)}
         </div>
       </div>
 

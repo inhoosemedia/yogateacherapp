@@ -47,3 +47,6 @@ demo-output/
 
 # Customer (Inhoose Media) production credentials — never commit
 customer-credentials/
+
+# Local screenshot/report outputs from smoke scripts
+tmp/

@@ -90,7 +90,7 @@ export async function POST(req: Request) {
     });
     const order = await rp.orders.create({
       amount: pkg.priceCents,
-      currency: pkg.currency,
+      currency: s.currency,
       receipt: `pkg-${pkg.id.slice(0, 12)}-${Date.now()}`,
       notes: {
         studio_id: s.id,

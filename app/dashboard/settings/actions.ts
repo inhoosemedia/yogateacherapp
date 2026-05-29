@@ -55,9 +55,11 @@ export async function updateStudioSettings(input: {
     .update(package_)
     .set({ currency: input.currency })
     .where(eq(package_.studioId, input.id));
-  revalidatePath("/dashboard");
-  revalidatePath("/dashboard/settings");
-  revalidatePath("/dashboard/packages");
+  // Currency/timezone/name/logo flow through to many surfaces (dashboard
+  // home, packages, reports, members, instructor portal, public booking).
+  // Revalidate the whole tree once — settings changes are rare and the cost
+  // is one extra render per page on next visit.
+  revalidatePath("/", "layout");
   const [row] = await db
     .select({ slug: studio.slug })
     .from(studio)

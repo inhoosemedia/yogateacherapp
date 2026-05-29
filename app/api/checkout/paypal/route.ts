@@ -104,7 +104,7 @@ export async function POST(req: Request) {
   try {
     const order = await createPayPalOrder(creds, {
       amountCents: pkg.priceCents,
-      currency: pkg.currency,
+      currency: s.currency,
       description: `${s.name} — ${pkg.name}`,
       returnUrl: `${origin}/book/${studioSlug}/packages?paypal_order={order_id}`,
       cancelUrl: `${origin}/book/${studioSlug}/packages?cancelled=1`,
