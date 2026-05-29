@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/db/drizzle";
-import { studio } from "@/db/schema";
+import { package_, studio } from "@/db/schema";
 import {
   DEFAULT_NOTIFICATION_PREFS,
   isEmailConfigured,
@@ -46,15 +46,27 @@ export async function updateStudioSettings(input: {
       ...(logoUrl !== undefined ? { logoUrl } : {}),
     })
     .where(eq(studio.id, input.id));
+  // Packages carry their own currency column (so studios COULD theoretically
+  // price differently per package). In practice everyone treats the studio
+  // currency as the source of truth, so cascade the change to every package
+  // — otherwise old packages keep displaying their original currency on the
+  // public booking page even after the owner switches studio currency.
+  await db
+    .update(package_)
+    .set({ currency: input.currency })
+    .where(eq(package_.studioId, input.id));
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/settings");
-  // Public booking page caches the studio header — bust it
+  revalidatePath("/dashboard/packages");
   const [row] = await db
     .select({ slug: studio.slug })
     .from(studio)
     .where(eq(studio.id, input.id))
     .limit(1);
-  if (row?.slug) revalidatePath(`/book/${row.slug}`);
+  if (row?.slug) {
+    revalidatePath(`/book/${row.slug}`);
+    revalidatePath(`/book/${row.slug}/packages`);
+  }
 }
 
 export async function updateNotificationPrefs(prefs: NotificationPrefs) {
