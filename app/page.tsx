@@ -5,6 +5,8 @@ import {
   SoftBlob,
   SunDecoration,
 } from "@/components/landing/decorations";
+import { FaqSection } from "@/components/seo/faq";
+import { HOMEPAGE_FAQS } from "@/lib/seo-content";
 import { MembersPreview } from "@/components/landing/members-preview";
 import { PackagesPreview } from "@/components/landing/packages-preview";
 import { WeekCalendarPreview } from "@/components/landing/week-preview";
@@ -49,16 +51,37 @@ export default async function Home() {
             />
             YogaTeacher
           </Link>
-          <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
-            <a href="#product" className="hover:text-foreground transition-colors">
-              Product
-            </a>
-            <a href="#features" className="hover:text-foreground transition-colors">
-              Features
-            </a>
-            <a href="#plans" className="hover:text-foreground transition-colors">
+          <nav className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
+            <Link
+              href="/yoga-studio-software"
+              className="hover:text-foreground transition-colors"
+            >
+              Yoga
+            </Link>
+            <Link
+              href="/pilates-studio-software"
+              className="hover:text-foreground transition-colors"
+            >
+              Pilates
+            </Link>
+            <Link
+              href="/vs-mindbody"
+              className="hover:text-foreground transition-colors"
+            >
+              vs Mindbody
+            </Link>
+            <Link
+              href="/pricing"
+              className="hover:text-foreground transition-colors"
+            >
               Pricing
-            </a>
+            </Link>
+            <Link
+              href="/blog"
+              className="hover:text-foreground transition-colors"
+            >
+              Blog
+            </Link>
           </nav>
           <div className="flex items-center gap-2">
             <Link href="/sign-in">
@@ -81,23 +104,33 @@ export default async function Home() {
         <LotusDots className="absolute top-32 right-1/4 w-32 text-primary/30 -z-10" />
 
         <div className="max-w-5xl mx-auto text-center relative">
+          {/* SEO H1 — invisible to users, indexable by Google. The visual
+              headline ("Mindbody for the rest of us") stays as the brand
+              statement below; this is the keyword-target line. */}
+          <h1 className="sr-only">
+            Yoga &amp; Pilates Studio Management Software
+          </h1>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card border border-border text-xs text-muted-foreground mb-7 shadow-2xs">
             <span className="size-1.5 rounded-full bg-primary animate-pulse" />
             <span className="font-medium text-foreground">30 days free</span>
             <span className="text-muted-foreground/60">·</span>
             <span>No demo calls. No credit card.</span>
           </div>
-          <h1 className="font-display text-6xl md:text-[88px] leading-[0.95] tracking-tight">
+          <p
+            aria-hidden
+            className="font-display text-6xl md:text-[88px] leading-[0.95] tracking-tight"
+          >
             Mindbody for{" "}
             <br className="md:hidden" />
             <span className="italic text-primary relative inline-block">
               the rest of us.
               <SunDecoration className="absolute -right-12 -top-8 w-24 h-24 text-primary/30 -z-10" />
             </span>
-          </h1>
+          </p>
           <p className="mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Stop running your yoga business on WhatsApp + Sheets + Venmo.
-            Members, classes, packages, payments — in one calm app.
+            The easiest yoga and pilates studio management software for
+            memberships, scheduling, bookings, payments and instructor
+            management. Stop running your studio on WhatsApp + Sheets + Venmo.
           </p>
           <div className="mt-10 flex justify-center gap-3 flex-wrap">
             <Link href="/sign-up">
@@ -563,6 +596,81 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* ─── Built for (SEO audience section) ───────────────── */}
+      <section className="py-20 px-6 border-t border-border/60 bg-secondary/20">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-3">
+              Built for
+            </div>
+            <h2 className="font-display text-4xl md:text-5xl tracking-tight">
+              Yoga teachers, pilates instructors and{" "}
+              <span className="italic text-primary">boutique studios</span>.
+            </h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="text-center md:text-left">
+              <div className="font-display text-2xl mb-3">
+                Independent yoga teachers
+              </div>
+              <p className="text-muted-foreground leading-relaxed">
+                Stop juggling WhatsApp, Sheets and Venmo. Run your whole
+                practice from one calm dashboard — bookings, packages and
+                payments where you can find them.
+              </p>
+              <Link
+                href="/yoga-studio-software"
+                className="inline-block mt-4 text-sm text-primary hover:underline"
+              >
+                See yoga studio software →
+              </Link>
+            </div>
+            <div className="text-center md:text-left">
+              <div className="font-display text-2xl mb-3">
+                Pilates studio owners
+              </div>
+              <p className="text-muted-foreground leading-relaxed">
+                Reformer schedules, 10-class packs, private 1-on-1 bookings.
+                Built for boutique pilates studios — without the gym-software
+                bloat.
+              </p>
+              <Link
+                href="/pilates-studio-software"
+                className="inline-block mt-4 text-sm text-primary hover:underline"
+              >
+                See pilates studio software →
+              </Link>
+            </div>
+            <div className="text-center md:text-left">
+              <div className="font-display text-2xl mb-3">
+                Multi-location wellness studios
+              </div>
+              <p className="text-muted-foreground leading-relaxed">
+                One account, multiple studios, per-location reporting and
+                shared memberships across locations. From one studio to five.
+              </p>
+              <Link
+                href="/multi-location"
+                className="inline-block mt-4 text-sm text-primary hover:underline"
+              >
+                See multi-location software →
+              </Link>
+            </div>
+          </div>
+          <div className="text-center mt-12">
+            <Link
+              href="/customers"
+              className="inline-block text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Read customer stories →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── FAQ (SEO + FAQPage schema) ──────────────────────── */}
+      <FaqSection items={HOMEPAGE_FAQS} />
 
       {/* ─── Footer ──────────────────────────────────────────── */}
       <footer className="border-t border-border/60 py-10 px-6">
