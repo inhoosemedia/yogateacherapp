@@ -180,7 +180,7 @@ export function SeoFooter() {
         </div>
       </div>
       <div className="max-w-6xl mx-auto mt-8 pt-6 border-t border-border/40 text-xs text-muted-foreground/70 flex items-center justify-between flex-wrap gap-3">
-        <span>© 2026 YogaTeacher · Inhoose Media</span>
+        <span>© 2026 YogaTeacher</span>
         <span>Made with care for studios that breathe.</span>
       </div>
     </footer>
