@@ -10,6 +10,10 @@ import {
   SeoFooter,
   SeoNav,
 } from "@/components/seo/page-shell";
+import { AmbientAtmosphere } from "@/components/seo/ambient-atmosphere";
+import { EditorialBreakout } from "@/components/seo/editorial-breakout";
+import { RevealOnScroll } from "@/components/seo/reveal-on-scroll";
+import { StudioDay } from "@/components/seo/studio-day";
 import { StudioPhoto } from "@/components/seo/studio-photo";
 import { Button } from "@/components/ui/button";
 import {
@@ -93,8 +97,9 @@ export default function YogaStudioSoftwarePage() {
         ]}
       />
       {/* Hero */}
-      <section className="py-16 px-6">
-        <div className="max-w-5xl mx-auto text-center">
+      <section className="relative py-16 px-6 overflow-hidden">
+        <AmbientAtmosphere />
+        <div className="max-w-5xl mx-auto text-center relative">
           <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-4">
             For yoga teachers and boutique studios
           </div>
@@ -110,18 +115,36 @@ export default function YogaStudioSoftwarePage() {
           </p>
           <div className="mt-9 flex justify-center gap-3 flex-wrap">
             <Link href="/sign-up">
-              <Button size="lg" className="gap-2">
+              <Button size="lg" className="gap-2 cta-lift">
                 Start your 30-day free trial
                 <IconArrowRight className="size-4" />
               </Button>
             </Link>
             <Link href="/vs-mindbody">
-              <Button size="lg" variant="outline">
+              <Button size="lg" variant="outline" className="cta-lift">
                 Compare to Mindbody
               </Button>
             </Link>
           </div>
         </div>
+      </section>
+
+      {/* Signature: a yoga studio day */}
+      <section className="py-16 px-6 border-t border-border/60">
+        <RevealOnScroll>
+          <div className="text-center text-[10px] uppercase tracking-[0.24em] text-muted-foreground mb-10">
+            One yoga studio · Tuesday
+          </div>
+        </RevealOnScroll>
+        <StudioDay
+          entries={[
+            { time: "06:30", className: "Sunrise Vinyasa", instructor: "Sarah", note: "14 / 20" },
+            { time: "09:00", className: "Restorative", instructor: "James" },
+            { time: "12:00", className: "Lunchtime Flow", instructor: "Sarah", note: "full" },
+            { time: "18:00", className: "Slow Yin", instructor: "Priya" },
+            { time: "19:30", className: "Candlelit Yoga Nidra", instructor: "Aanya" },
+          ]}
+        />
       </section>
 
       {/* Problem */}
@@ -431,6 +454,10 @@ export default function YogaStudioSoftwarePage() {
         </div>
       </section>
 
+      <EditorialBreakout attribution="Built for studios that breathe">
+        Run your yoga studio from one calm dashboard — not from a patchwork
+        of WhatsApp, Sheets and Venmo.
+      </EditorialBreakout>
       <FaqSection items={FAQS} />
       <SeoCtaBlock title="Run your yoga studio without the chaos." />
       <SeoFooter />

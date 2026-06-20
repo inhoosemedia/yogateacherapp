@@ -1,3 +1,5 @@
+import { AmbientAtmosphere } from "@/components/seo/ambient-atmosphere";
+import { EditorialBreakout } from "@/components/seo/editorial-breakout";
 import { FaqSection } from "@/components/seo/faq";
 import {
   JsonLd,
@@ -64,8 +66,9 @@ export default function PricingPage() {
       <SeoBreadcrumbs
         items={[{ label: "Home", href: "/" }, { label: "Pricing" }]}
       />
-      <section className="py-16 px-6">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="relative py-16 px-6 overflow-hidden">
+        <AmbientAtmosphere />
+        <div className="max-w-4xl mx-auto text-center relative">
           <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-4">
             Pricing
           </div>
@@ -84,6 +87,7 @@ export default function PricingPage() {
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
           <PricingCard
             tier="Single studio"
+            signature="One studio. One inbox. Everything where you can find it."
             price="$29"
             period="/month"
             ideal="Solo teachers and boutique studios"
@@ -105,6 +109,7 @@ export default function PricingPage() {
           />
           <PricingCard
             tier="Multi-studio"
+            signature="From one studio to five — same calm dashboard."
             price="$79"
             period="/month"
             ideal="Multi-location studios and growing brands"
@@ -129,6 +134,11 @@ export default function PricingPage() {
           Razorpay) are paid directly to the processor, not through us.
         </p>
       </section>
+
+      <EditorialBreakout attribution="No upsells, no add-ons, no contracts">
+        Every feature, every integration, every plan — for the price you
+        actually see.
+      </EditorialBreakout>
 
       <section className="py-20 px-6 bg-secondary/30 border-y border-border/60">
         <div className="max-w-3xl mx-auto text-center">
@@ -241,6 +251,7 @@ function PricingCard({
   cta,
   href,
   highlight,
+  signature,
 }: {
   tier: string;
   price: string;
@@ -250,44 +261,82 @@ function PricingCard({
   cta: string;
   href: string;
   highlight: boolean;
+  signature: string;
 }) {
   return (
     <div
       className={
-        "rounded-3xl p-8 border " +
+        "group relative rounded-3xl p-8 md:p-10 border transition-all duration-500 " +
         (highlight
-          ? "bg-primary text-primary-foreground border-primary shadow-xl"
-          : "bg-card border-border")
+          ? "bg-primary text-primary-foreground border-primary shadow-2xl shadow-primary/20 hover:shadow-primary/30 md:scale-[1.02]"
+          : "bg-card border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5")
       }
     >
-      <div
-        className={
-          "text-[11px] uppercase tracking-[0.18em] mb-2 " +
-          (highlight ? "opacity-80" : "text-muted-foreground")
-        }
-      >
-        {tier}
+      {highlight && (
+        <div className="absolute -top-3 left-8 px-3 py-1 rounded-full bg-primary-foreground/95 text-primary text-[10px] uppercase tracking-[0.18em] font-medium shadow-sm">
+          Most studios
+        </div>
+      )}
+      <div className="flex items-start justify-between gap-4 mb-1">
+        <div>
+          <div
+            className={
+              "text-[10px] uppercase tracking-[0.24em] mb-3 " +
+              (highlight ? "opacity-80" : "text-muted-foreground")
+            }
+          >
+            {tier}
+          </div>
+          <p
+            className={
+              "font-display italic text-base leading-snug " +
+              (highlight ? "opacity-90" : "text-muted-foreground")
+            }
+          >
+            {signature}
+          </p>
+        </div>
       </div>
-      <div className="flex items-baseline gap-1 mb-1">
-        <span className="font-display text-5xl tracking-tight">{price}</span>
-        <span className={highlight ? "opacity-80" : "text-muted-foreground"}>
+      <div className="mt-8 flex items-baseline gap-2">
+        <span className="font-display text-6xl tracking-tighter">{price}</span>
+        <span
+          className={
+            "text-sm " + (highlight ? "opacity-80" : "text-muted-foreground")
+          }
+        >
           {period}
         </span>
       </div>
-      <p className={highlight ? "opacity-80 text-sm" : "text-muted-foreground text-sm"}>
+      <p
+        className={
+          "mt-1 text-sm " +
+          (highlight ? "opacity-80" : "text-muted-foreground")
+        }
+      >
         {ideal}
       </p>
-      <Link href={href}>
+      <Link href={href} className="block mt-8">
         <Button
           size="lg"
-          className="w-full mt-6 gap-2"
-          variant={highlight ? "outline" : "default"}
+          variant={highlight ? "secondary" : "default"}
+          className={
+            "w-full gap-2 cta-lift " +
+            (highlight
+              ? "!bg-primary-foreground !text-primary hover:!bg-primary-foreground/95 shadow-md"
+              : "")
+          }
         >
           {cta}
-          <IconArrowRight className="size-4" />
+          <IconArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
         </Button>
       </Link>
-      <ul className="mt-8 space-y-3 text-sm">
+      <div
+        className={
+          "mt-8 h-px " +
+          (highlight ? "bg-primary-foreground/20" : "bg-border")
+        }
+      />
+      <ul className="mt-6 space-y-3 text-sm">
         {features.map((f) => (
           <li key={f} className="flex items-start gap-2.5">
             <IconCheck

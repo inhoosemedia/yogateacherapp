@@ -5,7 +5,11 @@ import {
   SoftBlob,
   SunDecoration,
 } from "@/components/landing/decorations";
+import { AmbientAtmosphere } from "@/components/seo/ambient-atmosphere";
+import { EditorialBreakout } from "@/components/seo/editorial-breakout";
 import { FaqSection } from "@/components/seo/faq";
+import { RevealOnScroll } from "@/components/seo/reveal-on-scroll";
+import { StudioDay } from "@/components/seo/studio-day";
 import { HOMEPAGE_FAQS } from "@/lib/seo-content";
 import { MembersPreview } from "@/components/landing/members-preview";
 import { PackagesPreview } from "@/components/landing/packages-preview";
@@ -51,35 +55,20 @@ export default async function Home() {
             />
             YogaTeacher
           </Link>
-          <nav className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
-            <Link
-              href="/yoga-studio-software"
-              className="hover:text-foreground transition-colors"
-            >
+          <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
+            <Link href="/yoga-studio-software" className="link-grow hover:text-foreground transition-colors">
               Yoga
             </Link>
-            <Link
-              href="/pilates-studio-software"
-              className="hover:text-foreground transition-colors"
-            >
+            <Link href="/pilates-studio-software" className="link-grow hover:text-foreground transition-colors">
               Pilates
             </Link>
-            <Link
-              href="/vs-mindbody"
-              className="hover:text-foreground transition-colors"
-            >
+            <Link href="/vs-mindbody" className="link-grow hover:text-foreground transition-colors">
               vs Mindbody
             </Link>
-            <Link
-              href="/pricing"
-              className="hover:text-foreground transition-colors"
-            >
+            <Link href="/pricing" className="link-grow hover:text-foreground transition-colors">
               Pricing
             </Link>
-            <Link
-              href="/blog"
-              className="hover:text-foreground transition-colors"
-            >
+            <Link href="/blog" className="link-grow hover:text-foreground transition-colors">
               Blog
             </Link>
           </nav>
@@ -97,8 +86,9 @@ export default async function Home() {
       </header>
 
       {/* ─── Hero ────────────────────────────────────────────────── */}
-      <section className="relative pt-20 pb-32 px-6">
-        {/* atmosphere */}
+      <section className="relative pt-20 pb-32 px-6 overflow-hidden">
+        {/* atmosphere — breathes on long cycle */}
+        <AmbientAtmosphere />
         <SunDecoration className="absolute -top-40 -right-40 w-[800px] h-[800px] text-primary/40 -z-10" />
         <SoftBlob className="absolute top-40 -left-60 w-[700px] h-[700px] text-[#b45f4a]/20 -z-10" />
         <LotusDots className="absolute top-32 right-1/4 w-32 text-primary/30 -z-10" />
@@ -134,13 +124,13 @@ export default async function Home() {
           </p>
           <div className="mt-10 flex justify-center gap-3 flex-wrap">
             <Link href="/sign-up">
-              <Button size="lg" className="gap-2 shadow-lg shadow-primary/15">
+              <Button size="lg" className="gap-2 shadow-lg shadow-primary/15 cta-lift">
                 Start your 30-day free trial
-                <IconArrowRight className="size-4" />
+                <IconArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
               </Button>
             </Link>
             <Link href="/sign-in">
-              <Button size="lg" variant="outline">
+              <Button size="lg" variant="outline" className="cta-lift">
                 Sign in
               </Button>
             </Link>
@@ -169,6 +159,30 @@ export default async function Home() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* ─── Signature: a studio day ─────────────────────────────── */}
+      <section className="py-20 px-6">
+        <RevealOnScroll>
+          <div className="text-center text-[10px] uppercase tracking-[0.24em] text-muted-foreground mb-10">
+            A studio day, today
+          </div>
+        </RevealOnScroll>
+        <StudioDay
+          entries={[
+            { time: "06:30", className: "Sunrise Vinyasa", instructor: "Sarah", note: "12 / 20" },
+            { time: "09:00", className: "Restorative", instructor: "James" },
+            { time: "12:00", className: "Lunchtime Flow", instructor: "Sarah", note: "full" },
+            { time: "17:30", className: "Reformer Flow", instructor: "Mia", note: "8 / 8" },
+            { time: "19:00", className: "Yin & Yoga Nidra", instructor: "Aanya" },
+          ]}
+        />
+        <RevealOnScroll delay={400}>
+          <p className="mt-12 text-center text-sm text-muted-foreground max-w-md mx-auto">
+            Every studio runs on a daily rhythm. YogaTeacher is the dashboard
+            that respects it.
+          </p>
+        </RevealOnScroll>
       </section>
 
       {/* ─── Stop using ─────────────────────────────────────────── */}
@@ -668,6 +682,12 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* ─── Editorial breakout — quiet emphasis before FAQ ──── */}
+      <EditorialBreakout attribution="The Yoga Teacher App, every day">
+        Bookings, memberships, payments, instructors — one calm app for
+        studios that breathe.
+      </EditorialBreakout>
 
       {/* ─── FAQ (SEO + FAQPage schema) ──────────────────────── */}
       <FaqSection items={HOMEPAGE_FAQS} />

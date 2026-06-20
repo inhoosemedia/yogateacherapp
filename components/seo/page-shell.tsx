@@ -21,32 +21,20 @@ export function SeoNav() {
           />
           YogaTeacher
         </Link>
-        <nav className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
-          <Link
-            href="/yoga-studio-software"
-            className="hover:text-foreground transition-colors"
-          >
+        <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
+          <Link href="/yoga-studio-software" className="link-grow hover:text-foreground transition-colors">
             Yoga
           </Link>
-          <Link
-            href="/pilates-studio-software"
-            className="hover:text-foreground transition-colors"
-          >
+          <Link href="/pilates-studio-software" className="link-grow hover:text-foreground transition-colors">
             Pilates
           </Link>
-          <Link
-            href="/vs-mindbody"
-            className="hover:text-foreground transition-colors"
-          >
+          <Link href="/vs-mindbody" className="link-grow hover:text-foreground transition-colors">
             vs Mindbody
           </Link>
-          <Link
-            href="/pricing"
-            className="hover:text-foreground transition-colors"
-          >
+          <Link href="/pricing" className="link-grow hover:text-foreground transition-colors">
             Pricing
           </Link>
-          <Link href="/blog" className="hover:text-foreground transition-colors">
+          <Link href="/blog" className="link-grow hover:text-foreground transition-colors">
             Blog
           </Link>
         </nav>
@@ -203,13 +191,13 @@ export function SeoCtaBlock({
         <p className="text-lg text-muted-foreground mb-8">{body}</p>
         <div className="flex justify-center gap-3 flex-wrap">
           <Link href="/sign-up">
-            <Button size="lg" className="gap-2 shadow-lg shadow-primary/15">
+            <Button size="lg" className="gap-2 shadow-lg shadow-primary/15 cta-lift">
               Start your 30-day free trial
               <IconArrowRight className="size-4" />
             </Button>
           </Link>
           <Link href="/pricing">
-            <Button size="lg" variant="outline">
+            <Button size="lg" variant="outline" className="cta-lift">
               See pricing
             </Button>
           </Link>

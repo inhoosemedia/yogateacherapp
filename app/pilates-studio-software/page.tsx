@@ -11,6 +11,10 @@ import {
   SeoNav,
 } from "@/components/seo/page-shell";
 import { Button } from "@/components/ui/button";
+import { AmbientAtmosphere } from "@/components/seo/ambient-atmosphere";
+import { EditorialBreakout } from "@/components/seo/editorial-breakout";
+import { RevealOnScroll } from "@/components/seo/reveal-on-scroll";
+import { StudioDay } from "@/components/seo/studio-day";
 import {
   IconArrowRight,
   IconCalendarMonth,
@@ -91,8 +95,9 @@ export default function PilatesStudioSoftwarePage() {
           { label: "Pilates studio software" },
         ]}
       />
-      <section className="py-16 px-6">
-        <div className="max-w-5xl mx-auto text-center">
+      <section className="relative py-16 px-6 overflow-hidden">
+        <AmbientAtmosphere />
+        <div className="max-w-5xl mx-auto text-center relative">
           <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-4">
             For pilates instructors and boutique pilates studios
           </div>
@@ -108,18 +113,36 @@ export default function PilatesStudioSoftwarePage() {
           </p>
           <div className="mt-9 flex justify-center gap-3 flex-wrap">
             <Link href="/sign-up">
-              <Button size="lg" className="gap-2">
+              <Button size="lg" className="gap-2 cta-lift">
                 Start your 30-day free trial
                 <IconArrowRight className="size-4" />
               </Button>
             </Link>
             <Link href="/vs-mindbody">
-              <Button size="lg" variant="outline">
+              <Button size="lg" variant="outline" className="cta-lift">
                 Compare to Mindbody
               </Button>
             </Link>
           </div>
         </div>
+      </section>
+
+      {/* Signature: a pilates studio day */}
+      <section className="py-16 px-6 border-t border-border/60">
+        <RevealOnScroll>
+          <div className="text-center text-[10px] uppercase tracking-[0.24em] text-muted-foreground mb-10">
+            One pilates studio · Wednesday
+          </div>
+        </RevealOnScroll>
+        <StudioDay
+          entries={[
+            { time: "07:00", className: "Reformer Sunrise", instructor: "Mia", note: "8 / 8" },
+            { time: "09:30", className: "Mat Flow", instructor: "Aanya" },
+            { time: "12:00", className: "Reformer 50", instructor: "James", note: "7 / 8" },
+            { time: "17:30", className: "Tower & Chair", instructor: "Mia", note: "full" },
+            { time: "19:00", className: "Private · Anita W.", instructor: "Sarah", note: "1 / 1" },
+          ]}
+        />
       </section>
 
       <section className="py-20 px-6 bg-secondary/30 border-y border-border/60">
@@ -314,6 +337,10 @@ export default function PilatesStudioSoftwarePage() {
         </div>
       </section>
 
+      <EditorialBreakout attribution="Built for the discipline">
+        Reformer beds, mat spots, private sessions — every class type
+        respected, every credit tracked, every studio day on rhythm.
+      </EditorialBreakout>
       <FaqSection items={FAQS} />
       <SeoCtaBlock title="Run your pilates studio without the gym-software bloat." />
       <SeoFooter />

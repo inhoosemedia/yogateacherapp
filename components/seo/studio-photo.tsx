@@ -31,7 +31,7 @@ export function StudioPhoto({
 }: Props) {
   return (
     <figure className={"relative " + (className ?? "")}>
-      <div className="overflow-hidden rounded-3xl bg-secondary/60 border border-border/60 shadow-lg shadow-primary/5">
+      <div className="overflow-hidden rounded-3xl bg-secondary/60 border border-border/60 shadow-lg shadow-primary/5 transition-shadow duration-500 hover:shadow-xl hover:shadow-primary/10">
         <Image
           src={src}
           alt={alt}
@@ -39,7 +39,7 @@ export function StudioPhoto({
           height={height}
           priority={priority}
           sizes="(min-width: 1024px) 540px, 90vw"
-          className="w-full h-auto"
+          className="photo-zoom w-full h-auto"
         />
       </div>
       {caption && (
