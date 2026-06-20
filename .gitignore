@@ -50,3 +50,6 @@ customer-credentials/
 
 # Local screenshot/report outputs from smoke scripts
 tmp/
+
+# Source photos from customer Google Drive — only optimized versions go to public/
+google-drive/

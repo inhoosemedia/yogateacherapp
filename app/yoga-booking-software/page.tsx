@@ -8,6 +8,21 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://www.yogateacherapp.com/yoga-booking-software",
   },
+  openGraph: {
+    title: "Yoga Booking Software for Studios & Solo Teachers",
+    description:
+      "Online yoga booking software with credits, class packs, waitlists and member payments. Built for solo teachers and boutique studios.",
+    url: "https://www.yogateacherapp.com/yoga-booking-software",
+    type: "website",
+    images: [
+      {
+        url: "/seo/og-yogateacher-app-on-tablet.jpg",
+        width: 1200,
+        height: 630,
+        alt: "The YogaTeacher booking app on a studio tablet while a class holds warrior pose",
+      },
+    ],
+  },
 };
 
 export default function Page() {

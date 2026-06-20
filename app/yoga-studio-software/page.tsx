@@ -10,6 +10,7 @@ import {
   SeoFooter,
   SeoNav,
 } from "@/components/seo/page-shell";
+import { StudioPhoto } from "@/components/seo/studio-photo";
 import { Button } from "@/components/ui/button";
 import {
   IconArrowRight,
@@ -201,7 +202,7 @@ export default function YogaStudioSoftwarePage() {
 
       {/* Online booking — deeper section */}
       <section className="py-20 px-6 bg-secondary/30 border-y border-border/60">
-        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-start">
+        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div>
             <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-3">
               Online booking
@@ -211,15 +212,18 @@ export default function YogaStudioSoftwarePage() {
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed mb-4">
               Most yoga studio booking software treats every studio the same —
-              the same form fields, the same flow, the same cancellation
-              policy. YogaTeacher treats your studio as the source of truth.
+              same form fields, same flow, same cancellation policy.
+              YogaTeacher treats your studio as the source of truth. Set your
+              own cancellation window. Decide whether members need to create
+              an account or can book as guests. Choose which packages are
+              publicly purchasable and which require a teacher to assign.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Set your own cancellation window. Decide whether members need to
-              create an account or can book as guests. Choose which packages
-              are publicly purchasable and which require a teacher to assign.
-              Even the public booking page&apos;s headline and theme are
-              yours.
+              Members browse the weekly schedule at your URL, self-purchase
+              packages with PayPal, Stripe or Razorpay, and book classes in a
+              single tap. Credits decrement automatically; cancellations
+              within your window refund automatically; waitlists auto-promote
+              when a spot opens.
             </p>
             <Link
               href="/yoga-booking-software"
@@ -228,14 +232,13 @@ export default function YogaStudioSoftwarePage() {
               See full yoga booking features →
             </Link>
           </div>
-          <ul className="space-y-3 text-base">
-            <Bullet>Browse a public weekly schedule at your URL</Bullet>
-            <Bullet>Self-purchase packages with PayPal, Stripe or Razorpay</Bullet>
-            <Bullet>Book classes with one tap; credits decrement automatically</Bullet>
-            <Bullet>Cancel within your studio&apos;s window — credit refunds automatically</Bullet>
-            <Bullet>Waitlist with auto-promote when a spot opens</Bullet>
-            <Bullet>Confirmation + reminder emails sent via Resend</Bullet>
-          </ul>
+          <StudioPhoto
+            src="/seo/instructor-with-tablet-warrior-class.jpg"
+            alt="A yoga instructor checks the class schedule on a tablet while students hold warrior pose in the background"
+            width={1024}
+            height={1024}
+            caption="Class schedule on the studio floor — not stuck behind a desk."
+          />
         </div>
       </section>
 

@@ -41,7 +41,14 @@ export const metadata: Metadata = {
     url: "https://www.yogateacherapp.com",
     siteName: "YogaTeacher",
     type: "website",
-    images: [{ url: "/logo.png", width: 500, height: 500, alt: "YogaTeacher" }],
+    images: [
+      {
+        url: "/seo/og-instructor-with-tablet.jpg",
+        width: 1200,
+        height: 630,
+        alt: "A yoga instructor checks her studio schedule on a tablet while a class holds warrior pose behind her",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
