@@ -1,4 +1,5 @@
 import { AmbientAtmosphere } from "@/components/seo/ambient-atmosphere";
+import { DarkCtaBand } from "@/components/seo/dark-cta-band";
 import { EditorialBreakout } from "@/components/seo/editorial-breakout";
 import { FaqSection } from "@/components/seo/faq";
 import {
@@ -8,7 +9,6 @@ import {
 } from "@/components/seo/json-ld";
 import {
   SeoBreadcrumbs,
-  SeoCtaBlock,
   SeoFooter,
   SeoNav,
 } from "@/components/seo/page-shell";
@@ -228,7 +228,10 @@ export default function PricingPage() {
       </section>
 
       <FaqSection items={FAQS} />
-      <SeoCtaBlock />
+      <DarkCtaBand
+        heading="Ready to run your studio without the chaos?"
+        body="Start your 30-day free trial. No credit card. No demo calls. Cancel any time."
+      />
       <SeoFooter />
 
       <JsonLd

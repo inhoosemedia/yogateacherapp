@@ -9,6 +9,7 @@ import { AmbientAtmosphere } from "@/components/seo/ambient-atmosphere";
 import { EditorialBreakout } from "@/components/seo/editorial-breakout";
 import { FaqSection } from "@/components/seo/faq";
 import { RevealOnScroll } from "@/components/seo/reveal-on-scroll";
+import { StatsStrip } from "@/components/seo/stats-strip";
 import { StudioDay } from "@/components/seo/studio-day";
 import { HOMEPAGE_FAQS } from "@/lib/seo-content";
 import { MembersPreview } from "@/components/landing/members-preview";
@@ -184,6 +185,9 @@ export default async function Home() {
           </p>
         </RevealOnScroll>
       </section>
+
+      {/* ─── Stats strip ─────────────────────────────────────────── */}
+      <StatsStrip />
 
       {/* ─── Stop using ─────────────────────────────────────────── */}
       <section className="py-14 border-y border-border/60 bg-secondary/40">

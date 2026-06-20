@@ -6,11 +6,11 @@ import {
 } from "@/components/seo/json-ld";
 import {
   SeoBreadcrumbs,
-  SeoCtaBlock,
   SeoFooter,
   SeoNav,
 } from "@/components/seo/page-shell";
 import { AmbientAtmosphere } from "@/components/seo/ambient-atmosphere";
+import { DarkCtaBand } from "@/components/seo/dark-cta-band";
 import { EditorialBreakout } from "@/components/seo/editorial-breakout";
 import { RevealOnScroll } from "@/components/seo/reveal-on-scroll";
 import { StudioDay } from "@/components/seo/studio-day";
@@ -459,7 +459,10 @@ export default function YogaStudioSoftwarePage() {
         of WhatsApp, Sheets and Venmo.
       </EditorialBreakout>
       <FaqSection items={FAQS} />
-      <SeoCtaBlock title="Run your yoga studio without the chaos." />
+      <DarkCtaBand
+        heading="Run your yoga studio without the chaos."
+        body="Bookings, memberships, payments and instructors — all in one calm app. Give YogaTeacher a fortnight and see how much quieter your front desk gets."
+      />
       <SeoFooter />
 
       <JsonLd
