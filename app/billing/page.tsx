@@ -3,8 +3,13 @@ import { SignOutButton } from "@/components/sign-out-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { auth } from "@/lib/auth";
 import { formatMoney } from "@/lib/format";
+import { getPlatformPayPalCreds } from "@/lib/paypal";
 import { getPlatformConfig } from "@/lib/platform";
 import { isPlatformRazorpayConfigured } from "@/lib/razorpay";
+import {
+  getPlatformBillingProvider,
+  isPlatformStripeConfigured,
+} from "@/lib/stripe";
 import { getActiveStudio, trialDaysRemaining } from "@/lib/studio";
 import {
   IconArrowLeft,
@@ -29,7 +34,19 @@ export default async function BillingPage() {
   const daysLeft = trialActive ? trialDaysRemaining(studio) : 0;
   const subscribed = status === "active";
 
-  const razorpayConfigured = await isPlatformRazorpayConfigured();
+  const provider = await getPlatformBillingProvider();
+  const providerConfigured =
+    provider === "stripe"
+      ? await isPlatformStripeConfigured()
+      : provider === "razorpay"
+        ? await isPlatformRazorpayConfigured()
+        : Boolean(await getPlatformPayPalCreds());
+  const providerLabel =
+    provider === "stripe"
+      ? "Stripe"
+      : provider === "razorpay"
+        ? "Razorpay"
+        : "PayPal";
 
   const cfg = await getPlatformConfig();
   const studioPrice = formatMoney(cfg.priceStudioCents, cfg.currency);
@@ -133,7 +150,7 @@ export default async function BillingPage() {
                   "Class types, instructors, packages",
                   "All updates included",
                 ]}
-                razorpayConfigured={razorpayConfigured}
+                providerConfigured={providerConfigured}
               />
               <PlanCard
                 featured
@@ -149,15 +166,17 @@ export default async function BillingPage() {
                   "Cross-studio reporting",
                   "Priority support",
                 ]}
-                razorpayConfigured={razorpayConfigured}
+                providerConfigured={providerConfigured}
               />
             </div>
-            {!razorpayConfigured && (
+            {!providerConfigured && (
               <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">
-                <div className="font-medium">Razorpay isn&apos;t configured yet</div>
+                <div className="font-medium">
+                  {providerLabel} isn&apos;t configured yet
+                </div>
                 <p className="mt-1 text-amber-800/90">
-                  Subscriptions will activate once the platform Razorpay
-                  credentials are saved in{" "}
+                  Subscriptions will activate once the platform{" "}
+                  {providerLabel} credentials are saved in{" "}
                   <a href="/admin/settings" className="underline">
                     Super Admin → Settings → API keys
                   </a>{" "}
@@ -173,8 +192,8 @@ export default async function BillingPage() {
             <CardContent className="py-8 text-center">
               <IconSparkles className="size-7 text-primary mx-auto" />
               <p className="mt-3 text-sm text-muted-foreground max-w-md mx-auto">
-                Manage payment method or cancel from your Razorpay customer
-                portal. Reach out if you need help.
+                Manage payment method or cancel from your {providerLabel}{" "}
+                customer portal. Reach out if you need help.
               </p>
             </CardContent>
           </Card>
@@ -192,7 +211,7 @@ function PlanCard({
   tagline,
   features,
   featured,
-  razorpayConfigured,
+  providerConfigured,
 }: {
   tier: "studio" | "multi_studio";
   name: string;
@@ -201,7 +220,7 @@ function PlanCard({
   tagline: string;
   features: string[];
   featured?: boolean;
-  razorpayConfigured: boolean;
+  providerConfigured: boolean;
 }) {
   return (
     <div
@@ -240,7 +259,7 @@ function PlanCard({
       <div className="mt-7">
         <SubscribeButtons
           tier={tier}
-          enabled={razorpayConfigured}
+          enabled={providerConfigured}
           featured={featured}
         />
       </div>
