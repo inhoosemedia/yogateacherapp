@@ -17,10 +17,12 @@ import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { createStudio } from "../actions";
 
-export function OnboardingForm() {
+export function OnboardingForm({ nextPath }: { nextPath?: string }) {
   const [pending, start] = useTransition();
   const [tz, setTz] = useState("America/New_York");
   const [currency, setCurrency] = useState("USD");
+
+  const buyMode = nextPath?.startsWith("/billing");
 
   return (
     <form
@@ -28,6 +30,7 @@ export function OnboardingForm() {
       action={(fd) => {
         fd.set("timezone", tz);
         fd.set("currency", currency);
+        if (nextPath) fd.set("next", nextPath);
         start(async () => {
           try {
             await createStudio(fd);
@@ -83,7 +86,11 @@ export function OnboardingForm() {
         </div>
       </div>
       <Button type="submit" className="w-full" disabled={pending}>
-        {pending ? "Creating studio…" : "Create studio"}
+        {pending
+          ? "Creating studio…"
+          : buyMode
+            ? "Create studio + continue to checkout"
+            : "Create studio"}
       </Button>
     </form>
   );

@@ -2,20 +2,25 @@
 
 import { Button } from "@/components/ui/button";
 import { trackSubscription } from "@/lib/gtag";
-import { useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 export function SubscribeButtons({
   tier,
   enabled,
   featured,
+  autoFire,
 }: {
   tier: "studio" | "multi_studio";
   enabled: boolean;
   featured?: boolean;
+  /** If true, fire the subscribe request automatically on mount. Used by the
+   * "subscribe immediately" path arriving at /billing?subscribe=studio. */
+  autoFire?: boolean;
 }) {
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const firedRef = useRef(false);
 
   const subscribe = () =>
     start(async () => {
@@ -29,10 +34,6 @@ export function SubscribeButtons({
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || "Could not start checkout");
         if (data.shortUrl) {
-          // Fire the intent-to-subscribe event before we leave the page —
-          // the actual conversion lands on /billing?paid=1 via the platform
-          // webhook, but capturing the click here gives Google Ads a useful
-          // upper-funnel signal.
           trackSubscription(tier);
           window.location.href = data.shortUrl;
         } else {
@@ -45,6 +46,20 @@ export function SubscribeButtons({
       }
     });
 
+  // Auto-fire when arriving via /pricing → /sign-up → /onboarding →
+  // /billing?subscribe=tier flow. One shot only; the ref guards StrictMode
+  // double-invoke and the fact that React 19 is happy to re-run effects on
+  // search-param changes.
+  useEffect(() => {
+    if (autoFire && enabled && !firedRef.current) {
+      firedRef.current = true;
+      subscribe();
+    }
+    // subscribe is intentionally excluded from deps — it's recreated each
+    // render and we only want this effect to run on mount.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoFire, enabled]);
+
   return (
     <div className="space-y-2">
       <Button
@@ -56,9 +71,11 @@ export function SubscribeButtons({
       >
         {pending
           ? "Starting checkout…"
-          : enabled
-            ? "Subscribe"
-            : "Coming soon"}
+          : autoFire && enabled
+            ? "Continuing to checkout…"
+            : enabled
+              ? "Subscribe"
+              : "Coming soon"}
       </Button>
       {error && (
         <p className="text-xs text-rose-700 text-center">{error}</p>

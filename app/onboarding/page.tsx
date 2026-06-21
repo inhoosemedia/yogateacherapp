@@ -7,11 +7,18 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { OnboardingForm } from "./_components/onboarding-form";
 
-export default async function OnboardingPage() {
+export default async function OnboardingPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ next?: string }>;
+}) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) redirect("/sign-in");
+  const { next: rawNext } = await searchParams;
+  // Same-origin path only — used by "subscribe immediately" path on /pricing.
+  const nextPath = rawNext?.startsWith("/") ? rawNext : undefined;
   const existing = await getActiveStudio(session.user.id);
-  if (existing) redirect("/dashboard");
+  if (existing) redirect(nextPath ?? "/dashboard");
 
   return (
     <div className="min-h-screen bg-canvas canvas-grain flex flex-col items-center justify-center p-8">
@@ -37,7 +44,14 @@ export default async function OnboardingPage() {
             A few details and you&apos;re in. You can edit these later in
             settings.
           </p>
-          <OnboardingForm />
+          {nextPath?.startsWith("/billing") && (
+            <div className="mb-6 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-xs text-primary/85">
+              <span className="font-medium">Subscribing now —</span> after
+              you save your studio details, you&apos;ll head straight to
+              checkout. The trial is skipped.
+            </div>
+          )}
+          <OnboardingForm nextPath={nextPath} />
         </CardContent>
       </Card>
 

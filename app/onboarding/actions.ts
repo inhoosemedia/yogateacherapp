@@ -24,6 +24,11 @@ export async function createStudio(formData: FormData) {
   const name = String(formData.get("name") ?? "").trim();
   const timezone = String(formData.get("timezone") ?? "Asia/Kolkata");
   const currency = String(formData.get("currency") ?? "INR");
+  // Optional next-step redirect — used by the "skip trial, subscribe
+  // immediately" path on /pricing. Same-origin only to prevent
+  // open-redirect.
+  const rawNext = String(formData.get("next") ?? "");
+  const nextPath = rawNext.startsWith("/") ? rawNext : "/dashboard";
 
   if (!name) throw new Error("Studio name is required");
 
@@ -75,5 +80,5 @@ export async function createStudio(formData: FormData) {
     maxAge: 60 * 60 * 24 * 365,
   });
 
-  redirect("/dashboard");
+  redirect(nextPath);
 }

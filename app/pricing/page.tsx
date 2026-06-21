@@ -105,6 +105,7 @@ export default function PricingPage() {
             ]}
             cta="Start free trial"
             href="/sign-up"
+            buyNowHref="/sign-up?returnTo=/onboarding%3Fnext%3D/billing%253Fsubscribe%253Dstudio"
             highlight={false}
           />
           <PricingCard
@@ -125,6 +126,7 @@ export default function PricingPage() {
             ]}
             cta="Start free trial"
             href="/sign-up"
+            buyNowHref="/sign-up?returnTo=/onboarding%3Fnext%3D/billing%253Fsubscribe%253Dmulti_studio"
             highlight={true}
           />
         </div>
@@ -255,6 +257,7 @@ function PricingCard({
   href,
   highlight,
   signature,
+  buyNowHref,
 }: {
   tier: string;
   price: string;
@@ -265,6 +268,7 @@ function PricingCard({
   href: string;
   highlight: boolean;
   signature: string;
+  buyNowHref?: string;
 }) {
   return (
     <div
@@ -333,6 +337,17 @@ function PricingCard({
           <IconArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
         </Button>
       </Link>
+      {buyNowHref && (
+        <Link
+          href={buyNowHref}
+          className={
+            "block text-center mt-3 text-xs underline-offset-4 hover:underline transition-opacity " +
+            (highlight ? "opacity-80 hover:opacity-100" : "text-muted-foreground hover:text-foreground")
+          }
+        >
+          Or skip the trial and subscribe now →
+        </Link>
+      )}
       <div
         className={
           "mt-8 h-px " +

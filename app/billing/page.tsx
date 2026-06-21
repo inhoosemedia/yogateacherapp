@@ -21,12 +21,26 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { SubscribeButtons } from "./_components/subscribe-buttons";
 
-export default async function BillingPage() {
+export default async function BillingPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ subscribe?: string; paid?: string; cancelled?: string }>;
+}) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) redirect("/sign-in?returnTo=/billing");
 
   const studio = await getActiveStudio(session.user.id);
   if (!studio) redirect("/onboarding");
+
+  const sp = await searchParams;
+  // ?subscribe=studio or ?subscribe=multi_studio — used by the "skip
+  // trial, subscribe immediately" path from /pricing. The client-side
+  // SubscribeButtons component reads this and auto-fires the matching
+  // Subscribe POST so the user doesn't have to click again.
+  const autoSubscribe =
+    sp.subscribe === "studio" || sp.subscribe === "multi_studio"
+      ? sp.subscribe
+      : undefined;
 
   const status = studio.subscriptionStatus;
   const trialActive = status === "trialing" && studio.trialEndsAt > new Date();
@@ -151,6 +165,7 @@ export default async function BillingPage() {
                   "All updates included",
                 ]}
                 providerConfigured={providerConfigured}
+                autoSubscribe={autoSubscribe === "studio"}
               />
               <PlanCard
                 featured
@@ -167,6 +182,7 @@ export default async function BillingPage() {
                   "Priority support",
                 ]}
                 providerConfigured={providerConfigured}
+                autoSubscribe={autoSubscribe === "multi_studio"}
               />
             </div>
             {!providerConfigured && (
@@ -212,6 +228,7 @@ function PlanCard({
   features,
   featured,
   providerConfigured,
+  autoSubscribe,
 }: {
   tier: "studio" | "multi_studio";
   name: string;
@@ -221,6 +238,7 @@ function PlanCard({
   features: string[];
   featured?: boolean;
   providerConfigured: boolean;
+  autoSubscribe?: boolean;
 }) {
   return (
     <div
@@ -261,6 +279,7 @@ function PlanCard({
           tier={tier}
           enabled={providerConfigured}
           featured={featured}
+          autoFire={autoSubscribe}
         />
       </div>
     </div>
