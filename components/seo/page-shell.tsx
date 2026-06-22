@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { IconArrowRight } from "@tabler/icons-react";
+import { MarketingMobileNav } from "./marketing-mobile-nav";
 
 export function SeoNav() {
   return (
@@ -42,14 +43,15 @@ export function SeoNav() {
           </Link>
         </nav>
         <div className="flex items-center gap-2">
-          <Link href="/sign-in">
+          <Link href="/sign-in" className="hidden md:inline-block">
             <Button variant="ghost" size="sm">
               Sign in
             </Button>
           </Link>
-          <Link href="/sign-up">
+          <Link href="/sign-up" className="hidden md:inline-block">
             <Button size="sm">Start free</Button>
           </Link>
+          <MarketingMobileNav />
         </div>
       </div>
     </header>

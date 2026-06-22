@@ -8,6 +8,7 @@ import {
 import { AmbientAtmosphere } from "@/components/seo/ambient-atmosphere";
 import { EditorialBreakout } from "@/components/seo/editorial-breakout";
 import { FaqSection } from "@/components/seo/faq";
+import { MarketingMobileNav } from "@/components/seo/marketing-mobile-nav";
 import { RevealOnScroll } from "@/components/seo/reveal-on-scroll";
 import { StatsStrip } from "@/components/seo/stats-strip";
 import { StickyMobileCta } from "@/components/seo/sticky-mobile-cta";
@@ -78,14 +79,15 @@ export default async function Home() {
             </Link>
           </nav>
           <div className="flex items-center gap-2">
-            <Link href="/sign-in">
+            <Link href="/sign-in" className="hidden md:inline-block">
               <Button variant="ghost" size="sm">
                 Sign in
               </Button>
             </Link>
-            <Link href="/sign-up">
+            <Link href="/sign-up" className="hidden md:inline-block">
               <Button size="sm">Start free</Button>
             </Link>
+            <MarketingMobileNav />
           </div>
         </div>
       </header>
