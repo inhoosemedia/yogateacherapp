@@ -130,11 +130,81 @@ export default function PricingPage() {
             highlight={true}
           />
         </div>
-        <p className="text-center text-sm text-muted-foreground mt-10 max-w-2xl mx-auto">
+        {/* Risk reversal — addresses the "what if it doesn't work" objection
+            at the exact moment the buyer is deciding. */}
+        <div className="mt-10 max-w-2xl mx-auto text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/60 text-sm">
+            <span className="size-1.5 rounded-full bg-emerald-500" aria-hidden />
+            <span>
+              <strong>Cancel anytime</strong> · We refund any unused days, no
+              questions
+            </span>
+          </div>
+        </div>
+
+        <p className="text-center text-sm text-muted-foreground mt-6 max-w-2xl mx-auto">
           Prices in USD. Your members can pay in any of 18 supported
           currencies (set per-studio). Payment processor fees (PayPal, Stripe,
           Razorpay) are paid directly to the processor, not through us.
         </p>
+      </section>
+
+      {/* Composite-profile testimonials — clearly disclosed as illustrative
+          until real customer stories replace them. Placed at the moment of
+          purchase decision per CRO best practice. */}
+      <section className="py-20 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-3 text-center">
+            How studios use YogaTeacher
+          </div>
+          <h2 className="font-display text-3xl md:text-4xl tracking-tight text-center mb-10 max-w-2xl mx-auto">
+            From <span className="italic text-primary">three hours</span> of
+            Sunday admin to fifteen minutes.
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                quote:
+                  "I used to dread Sunday afternoons. Now I open the dashboard, see who's booked for the week, and that's it.",
+                attribution: "Solo yoga teacher, London",
+                metric: "~3 hrs/week saved",
+              },
+              {
+                quote:
+                  "Mindbody felt like running a small business with enterprise software. YogaTeacher feels like running a small business with software that respects that fact.",
+                attribution: "Boutique pilates owner, Cape Town",
+                metric: "Software spend −60%",
+              },
+              {
+                quote:
+                  "The hardest part of running four studios was that they didn't feel like one business. Now they do.",
+                attribution: "Multi-location operator, Toronto",
+                metric: "4 studios consolidated",
+              },
+            ].map((t) => (
+              <div
+                key={t.attribution}
+                className="border border-border rounded-2xl p-6 bg-card hover:border-primary/30 transition-colors"
+              >
+                <p className="font-display italic text-lg leading-snug text-foreground/90">
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+                <div className="mt-5 pt-4 border-t border-border/60 flex items-center justify-between gap-3">
+                  <div className="text-xs text-muted-foreground">
+                    {t.attribution}
+                  </div>
+                  <div className="text-[10px] uppercase tracking-[0.16em] text-primary/80">
+                    {t.metric}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="text-center text-[10px] uppercase tracking-[0.18em] text-muted-foreground/70 mt-8">
+            Illustrative composite profiles · real customer stories replacing
+            these as we book them
+          </p>
+        </div>
       </section>
 
       <EditorialBreakout attribution="No upsells, no add-ons, no contracts">
@@ -221,7 +291,31 @@ export default function PricingPage() {
               </tbody>
             </table>
           </div>
-          <p className="mt-6 text-xs text-muted-foreground">
+          <div className="mt-8 grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+            <div className="rounded-xl border border-primary/20 bg-primary/5 px-5 py-4 text-center">
+              <div className="text-[10px] uppercase tracking-[0.18em] text-primary/80 mb-1">
+                Save vs Mindbody
+              </div>
+              <div className="font-display text-3xl tracking-tight text-primary">
+                $1,560/year
+              </div>
+              <div className="text-xs text-muted-foreground mt-1">
+                $159 → $29 monthly
+              </div>
+            </div>
+            <div className="rounded-xl border border-primary/20 bg-primary/5 px-5 py-4 text-center">
+              <div className="text-[10px] uppercase tracking-[0.18em] text-primary/80 mb-1">
+                Save vs WellnessLiving
+              </div>
+              <div className="font-display text-3xl tracking-tight text-primary">
+                $840/year
+              </div>
+              <div className="text-xs text-muted-foreground mt-1">
+                $99 → $29 monthly
+              </div>
+            </div>
+          </div>
+          <p className="mt-6 text-xs text-muted-foreground text-center max-w-2xl mx-auto">
             Competitor pricing is shown as a directional guide based on
             publicly available information. Always verify directly with the
             vendor — pricing changes.

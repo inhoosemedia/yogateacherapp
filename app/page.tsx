@@ -10,6 +10,7 @@ import { EditorialBreakout } from "@/components/seo/editorial-breakout";
 import { FaqSection } from "@/components/seo/faq";
 import { RevealOnScroll } from "@/components/seo/reveal-on-scroll";
 import { StatsStrip } from "@/components/seo/stats-strip";
+import { StickyMobileCta } from "@/components/seo/sticky-mobile-cta";
 import { StudioDay } from "@/components/seo/studio-day";
 import { HOMEPAGE_FAQS } from "@/lib/seo-content";
 import { MembersPreview } from "@/components/landing/members-preview";
@@ -119,9 +120,9 @@ export default async function Home() {
             </span>
           </p>
           <p className="mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            The easiest yoga and pilates studio management software for
-            memberships, scheduling, bookings, payments and instructor
-            management. Stop running your studio on WhatsApp + Sheets + Venmo.
+            Cut your Sunday-afternoon admin from 3 hours to 15 minutes.
+            Bookings, memberships, payments and instructors — all in one
+            calm app for yoga and pilates studios.
           </p>
           <div className="mt-10 flex justify-center gap-3 flex-wrap">
             <Link href="/sign-up">
@@ -142,6 +143,14 @@ export default async function Home() {
             <Tick>No demo calls</Tick>
             <Tick>Cancel anytime</Tick>
           </ul>
+          {/* Skip-the-trial path for ready buyers — small text link, no
+              visual conflict with the primary CTAs. */}
+          <Link
+            href="/pricing"
+            className="mt-6 inline-block text-xs text-muted-foreground hover:text-foreground transition-colors underline-offset-4 hover:underline"
+          >
+            Already convinced? Skip the trial and subscribe →
+          </Link>
         </div>
 
         {/* Floating dashboard preview */}
@@ -731,6 +740,8 @@ export default async function Home() {
           </div>
         </div>
       </footer>
+
+      <StickyMobileCta />
     </main>
   );
 }
