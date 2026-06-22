@@ -34,6 +34,9 @@ export function SeoNav() {
           <Link href="/pricing" className="link-grow hover:text-foreground transition-colors">
             Pricing
           </Link>
+          <Link href="/tools" className="link-grow hover:text-foreground transition-colors">
+            Free tools
+          </Link>
           <Link href="/blog" className="link-grow hover:text-foreground transition-colors">
             Blog
           </Link>
@@ -139,6 +142,11 @@ export function SeoFooter() {
             Resources
           </div>
           <ul className="space-y-2">
+            <li>
+              <Link href="/tools" className="hover:text-foreground">
+                Free tools
+              </Link>
+            </li>
             <li>
               <Link href="/blog" className="hover:text-foreground">
                 Blog

@@ -70,6 +70,9 @@ export default async function Home() {
             <Link href="/pricing" className="link-grow hover:text-foreground transition-colors">
               Pricing
             </Link>
+            <Link href="/tools" className="link-grow hover:text-foreground transition-colors">
+              Free tools
+            </Link>
             <Link href="/blog" className="link-grow hover:text-foreground transition-colors">
               Blog
             </Link>
