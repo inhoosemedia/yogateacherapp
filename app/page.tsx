@@ -7,8 +7,10 @@ import {
 } from "@/components/landing/decorations";
 import { AmbientAtmosphere } from "@/components/seo/ambient-atmosphere";
 import { EditorialBreakout } from "@/components/seo/editorial-breakout";
+import { EditorialPhotoStrip } from "@/components/seo/editorial-photo-strip";
 import { FaqSection } from "@/components/seo/faq";
 import { MarketingMobileNav } from "@/components/seo/marketing-mobile-nav";
+import { PolaroidStack } from "@/components/seo/polaroid-stack";
 import { RevealOnScroll } from "@/components/seo/reveal-on-scroll";
 import { StatsStrip } from "@/components/seo/stats-strip";
 import { StickyMobileCta } from "@/components/seo/sticky-mobile-cta";
@@ -185,11 +187,11 @@ export default async function Home() {
         </RevealOnScroll>
         <StudioDay
           entries={[
-            { time: "06:30", className: "Sunrise Vinyasa", instructor: "Sarah", note: "12 / 20" },
-            { time: "09:00", className: "Restorative", instructor: "James" },
-            { time: "12:00", className: "Lunchtime Flow", instructor: "Sarah", note: "full" },
-            { time: "17:30", className: "Reformer Flow", instructor: "Mia", note: "8 / 8" },
-            { time: "19:00", className: "Yin & Yoga Nidra", instructor: "Aanya" },
+            { time: "06:30", className: "Sunrise Vinyasa", instructor: "Sarah", note: "12 / 20", avatarSrc: "/seo/photos/avatar-1.jpg" },
+            { time: "09:00", className: "Restorative", instructor: "James", avatarSrc: "/seo/photos/avatar-2.jpg" },
+            { time: "12:00", className: "Lunchtime Flow", instructor: "Sarah", note: "full", avatarSrc: "/seo/photos/avatar-3.jpg" },
+            { time: "17:30", className: "Reformer Flow", instructor: "Mia", note: "8 / 8", avatarSrc: "/seo/photos/avatar-4.jpg" },
+            { time: "19:00", className: "Yin & Yoga Nidra", instructor: "Aanya", avatarSrc: "/seo/photos/avatar-5.jpg" },
           ]}
         />
         <RevealOnScroll delay={400}>
@@ -202,6 +204,9 @@ export default async function Home() {
 
       {/* ─── Stats strip ─────────────────────────────────────────── */}
       <StatsStrip />
+
+      {/* ─── Editorial photo strip — sets visual tone before bento ─ */}
+      <EditorialPhotoStrip />
 
       {/* ─── Stop using ─────────────────────────────────────────── */}
       <section className="py-14 border-y border-border/60 bg-secondary/40">
@@ -632,14 +637,21 @@ export default async function Home() {
       {/* ─── Built for (SEO audience section) ───────────────── */}
       <section className="py-20 px-6 border-t border-border/60 bg-secondary/20">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-3">
-              Built for
+          <div className="grid md:grid-cols-[1fr_auto] gap-12 md:gap-16 items-start mb-14 md:mb-16">
+            <div>
+              <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-3">
+                Built for
+              </div>
+              <h2 className="font-display text-4xl md:text-5xl tracking-tight">
+                Yoga teachers, pilates instructors and{" "}
+                <span className="italic text-primary">boutique studios</span>.
+              </h2>
+              <p className="mt-5 text-muted-foreground text-lg leading-relaxed max-w-xl">
+                Three kinds of operators, one calm tool. Built around the
+                rhythm of a studio day — not the agenda of a software demo.
+              </p>
             </div>
-            <h2 className="font-display text-4xl md:text-5xl tracking-tight">
-              Yoga teachers, pilates instructors and{" "}
-              <span className="italic text-primary">boutique studios</span>.
-            </h2>
+            <PolaroidStack className="hidden md:block md:-mt-4" />
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <div className="text-center md:text-left">
