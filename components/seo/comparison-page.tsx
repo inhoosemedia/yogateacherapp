@@ -21,7 +21,7 @@ export type ComparisonRow = {
 export type ComparisonPageProps = {
   competitor: string;
   competitorSlug: string;
-  tagline: string;
+  tagline: React.ReactNode;
   intro: string;
   reasons: { title: string; body: string }[];
   rows: ComparisonRow[];

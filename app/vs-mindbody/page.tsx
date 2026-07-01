@@ -20,7 +20,12 @@ export default function VsMindbody() {
     <ComparisonPage
       competitor="Mindbody"
       competitorSlug="mindbody"
-      tagline="Mindbody is built for the gym. YogaTeacher is built for you."
+      tagline={
+        <>
+          Mindbody is built for the gym. YogaTeacher is{" "}
+          <span className="text-primary italic">built for you.</span>
+        </>
+      }
       intro="A simpler, cheaper, faster-to-set-up alternative to Mindbody for boutique yoga and pilates studios. Also compare against Momence, Vagaro and WellnessLiving — see how studios are switching across the board."
       lastUpdated="May 2026"
       reasons={[

@@ -37,7 +37,8 @@ export default function BlogIndex() {
             Blog
           </div>
           <h1 className="font-display text-5xl md:text-7xl leading-[1.02] tracking-tight">
-            Run a better studio.
+            Run a better{" "}
+            <span className="text-primary italic">studio.</span>
           </h1>
           <p className="mt-7 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Practical guides for yoga and pilates studio owners. Growth,
