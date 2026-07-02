@@ -9,7 +9,7 @@ import { AmbientAtmosphere } from "@/components/seo/ambient-atmosphere";
 import { EditorialBreakout } from "@/components/seo/editorial-breakout";
 import { EditorialPhotoStrip } from "@/components/seo/editorial-photo-strip";
 import { FaqSection } from "@/components/seo/faq";
-import { MarketingMobileNav } from "@/components/seo/marketing-mobile-nav";
+import { SeoNav } from "@/components/seo/page-shell";
 import { PolaroidStack } from "@/components/seo/polaroid-stack";
 import { RevealOnScroll } from "@/components/seo/reveal-on-scroll";
 import { StatsStrip } from "@/components/seo/stats-strip";
@@ -42,57 +42,8 @@ export default async function Home() {
   const studioPrice = formatMoney(cfg.priceStudioCents, cfg.currency);
   const multiPrice = formatMoney(cfg.priceMultiCents, cfg.currency);
   return (
-    <main className="min-h-screen bg-canvas text-foreground overflow-hidden">
-      {/* ─── Header ──────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-30 backdrop-blur-md bg-canvas/75 border-b border-border/60">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link
-            href="/"
-            className="flex items-center gap-2 font-display text-lg tracking-tight"
-          >
-            <Image
-              src="/logo.png"
-              alt="YogaTeacher"
-              width={32}
-              height={32}
-              className="size-8 shadow-sm rounded-full"
-              priority
-            />
-            YogaTeacher
-          </Link>
-          <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
-            <Link href="/yoga-studio-software" className="link-grow hover:text-foreground transition-colors">
-              Yoga
-            </Link>
-            <Link href="/pilates-studio-software" className="link-grow hover:text-foreground transition-colors">
-              Pilates
-            </Link>
-            <Link href="/vs-mindbody" className="link-grow hover:text-foreground transition-colors">
-              vs Mindbody
-            </Link>
-            <Link href="/pricing" className="link-grow hover:text-foreground transition-colors">
-              Pricing
-            </Link>
-            <Link href="/tools" className="link-grow hover:text-foreground transition-colors">
-              Free tools
-            </Link>
-            <Link href="/blog" className="link-grow hover:text-foreground transition-colors">
-              Blog
-            </Link>
-          </nav>
-          <div className="flex items-center gap-2">
-            <Link href="/sign-in" className="hidden md:inline-block">
-              <Button variant="ghost" size="sm">
-                Sign in
-              </Button>
-            </Link>
-            <Link href="/sign-up" className="hidden md:inline-block">
-              <Button size="sm">Start free</Button>
-            </Link>
-            <MarketingMobileNav />
-          </div>
-        </div>
-      </header>
+    <main className="min-h-screen bg-canvas text-foreground">
+      <SeoNav />
 
       {/* ─── Hero ────────────────────────────────────────────────── */}
       <section className="relative pt-20 pb-32 px-6 overflow-hidden">
