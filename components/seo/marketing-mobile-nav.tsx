@@ -97,26 +97,24 @@ export function MarketingMobileNav() {
               </Link>
             );
           })}
+          {/* CTAs live directly under the nav links, not pinned to the
+              bottom of the drawer — that way they never fight iOS's URL
+              chrome for space (Tyron feedback, WhatsApp 2026-07-02). */}
+          <div className="px-5 pt-5 pb-8 space-y-3 border-t border-border/60 mt-3">
+            <Link
+              href="/sign-up"
+              className="block w-full text-center bg-primary text-primary-foreground rounded-lg py-3 font-medium shadow-md shadow-primary/15"
+            >
+              Start free trial
+            </Link>
+            <Link
+              href="/sign-in"
+              className="block w-full text-center border border-border rounded-lg py-3 font-medium"
+            >
+              Sign in
+            </Link>
+          </div>
         </nav>
-        <div
-          className="border-t border-border/60 p-5 space-y-3 bg-canvas"
-          style={{
-            paddingBottom: "calc(1.25rem + env(safe-area-inset-bottom, 0px))",
-          }}
-        >
-          <Link
-            href="/sign-up"
-            className="block w-full text-center bg-primary text-primary-foreground rounded-lg py-3 font-medium shadow-md shadow-primary/15"
-          >
-            Start free trial
-          </Link>
-          <Link
-            href="/sign-in"
-            className="block w-full text-center border border-border rounded-lg py-3 font-medium"
-          >
-            Sign in
-          </Link>
-        </div>
       </aside>
     </>
   );
