@@ -138,11 +138,11 @@ export default function YogaStudioSoftwarePage() {
         </RevealOnScroll>
         <StudioDay
           entries={[
-            { time: "06:30", className: "Sunrise Vinyasa", instructor: "Sarah", note: "14 / 20" },
-            { time: "09:00", className: "Restorative", instructor: "James" },
-            { time: "12:00", className: "Lunchtime Flow", instructor: "Sarah", note: "full" },
-            { time: "18:00", className: "Slow Yin", instructor: "Priya" },
-            { time: "19:30", className: "Candlelit Yoga Nidra", instructor: "Aanya" },
+            { time: "06:30", className: "Sunrise Vinyasa", instructor: "Sarah", note: "14 / 20", avatarSrc: "/seo/photos/avatar-1.jpg" },
+            { time: "09:00", className: "Restorative", instructor: "James", avatarSrc: "/seo/photos/avatar-2.jpg" },
+            { time: "12:00", className: "Lunchtime Flow", instructor: "Sarah", note: "full", avatarSrc: "/seo/photos/avatar-3.jpg" },
+            { time: "18:00", className: "Slow Yin", instructor: "Priya", avatarSrc: "/seo/photos/avatar-4.jpg" },
+            { time: "19:30", className: "Candlelit Yoga Nidra", instructor: "Aanya", avatarSrc: "/seo/photos/avatar-5.jpg" },
           ]}
         />
       </section>
