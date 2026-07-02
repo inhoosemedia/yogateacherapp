@@ -98,7 +98,12 @@ export function MarketingMobileNav() {
             );
           })}
         </nav>
-        <div className="border-t border-border/60 p-5 space-y-3">
+        <div
+          className="border-t border-border/60 p-5 space-y-3 bg-canvas"
+          style={{
+            paddingBottom: "calc(1.25rem + env(safe-area-inset-bottom, 0px))",
+          }}
+        >
           <Link
             href="/sign-up"
             className="block w-full text-center bg-primary text-primary-foreground rounded-lg py-3 font-medium shadow-md shadow-primary/15"

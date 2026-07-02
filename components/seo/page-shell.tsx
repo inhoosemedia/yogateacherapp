@@ -6,8 +6,11 @@ import { MarketingMobileNav } from "./marketing-mobile-nav";
 
 export function SeoNav() {
   return (
-    <header className="sticky top-0 z-30 backdrop-blur-md bg-canvas/75 border-b border-border/60">
-      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <header
+      className="sticky top-0 z-40 backdrop-blur-md bg-canvas/80 border-b border-border/60 transform-gpu"
+      style={{ willChange: "transform" }}
+    >
+      <div className="max-w-6xl mx-auto px-5 md:px-6 py-3 md:py-4 flex items-center justify-between">
         <Link
           href="/"
           className="flex items-center gap-2 font-display text-lg tracking-tight"

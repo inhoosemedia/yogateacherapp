@@ -43,11 +43,14 @@ export function StickyMobileCta({
   return (
     <div
       className={
-        "md:hidden fixed bottom-3 inset-x-3 z-40 transition-all duration-300 " +
+        "md:hidden fixed inset-x-3 z-40 transition-all duration-300 " +
         (visible
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-4 pointer-events-none")
       }
+      style={{
+        bottom: "calc(0.75rem + env(safe-area-inset-bottom, 0px))",
+      }}
     >
       <div className="bg-primary text-primary-foreground rounded-2xl shadow-2xl shadow-primary/30 px-4 py-3 flex items-center gap-2">
         <Link
