@@ -5,6 +5,7 @@ import {
   SeoNav,
 } from "@/components/seo/page-shell";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -90,7 +91,38 @@ export default function ToolsIndex() {
         </div>
       </section>
 
-      <section className="px-6 pb-20">
+      <section className="px-6 pb-4">
+        <div className="max-w-5xl mx-auto">
+          <div className="relative aspect-[16/6] md:aspect-[16/5] rounded-2xl overflow-hidden ring-1 ring-primary/15 shadow-lg shadow-primary/10">
+            <Image
+              src="/seo/photos/polaroid-1-instructor-tablet.jpg"
+              alt="Studio owner running the weekly numbers on her tablet before the first class of the day"
+              fill
+              sizes="(min-width: 768px) 900px, 100vw"
+              className="object-cover"
+              priority
+            />
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(63,81,65,0.05) 40%, rgba(63,81,65,0.25) 100%)",
+              }}
+              aria-hidden
+            />
+            <div className="absolute bottom-5 left-5 md:bottom-7 md:left-8 max-w-md">
+              <div className="text-[10px] uppercase tracking-[0.22em] text-white/85 mb-1">
+                A studio, Wednesday · 06:12
+              </div>
+              <p className="font-display italic text-white text-lg md:text-2xl leading-snug">
+                Before the room fills — the numbers that decide the month.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-6 pb-20 pt-8">
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-5">
           {TOOLS.map((t) => (
             <Link

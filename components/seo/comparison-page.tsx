@@ -8,6 +8,7 @@ import {
 } from "./page-shell";
 import { Button } from "@/components/ui/button";
 import { IconArrowRight, IconCheck, IconMinus, IconX } from "@tabler/icons-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export type Cell = boolean | "partial" | string;
@@ -99,6 +100,42 @@ export function ComparisonPage(p: ComparisonPageProps) {
                 See yoga studio software
               </Button>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Editorial moment — a portrait + pull-quote gives the page some
+          human weight between the hero and the reasons grid. Uses the same
+          instructor-tablet photo as the homepage/tools page so the brand
+          reads consistent across the marketing surface. */}
+      <section className="px-6 pb-4">
+        <div className="max-w-5xl mx-auto grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-8 md:gap-12 items-center">
+          <div className="relative aspect-[4/5] md:aspect-[3/4] rounded-md overflow-hidden ring-1 ring-primary/15 shadow-md shadow-primary/10">
+            <Image
+              src="/seo/photos/polaroid-2-warrior-class.jpg"
+              alt={`A studio owner mid-class — the kind of studio that switches from ${p.competitor} to YogaTeacher`}
+              fill
+              sizes="(min-width: 768px) 40vw, 100vw"
+              className="object-cover"
+            />
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(63,81,65,0.0) 55%, rgba(63,81,65,0.15) 100%)",
+              }}
+              aria-hidden
+            />
+          </div>
+          <div>
+            <div className="h-px bg-primary/30 w-12 mb-6" aria-hidden />
+            <p className="font-display italic text-2xl md:text-3xl leading-snug text-foreground/90">
+              Studios don&apos;t leave {p.competitor} because it&apos;s bad —
+              they leave because it was built for someone else&apos;s business.
+            </p>
+            <div className="mt-6 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+              — Why the switch
+            </div>
           </div>
         </div>
       </section>

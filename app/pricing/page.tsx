@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { IconArrowRight, IconCheck } from "@tabler/icons-react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -154,6 +155,24 @@ export default function PricingPage() {
           purchase decision per CRO best practice. */}
       <section className="py-20 px-6">
         <div className="max-w-5xl mx-auto">
+          <div className="flex justify-center mb-5">
+            <div className="flex -space-x-2">
+              {[1, 2, 3, 4, 5].map((n) => (
+                <div
+                  key={n}
+                  className="relative size-9 rounded-full overflow-hidden ring-2 ring-canvas shadow-sm"
+                >
+                  <Image
+                    src={`/seo/photos/avatar-${n}.jpg`}
+                    alt=""
+                    fill
+                    sizes="36px"
+                    className="object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
           <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-3 text-center">
             How studios use YogaTeacher
           </div>

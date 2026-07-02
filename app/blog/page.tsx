@@ -1,3 +1,4 @@
+import { EditorialPhotoStrip } from "@/components/seo/editorial-photo-strip";
 import {
   JsonLd,
   breadcrumbSchema,
@@ -47,6 +48,8 @@ export default function BlogIndex() {
           </p>
         </div>
       </section>
+
+      <EditorialPhotoStrip eyebrow="From studios, for studios" />
 
       <section className="py-12 px-6">
         <div className="max-w-5xl mx-auto">
