@@ -136,11 +136,11 @@ export default function PilatesStudioSoftwarePage() {
         </RevealOnScroll>
         <StudioDay
           entries={[
-            { time: "07:00", className: "Reformer Sunrise", instructor: "Mia", note: "8 / 8" },
-            { time: "09:30", className: "Mat Flow", instructor: "Aanya" },
-            { time: "12:00", className: "Reformer 50", instructor: "James", note: "7 / 8" },
-            { time: "17:30", className: "Tower & Chair", instructor: "Mia", note: "full" },
-            { time: "19:00", className: "Private · Anita W.", instructor: "Sarah", note: "1 / 1" },
+            { time: "07:00", className: "Reformer Sunrise", instructor: "Mia", note: "8 / 8", avatarSrc: "/seo/photos/avatar-1.jpg" },
+            { time: "09:30", className: "Mat Flow", instructor: "Aanya", avatarSrc: "/seo/photos/avatar-2.jpg" },
+            { time: "12:00", className: "Reformer 50", instructor: "James", note: "7 / 8", avatarSrc: "/seo/photos/avatar-3.jpg" },
+            { time: "17:30", className: "Tower & Chair", instructor: "Mia", note: "full", avatarSrc: "/seo/photos/avatar-4.jpg" },
+            { time: "19:00", className: "Private · Anita W.", instructor: "Sarah", note: "1 / 1", avatarSrc: "/seo/photos/avatar-5.jpg" },
           ]}
         />
       </section>
@@ -337,7 +337,11 @@ export default function PilatesStudioSoftwarePage() {
         </div>
       </section>
 
-      <EditorialBreakout attribution="Built for the discipline">
+      <EditorialBreakout
+        attribution="Built for the discipline"
+        imageSrc="/seo/photos/polaroid-3-portrait.jpg"
+        imageAlt="Pilates studio owner in a calm studio before the first class of the day"
+      >
         Reformer beds, mat spots, private sessions — every class type
         respected, every credit tracked, every studio day on rhythm.
       </EditorialBreakout>
