@@ -137,8 +137,8 @@ export default function PricingPage() {
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/60 text-sm">
             <span className="size-1.5 rounded-full bg-emerald-500" aria-hidden />
             <span>
-              <strong>Cancel anytime</strong> · We refund any unused days, no
-              questions
+              <strong>Cancel anytime</strong> · Keep full access until the end of
+              your paid billing period
             </span>
           </div>
         </div>
