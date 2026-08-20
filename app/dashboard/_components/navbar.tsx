@@ -3,6 +3,7 @@ import { Breadcrumbs } from "./breadcrumbs";
 import ModeToggle from "./mode-toggle";
 import { DashboardNavBody } from "./sidebar";
 import { StudioSwitcher } from "./studio-switcher";
+import { CreateMenu, GlobalSearch, NotificationsBell } from "./topbar-actions";
 
 type Studio = { id: string; name: string; role: string };
 
@@ -22,12 +23,19 @@ export default function DashboardTopNav({
       <MobileNav studioName={studioName} logoUrl={logoUrl ?? null}>
         <DashboardNavBody />
       </MobileNav>
-      <Breadcrumbs studioName={studioName} />
+      <div className="lg:hidden">
+        <Breadcrumbs studioName={studioName} />
+      </div>
+      <div className="hidden lg:block">
+        <GlobalSearch />
+      </div>
       <div className="ml-auto flex items-center gap-2">
         {active && studios && studios.length > 1 && (
           <StudioSwitcher active={active} options={studios} />
         )}
         <ModeToggle />
+        <NotificationsBell />
+        <CreateMenu />
       </div>
     </header>
   );
