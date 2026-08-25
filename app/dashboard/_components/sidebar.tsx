@@ -70,14 +70,14 @@ export function DashboardNavBody() {
 
   return (
     <>
-      <nav className="flex-1 px-3 py-3 space-y-5 overflow-y-auto">
+      <nav className="flex-1 px-3 py-2 space-y-2 overflow-y-auto">
         <NavGroup items={MAIN} isActive={isActive} />
         <NavGroup label="Grow" items={GROW} isActive={isActive} />
         <NavGroup label="Insights" items={INSIGHTS} isActive={isActive} />
         <NavGroup label="Manage" items={MANAGE} isActive={isActive} />
       </nav>
 
-      <div className="relative border-t border-border p-3 mt-2">
+      <div className="relative border-t border-border p-2.5 mt-1">
         {/* calm botanical accent behind the account row */}
         <LeafSprig
           size={92}
@@ -88,7 +88,7 @@ export function DashboardNavBody() {
           <Link
             href="/dashboard/settings"
             className={cn(
-              "mt-1 flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-colors",
+              "mt-1 flex items-center gap-2.5 rounded-lg px-3 py-1.5 text-[13px] transition-colors",
               pathname === "/dashboard/settings"
                 ? "bg-secondary text-foreground font-medium"
                 : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground",
@@ -154,7 +154,7 @@ function NavGroup({
   return (
     <div>
       {label && (
-        <div className="px-3 mb-1.5 text-[10px] uppercase tracking-[0.16em] text-muted-foreground/80">
+        <div className="px-3 mb-0.5 text-[10px] uppercase tracking-[0.16em] text-muted-foreground/80">
           {label}
         </div>
       )}
@@ -166,7 +166,7 @@ function NavGroup({
               key={item.href}
               href={item.href}
               className={cn(
-                "relative flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-colors",
+                "relative flex items-center gap-2.5 rounded-lg px-3 py-1.5 text-[13px] transition-colors",
                 active
                   ? "bg-secondary text-foreground font-medium"
                   : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground",
