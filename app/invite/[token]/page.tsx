@@ -39,9 +39,7 @@ export default async function InvitePage({
         href="/"
         className="inline-flex items-center gap-2 mb-10 font-display text-lg tracking-tight"
       >
-        <span className="size-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center shadow-sm">
-          <BrandMark size={20} />
-        </span>
+        <BrandMark size={36} className="shadow-sm" />
         YogaTeacher
       </Link>
 

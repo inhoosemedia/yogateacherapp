@@ -17,11 +17,8 @@ export default async function InstructorLayout({
     <div className="min-h-screen bg-canvas canvas-grain">
       <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center gap-3">
-          <Link
-            href="/instructor"
-            className="size-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center shadow-sm"
-          >
-            <BrandMark size={20} />
+          <Link href="/instructor">
+            <BrandMark size={36} className="shadow-sm" />
           </Link>
           <div className="flex-1 min-w-0">
             <div className="font-display text-lg leading-tight truncate">

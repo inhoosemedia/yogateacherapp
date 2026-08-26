@@ -13,27 +13,15 @@ export function BrandMark({
   size?: number;
 }) {
   return (
-    <svg
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src="/logo.png"
+      alt=""
       width={size}
       height={size}
-      viewBox="0 0 32 32"
-      className={cn("inline-block", className)}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.4"
-      strokeLinejoin="round"
-      strokeLinecap="round"
+      className={cn("inline-block rounded-full object-contain", className)}
       aria-hidden
-    >
-      {/* centre petal */}
-      <path d="M16 27C13 21 13 13 16 7C19 13 19 21 16 27Z" />
-      {/* inner side petals */}
-      <path d="M16 27C11 23.5 8.2 17.5 8.7 11.5C13 13.5 15.6 19.5 16 27Z" />
-      <path d="M16 27C21 23.5 23.8 17.5 23.3 11.5C19 13.5 16.4 19.5 16 27Z" />
-      {/* outer side petals */}
-      <path d="M16 27C9.5 26 4.8 22 3.7 16.7C8.4 15.9 13.2 20 16 27Z" />
-      <path d="M16 27C22.5 26 27.2 22 28.3 16.7C23.6 15.9 18.8 20 16 27Z" />
-    </svg>
+    />
   );
 }
 
@@ -63,17 +51,7 @@ export function BrandLogo({
         className,
       )}
     >
-      <span
-        className={cn(
-          "rounded-xl bg-primary text-primary-foreground flex items-center justify-center shadow-sm",
-        )}
-        style={{
-          width: dims.mark + 8,
-          height: dims.mark + 8,
-        }}
-      >
-        <BrandMark size={dims.mark - 6} />
-      </span>
+      <BrandMark size={dims.mark + 8} className="shadow-sm" />
       <span>YogaTeacher</span>
     </span>
   );

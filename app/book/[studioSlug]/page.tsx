@@ -91,12 +91,8 @@ export default async function PublicSchedule({
               className="size-9 rounded-xl object-contain bg-card shadow-sm"
             />
           ) : (
-            <Link
-              href="/"
-              className="size-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center shadow-sm"
-              title="Powered by YogaTeacher"
-            >
-              <BrandMark size={20} />
+            <Link href="/" title="Powered by YogaTeacher">
+              <BrandMark size={36} className="shadow-sm" />
             </Link>
           )}
           <div className="flex-1 min-w-0">

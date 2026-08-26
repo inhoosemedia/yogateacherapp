@@ -74,9 +74,7 @@ export default async function BillingPage({
             href={subscribed || trialActive ? "/dashboard" : "/"}
             className="inline-flex items-center gap-2 font-display text-lg tracking-tight"
           >
-            <span className="size-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center shadow-sm">
-              <BrandMark size={18} />
-            </span>
+            <BrandMark size={32} className="shadow-sm" />
             YogaTeacher
           </Link>
           <SignOutButton className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1" />

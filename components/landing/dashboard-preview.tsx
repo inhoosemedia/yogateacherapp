@@ -23,9 +23,7 @@ export function DashboardPreview() {
         {/* Sidebar */}
         <aside className="border-r border-border bg-sidebar p-3 hidden sm:block">
           <div className="flex items-center gap-2 px-2 py-2">
-            <span className="size-6 rounded-md bg-primary text-primary-foreground flex items-center justify-center">
-              <BrandMark size={12} />
-            </span>
+            <BrandMark size={24} className="shadow-sm" />
             <span className="font-display text-sm">Sunrise Yoga</span>
           </div>
           <div className="mt-4 space-y-0.5">

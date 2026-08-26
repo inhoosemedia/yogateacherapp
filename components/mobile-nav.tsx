@@ -82,9 +82,7 @@ export function MobileNav({
                 className="size-8 rounded-lg object-contain bg-card shadow-sm shrink-0"
               />
             ) : (
-              <span className="size-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center shadow-sm shrink-0">
-                <BrandMark size={18} />
-              </span>
+              <BrandMark size={32} className="shadow-sm shrink-0" />
             )}
             <div className="min-w-0">
               <div className="font-display text-[15px] leading-tight truncate">

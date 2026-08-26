@@ -124,9 +124,7 @@ export default function DashboardSideBar({
             className="size-9 rounded-full object-contain bg-card shadow-sm"
           />
         ) : (
-          <span className="size-9 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-sm ring-1 ring-primary/20">
-            <BrandMark size={20} />
-          </span>
+          <BrandMark size={36} className="shadow-sm" />
         )}
         <div className="min-w-0">
           <div className="font-display text-[16px] leading-tight truncate">
