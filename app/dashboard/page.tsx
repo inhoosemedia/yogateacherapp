@@ -374,12 +374,12 @@ export default async function DashboardHome() {
             </QuickAction>
           </div>
         </div>
-        <div className="relative hidden lg:block w-[340px] xl:w-[400px] h-[176px] rounded-2xl overflow-hidden ring-1 ring-border shadow-sm">
+        <div className="relative hidden lg:block w-[360px] xl:w-[460px] self-stretch min-h-[190px] rounded-2xl overflow-hidden ring-1 ring-border shadow-sm">
           <Image
             src="/images/studio-hero.jpg"
             alt="Yoga practice"
             fill
-            sizes="400px"
+            sizes="460px"
             className="object-cover object-[center_30%]"
             priority
           />
