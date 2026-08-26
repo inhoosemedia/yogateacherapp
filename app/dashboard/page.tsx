@@ -374,16 +374,15 @@ export default async function DashboardHome() {
             </QuickAction>
           </div>
         </div>
-        <div className="relative hidden lg:block w-[360px] xl:w-[460px] self-stretch min-h-[190px] rounded-2xl overflow-hidden ring-1 ring-border shadow-sm">
+        <div className="relative hidden lg:block w-[440px] xl:w-[600px] self-stretch min-h-[230px] rounded-2xl overflow-hidden ring-1 ring-border shadow-sm">
           <Image
             src="/images/studio-hero.jpg"
             alt="Yoga practice"
             fill
-            sizes="460px"
-            className="object-cover object-[center_30%]"
+            sizes="600px"
+            className="object-cover object-[center_35%]"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-canvas/30 to-transparent" />
         </div>
       </div>
 
