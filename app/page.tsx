@@ -1,4 +1,4 @@
-import { DashboardPreview } from "@/components/landing/dashboard-preview";
+import { LeafSprig } from "@/components/brand";
 import {
   GrainOverlay,
   LotusDots,
@@ -70,35 +70,34 @@ export default async function Home() {
             aria-hidden
             className="font-display text-6xl md:text-[88px] leading-[0.95] tracking-tight"
           >
-            Mindbody for{" "}
+            Less admin.{" "}
             <br className="md:hidden" />
             <span className="italic text-primary relative inline-block">
-              the rest of us.
-              <SunDecoration className="absolute -right-12 -top-8 w-24 h-24 text-primary/30 -z-10" />
+              More teaching.
+              <LeafSprig className="hidden md:block absolute -right-16 top-1 w-14 text-primary/45 rotate-[18deg]" />
             </span>
           </p>
           <p className="mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Cut your Sunday-afternoon admin from 3 hours to 15 minutes.
-            Bookings, memberships, payments and instructors — all in one
-            calm app for yoga and pilates studios.
+            Bookings, memberships, payments and client care — all in one calm
+            platform for independent yoga and Pilates businesses.
           </p>
-          <div className="mt-10 flex justify-center gap-3 flex-wrap">
+          <div className="mt-10 flex flex-col items-center gap-3">
             <Link href="/sign-up">
               <Button size="lg" className="gap-2 shadow-lg shadow-primary/15 cta-lift">
                 Start your 30-day free trial
                 <IconArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
               </Button>
             </Link>
-            <Link href="/sign-in">
-              <Button size="lg" variant="outline" className="cta-lift">
-                Sign in
-              </Button>
-            </Link>
+            <a
+              href="#product"
+              className="text-sm font-medium text-primary hover:underline underline-offset-4"
+            >
+              See how it works
+            </a>
           </div>
           <ul className="mt-7 flex justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground flex-wrap">
             <Tick>No contracts</Tick>
-            <Tick>No upsells</Tick>
-            <Tick>No demo calls</Tick>
+            <Tick>All essential features included</Tick>
             <Tick>Cancel anytime</Tick>
           </ul>
           {/* Skip-the-trial path for ready buyers — small text link, no
@@ -111,20 +110,27 @@ export default async function Home() {
           </Link>
         </div>
 
-        {/* Floating dashboard preview */}
-        <div className="relative max-w-6xl mx-auto mt-20" id="product">
+        {/* A real look at the software — the actual studio dashboard */}
+        <div className="relative max-w-5xl mx-auto mt-16" id="product">
           <div className="absolute inset-x-12 top-12 bottom-0 bg-gradient-to-b from-primary/10 to-transparent blur-2xl -z-10" />
-          <div className="relative">
-            {/* hovering small previews around the main one */}
-            <div className="hidden lg:block absolute -left-16 top-32 w-[300px] rotate-[-6deg] origin-top-right z-20 opacity-95">
-              <PackagesPreview />
+          <div className="rounded-2xl border border-border/80 bg-card overflow-hidden shadow-2xl ring-1 ring-black/[0.04]">
+            {/* browser chrome */}
+            <div className="flex items-center gap-1.5 px-4 py-3 border-b border-border bg-secondary/50">
+              <span className="size-2.5 rounded-full bg-rose-300/70" />
+              <span className="size-2.5 rounded-full bg-amber-300/70" />
+              <span className="size-2.5 rounded-full bg-emerald-300/70" />
+              <div className="ml-3 text-[10px] text-muted-foreground tracking-wide">
+                yogateacherapp.com / dashboard
+              </div>
             </div>
-            <div className="hidden lg:block absolute -right-12 bottom-16 w-[320px] rotate-[5deg] origin-top-left z-20 opacity-95">
-              <MembersPreview />
-            </div>
-            <div className="relative max-w-4xl mx-auto">
-              <DashboardPreview />
-            </div>
+            <Image
+              src="/images/dashboard-preview.jpg"
+              alt="The YogaTeacher studio dashboard — bookings, members, revenue and today's classes at a glance"
+              width={1600}
+              height={875}
+              className="w-full h-auto"
+              priority
+            />
           </div>
         </div>
       </section>
