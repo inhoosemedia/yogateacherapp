@@ -31,32 +31,18 @@ export function AuthShell({
         </div>
       </div>
 
-      {/* Imagery side */}
-      <div className="relative hidden lg:flex items-end p-12 order-1 lg:order-2 bg-gradient-to-br from-primary via-primary to-[#2c3a2e] text-primary-foreground overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.08]">
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle at 20% 80%, rgba(255,255,255,0.4) 0%, transparent 40%), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.3) 0%, transparent 40%)",
-            }}
-          />
-        </div>
-        {/* abstract sun & horizon */}
-        <svg
-          viewBox="0 0 600 400"
-          className="absolute right-0 top-0 h-full w-full opacity-[0.18]"
-          aria-hidden
-        >
-          <defs>
-            <radialGradient id="sun" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="white" stopOpacity="0.9" />
-              <stop offset="100%" stopColor="white" stopOpacity="0" />
-            </radialGradient>
-          </defs>
-          <circle cx="450" cy="180" r="120" fill="url(#sun)" />
-          <circle cx="450" cy="180" r="48" fill="white" opacity="0.5" />
-        </svg>
+      {/* Imagery side — calm studio photo with the brand statement overlaid */}
+      <div className="relative hidden lg:flex items-end p-12 order-1 lg:order-2 text-white overflow-hidden">
+        <Image
+          src="/images/signin-studio.jpg"
+          alt=""
+          fill
+          sizes="50vw"
+          className="object-cover"
+          priority
+        />
+        {/* legibility gradient so the text stays readable at the foot */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#14210f]/92 via-[#14210f]/45 to-[#14210f]/10" />
 
         <div className="relative max-w-lg space-y-6">
           <div className="text-[11px] uppercase tracking-[0.2em] opacity-80">
