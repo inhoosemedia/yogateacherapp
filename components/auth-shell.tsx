@@ -45,14 +45,14 @@ export function AuthShell({
         <div className="absolute inset-0 bg-gradient-to-t from-[#14210f]/92 via-[#14210f]/45 to-[#14210f]/10" />
 
         <div className="relative max-w-lg space-y-6">
-          <div className="text-[11px] uppercase tracking-[0.2em] opacity-80">
+          <div className="text-[11px] uppercase tracking-[0.2em] text-[#e8d9ca]/80">
             {side.eyebrow}
           </div>
-          <h2 className="font-display text-5xl leading-[1.05] tracking-tight">
+          <h2 className="font-display text-5xl leading-[1.05] tracking-tight text-[#e8d9ca]">
             {side.title}
           </h2>
           {side.quote && (
-            <blockquote className="border-l-2 border-white/40 pl-4 text-base/relaxed opacity-90 italic">
+            <blockquote className="border-l-2 border-[#e8d9ca]/40 pl-4 text-base/relaxed text-white/90 italic">
               &ldquo;{side.quote}&rdquo;
               {side.quoteBy && (
                 <footer className="mt-2 text-xs not-italic opacity-70">
